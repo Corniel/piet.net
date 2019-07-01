@@ -9,7 +9,7 @@ namespace PietDotNet
         private readonly Codel[,] _canvas;
         private readonly int[,] _values;
 
-        private Program(Codel[,] canvas, int[,] values)
+        public Program(Codel[,] canvas, int[,] values)
         {
             _canvas = canvas;
             _values = values;
@@ -21,6 +21,8 @@ namespace PietDotNet
         public int Height { get; }
 
         public Codel this[Point point] => OnCanvas(point) ? _canvas[point.X, point.Y] : Codel.Black;
+
+        public int Value(Point point) => _values[point.X, point.Y];
 
         public bool OnCanvas(Point point)
         {
@@ -64,16 +66,16 @@ namespace PietDotNet
             var values = new int[width, height];
 
             // Get the codels
-            for (var x = 0; x < width; x++)
+            for (var y = 0; y < height; y++)
             {
-                for (var y = 0; y < height; y++)
+                for (var x = 0; x < width; x++)
                 {
                     var colour = bitmap.GetPixel(x * codelSize, y * codelSize);
                     var type = Codel.From(colour);
 
                     if (type is null)
                     {
-                        throw new BadImageFormatException($"The colour '#{colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")}' of codel ({x}, {y}) is not allowed.");
+                        throw new BadImageFormatException($"The colour '#{colour.R.ToString("X2")}{colour.G.ToString("X2")}{colour.B.ToString("X2")}' of codel ({x}, {y}) is not allowed.");
                     }
                     canvas[x, y] = type;
 

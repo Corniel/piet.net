@@ -14,27 +14,27 @@ namespace PietDotNet
 
         public static readonly Codel RedLight = /*     */ new Codel("#FFC0C0", 0, 0, "light red");
         public static readonly Codel Red = /*          */ new Codel("#FF0000", 0, 1, "red");
-        public static readonly Codel RedDark = /*      */ new Codel("#C00000", 0, 2, "light red");
+        public static readonly Codel RedDark = /*      */ new Codel("#C00000", 0, 2, "dark red");
 
         public static readonly Codel YellowLight = /*  */ new Codel("#FFFFC0", 1, 0, "light yellow");
         public static readonly Codel Yellow = /*       */ new Codel("#FFFF00", 1, 1, "yellow");
-        public static readonly Codel YellowDark = /*   */ new Codel("#C0C000", 1, 2, "light yellow");
+        public static readonly Codel YellowDark = /*   */ new Codel("#C0C000", 1, 2, "dark yellow");
 
         public static readonly Codel GreenLight = /*   */ new Codel("#C0FFC0", 2, 0, "light green");
         public static readonly Codel Green = /*        */ new Codel("#00FF00", 2, 1, "green");
-        public static readonly Codel GreenDark = /*    */ new Codel("#00C000", 2, 2, "light green");
+        public static readonly Codel GreenDark = /*    */ new Codel("#00C000", 2, 2, "dark green");
 
         public static readonly Codel CyanLight = /*    */ new Codel("#C0FFFF", 3, 0, "light cyan");
         public static readonly Codel Cyan = /*         */ new Codel("#00FFFF", 3, 1, "cyan");
-        public static readonly Codel CyanDark = /*     */ new Codel("#00C0C0", 3, 2, "light cyan");
+        public static readonly Codel CyanDark = /*     */ new Codel("#00C0C0", 3, 2, "dark cyan");
 
         public static readonly Codel BlueLight = /*    */ new Codel("#C0C0FF", 4, 0, "light blue");
         public static readonly Codel Blue = /*         */ new Codel("#0000FF", 4, 1, "blue");
-        public static readonly Codel BlueDark = /*     */ new Codel("#0000C0", 4, 2, "light blue");
+        public static readonly Codel BlueDark = /*     */ new Codel("#0000C0", 4, 2, "dark blue");
 
         public static readonly Codel MargentaLight = /**/ new Codel("#FFC0FF", 5, 0, "light magenta");
         public static readonly Codel Margenta = /*     */ new Codel("#FF00FF", 5, 1, "magenta");
-        public static readonly Codel MargentaDark = /* */ new Codel("#C000C0", 5, 2, "light magenta");
+        public static readonly Codel MargentaDark = /* */ new Codel("#C000C0", 5, 2, "dark magenta");
 
 
         private Codel(string rgb, int hue, int ligtness, string name)
@@ -47,6 +47,7 @@ namespace PietDotNet
             Hue = hue;
             Lightness = ligtness;
             Name = name;
+            RgbCode = $"#{Colour.R.ToString("X2")}{Colour.G.ToString("X2")}{Colour.B.ToString("X2")}";
 
         }
 
@@ -60,17 +61,18 @@ namespace PietDotNet
         public int Hue { get; }
         public int Lightness { get; }
         public string Name { get; }
+        public string RgbCode { get; }
 
-        public static CodelDelta operator -(Codel l, Codel r) => l.Subtract(r);
+        public static Delta operator -(Codel l, Codel r) => l.Subtract(r);
 
-        private CodelDelta Subtract(Codel other)
+        private Delta Subtract(Codel other)
         {
             var h = Hue - other.Hue;
             var l = Lightness - other.Lightness;
-            return new CodelDelta(h, l);
+            return new Delta(h, l);
         }
 
-        public override string ToString() => $"#{Colour.R.ToString("X")}{Colour.G.ToString("X")}{Colour.B.ToString("X")} {Name}";
+        public override string ToString() => $"{RgbCode} {Name}";
 
         internal static Codel From(Color colour)
         {
