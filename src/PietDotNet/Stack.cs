@@ -99,7 +99,7 @@ namespace PietDotNet
         #region DEBUG
         public IEnumerator<long> GetEnumerator()
         {
-            return stack.Take(Count).OrderByDescending(item => item).GetEnumerator();
+            return stack.Take(Count).Reverse().GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
