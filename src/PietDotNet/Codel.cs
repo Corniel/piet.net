@@ -58,6 +58,7 @@ namespace PietDotNet
 
         /// <summary>Returns true if the codel is black.</summary>
         public bool IsBlack => Lightness == int.MaxValue;
+        public bool IsWhite => Lightness == int.MinValue;
         public int Hue { get; }
         public int Lightness { get; }
         public string Name { get; }

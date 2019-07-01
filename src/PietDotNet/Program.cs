@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -22,7 +23,16 @@ namespace PietDotNet
 
         public Codel this[Point point] => OnCanvas(point) ? _canvas[point.X, point.Y] : Codel.Black;
 
-        public int Value(Point point) => _values[point.X, point.Y];
+        public int Value(Point point)
+        {
+            var val = _values[point.X, point.Y];
+            if (val == 0)
+            {
+                DetermineValueOfColourBlock(point);
+                val = _values[point.X, point.Y];
+            }
+            return val;
+        }
 
         public bool OnCanvas(Point point)
         {
@@ -30,6 +40,44 @@ namespace PietDotNet
                 && point.Y >= 0
                 && point.X < Width
                 && point.Y < Height;
+        }
+
+        public void DetermineValueOfColourBlock(Point point)
+        {
+            var counter = 0;
+            var visited = new HashSet<Point>();
+            var todo = new Queue<Point>();
+            var codel = this[point];
+
+            if (!codel.IsBlack && !codel.IsWhite)
+            {
+                todo.Enqueue(point);
+
+                while (todo.TryDequeue(out var p))
+                {
+                    if (!OnCanvas(p)) continue;
+                    if (visited.Contains(p)) continue;
+
+                    var currentCodel = this[p];
+                    visited.Add(p);
+                    if (codel == currentCodel)
+                    {
+                        counter++;
+                        todo.Enqueue(new Point(p.X, p.Y + 1));
+                        todo.Enqueue(new Point(p.X, p.Y - 1));
+                        todo.Enqueue(new Point(p.X + 1, p.Y));
+                        todo.Enqueue(new Point(p.X - 1, p.Y));
+                    }
+                }
+
+                foreach (var p in visited)
+                {
+                    if (this[p] == codel)
+                    {
+                        _values[p.X, p.Y] = counter;
+                    }
+                }
+            }
         }
 
         public static Program From(FileInfo file, int codelSize =1)
@@ -81,7 +129,7 @@ namespace PietDotNet
 
                     if (type.NotBlackOrWhite)
                     {
-                        values[x, y] = 1;
+                        values[x, y] = 0;
                     }
                 }
             }
