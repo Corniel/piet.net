@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -7,8 +8,20 @@ using System.Reflection;
 
 namespace PietDotNet
 {
+    /// <summary>Represents a single codel.</summary>
+    /// <remarks>
+    ///  Individual pixels of colour are significant in the language, so it is
+    ///  common for programs to be enlarged for viewing so that the details are
+    ///  easily visible. In such enlarged programs, the term "codel" is used to
+    ///  mean a block of colour equivalent to a single pixel of code, to avoid
+    ///  confusion with the actual pixels of the enlarged graphic, of which
+    ///  many may make up one codel. 
+    /// </remarks>
     public sealed class Codel
     {
+        /// <summary>Gets all defined <see cref="Codel"/>s.</summary>
+        public static IReadOnlyCollection<Codel> All => Types.Values;
+
         public static readonly Codel White = new Codel("#FFFFFF", -1, int.MinValue, "white");
         public static readonly Codel Black = new Codel("#000000", -1, int.MaxValue, "black");
 
@@ -36,7 +49,19 @@ namespace PietDotNet
         public static readonly Codel Margenta = /*     */ new Codel("#FF00FF", 5, 1, "magenta");
         public static readonly Codel MargentaDark = /* */ new Codel("#C000C0", 5, 2, "dark magenta");
 
-
+        /// <summary>Creates a new instance of a <see cref="Codel"/>.</summary>
+        /// <param name="rgb">
+        /// The RGB code.
+        /// </param>
+        /// <param name="hue">
+        /// The hue of the colour.
+        /// </param>
+        /// <param name="ligtness">
+        /// The lightness of the colour.
+        /// </param>
+        /// <param name="name">
+        /// The human readable name oft he colour.
+        /// </param>
         private Codel(string rgb, int hue, int ligtness, string name)
         {
             Colour = Color.FromArgb(
@@ -47,7 +72,7 @@ namespace PietDotNet
             Hue = hue;
             Lightness = ligtness;
             Name = name;
-            RgbCode = $"#{Colour.R.ToString("X2")}{Colour.G.ToString("X2")}{Colour.B.ToString("X2")}";
+            RgbCode = rgb;
 
         }
 
@@ -58,24 +83,45 @@ namespace PietDotNet
 
         /// <summary>Returns true if the codel is black.</summary>
         public bool IsBlack => Lightness == int.MaxValue;
+
+        /// <summary>Returns true if the codel is white.</summary>
         public bool IsWhite => Lightness == int.MinValue;
+
+        /// <summary>The hue of the colour [0, 6].</summary>
         public int Hue { get; }
+       
+        /// <summary>The lightness of the colour [0, 2].</summary>
         public int Lightness { get; }
+
+        /// <summary>The (human readable) name of the colour.</summary>
         public string Name { get; }
+
+        /// <summary>The (Hex based) RGB code of the colour.</summary>
         public string RgbCode { get; }
 
+        /// <summary>Gets the <see cref="Delta"/> of tho <see cref="Codel"/>s.</summary>
         public static Delta operator -(Codel l, Codel r) => l.Subtract(r);
 
+        /// <summary>Gets the <see cref="Delta"/> of tho <see cref="Codel"/>s.</summary>
         private Delta Subtract(Codel other)
         {
+            if(!NotBlackOrWhite || !other.NotBlackOrWhite)
+            {
+                throw new InvalidOperationException($"A delta can not be determined once a black or white codel is involved.");
+            }
             var h = Hue - other.Hue;
             var l = Lightness - other.Lightness;
             return new Delta(h, l);
         }
 
+        /// <inheritdoc />
         public override string ToString() => $"{RgbCode} {Name}";
 
-        internal static Codel From(Color colour)
+        /// <summary>Gets a <see cref="Codel"/> based on a colour.</summary>
+        /// <returns>
+        /// Null if the colour is not a known <see cref="Codel"/>.
+        /// </returns>
+        public static Codel From(Color colour)
         {
             if (Types.TryGetValue(colour, out var codel))
             {

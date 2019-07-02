@@ -11,6 +11,16 @@ scripting language.
 *Composition with Red, Yellow and Blue.*
 1921, Piet Mondrian.
 
+## Language Concepts
+
+### Codels
+Piet code takes the form of graphics made up of the recognised colours. Individual
+pixels of colour are significant in the language, so it is common for programs to
+be enlarged for viewing so that the details are easily visible. In such enlarged
+programs, the term "codel" is used to mean a block of colour equivalent to a
+single pixel of code, to avoid confusion with the actual pixels of the enlarged
+graphic, of which many may make up one codel.
+
 ## Syntax Elements
 
 ### Numbers
@@ -76,7 +86,7 @@ blocks occurs via a slide across a white block, no command is executed. The
 individual commands are explained below.
 
 | Hue change | None      | 1 Darker    | 2 Darker   |
-|------------|--------------------------------------|
+|------------|-----------|-------------|------------|
 | None	     | -         | push        | pop        |
 | 1 Step     | add       | subtract    | multiply   |
 | 2 Steps    | divide    | mod         | not        |
