@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 
@@ -9,7 +10,7 @@ namespace PietDotNet
         private readonly Codel[,] _canvas;
         private readonly int[,] _values;
 
-        private Program(Codel[,] canvas, int[,] values)
+        public Program(Codel[,] canvas, int[,] values)
         {
             _canvas = canvas;
             _values = values;
@@ -22,12 +23,61 @@ namespace PietDotNet
 
         public Codel this[Point point] => OnCanvas(point) ? _canvas[point.X, point.Y] : Codel.Black;
 
+        public int Value(Point point)
+        {
+            var val = _values[point.X, point.Y];
+            if (val == 0)
+            {
+                DetermineValueOfColourBlock(point);
+                val = _values[point.X, point.Y];
+            }
+            return val;
+        }
+
         public bool OnCanvas(Point point)
         {
             return point.X >= 0
                 && point.Y >= 0
                 && point.X < Width
                 && point.Y < Height;
+        }
+
+        public void DetermineValueOfColourBlock(Point point)
+        {
+            var counter = 0;
+            var visited = new HashSet<Point>();
+            var todo = new Queue<Point>();
+            var codel = this[point];
+
+            if (!codel.IsBlack && !codel.IsWhite)
+            {
+                todo.Enqueue(point);
+
+                while (todo.TryDequeue(out var p))
+                {
+                    if (!OnCanvas(p)) continue;
+                    if (visited.Contains(p)) continue;
+
+                    var currentCodel = this[p];
+                    visited.Add(p);
+                    if (codel == currentCodel)
+                    {
+                        counter++;
+                        todo.Enqueue(new Point(p.X, p.Y + 1));
+                        todo.Enqueue(new Point(p.X, p.Y - 1));
+                        todo.Enqueue(new Point(p.X + 1, p.Y));
+                        todo.Enqueue(new Point(p.X - 1, p.Y));
+                    }
+                }
+
+                foreach (var p in visited)
+                {
+                    if (this[p] == codel)
+                    {
+                        _values[p.X, p.Y] = counter;
+                    }
+                }
+            }
         }
 
         public static Program From(FileInfo file, int codelSize =1)
@@ -64,22 +114,22 @@ namespace PietDotNet
             var values = new int[width, height];
 
             // Get the codels
-            for (var x = 0; x < width; x++)
+            for (var y = 0; y < height; y++)
             {
-                for (var y = 0; y < height; y++)
+                for (var x = 0; x < width; x++)
                 {
                     var colour = bitmap.GetPixel(x * codelSize, y * codelSize);
                     var type = Codel.From(colour);
 
                     if (type is null)
                     {
-                        throw new BadImageFormatException($"The colour '#{colour.R.ToString("X")}{colour.G.ToString("X")}{colour.B.ToString("X")}' of codel ({x}, {y}) is not allowed.");
+                        throw new BadImageFormatException($"The colour '#{colour.R.ToString("X2")}{colour.G.ToString("X2")}{colour.B.ToString("X2")}' of codel ({x}, {y}) is not allowed.");
                     }
                     canvas[x, y] = type;
 
                     if (type.NotBlackOrWhite)
                     {
-                        values[x, y] = 1;
+                        values[x, y] = 0;
                     }
                 }
             }

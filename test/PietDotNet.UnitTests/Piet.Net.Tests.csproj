@@ -2,15 +2,12 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-
-    <IsPackable>false</IsPackable>
-
     <RootNamespace>PietDotNet.Tests</RootNamespace>
-
     <AssemblyName>PietDotNet.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\..\programs\hello_world_artistic.gif" Link="Programs\hello_world_artistic.gif" />
     <EmbeddedResource Include="..\..\programs\Fibonacci_Numbers.gif" Link="Programs\fibonacci_numbers.gif" />
   </ItemGroup>
 
@@ -22,10 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PietDotNet\Piet.Net.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Programs\" />
   </ItemGroup>
 
 </Project>

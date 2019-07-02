@@ -8,6 +8,7 @@ namespace PietDotNet
 {
     public class Interpreter
     {
+        private readonly Program program;
         private readonly IInOut io;
         private readonly ILogger logger;
 
@@ -15,60 +16,85 @@ namespace PietDotNet
 
         private CodelChooser cc;
         private DirectionPointer dp;
-        private Point point;
+        internal Point prevPoint;
+        internal Point point;
         private Codel prev;
-        private Codel curr;
+        internal Codel curr;
+        private bool executing = true;
         
-        public Interpreter(IInOut io = null, ILogger logger = null)
+        public Interpreter(Program program, IInOut io = null, ILogger logger = null)
         {
+            this.program = Guard.NotNull(program, nameof(program));
             this.io = io ?? new ConsoleInOut();
             this.logger = logger ?? new ConsoleLogger();
+
+            LogHelper = new InterpreterLogHelper(this);
         }
 
-        public void Execute(Program program)
+        private InterpreterLogHelper LogHelper { get; }
+
+        public void Execute()
         {
-            Guard.NotNull(program, nameof(program));
-
-            stack.Clear();
-            cc = default;
-            dp = default;
-
-            point = new Point(0, 0);
-
             prev = program[point];
+
+            // start with identical values.
             curr = prev;
 
-            while (true)
+            while (executing)
             {
-                Traverse(program);
-
-                var delta = curr - prev;
+                var delta = Traverse();
                 Execute(delta);
             }
         }
 
-        private void Traverse(Program program)
+        /// <summary>Traveres the pointer to the next codel.</summary>
+        /// The interpreter finds the edge of the current colour block which is
+        /// furthest in the direction of the DP. (This edge may be disjoint if
+        /// the block is of a complex shape.)
+        /// </remarks>
+        private Delta Traverse()
         {
             // The interpreter finds the edge of the current colour block which is furthest in the direction of the DP. (This edge may be disjoint if the block is of a complex shape.)
-            while (curr == prev)
+            var terminationCounter = 0;
+
+            while (terminationCounter < 8)
             {
                 var pt = point.Next(dp);
                 curr = program[pt];
+
+                logger.LogDebug($"{pt} codel {curr}");
 
                 if (curr.IsBlack)
                 {
                     // rotate ect.
                     dp = dp.Rotate(1);
+                    cc = cc.Switch(1);
+                    logger.LogDebug($"DP {dp} CC {cc}");
+
                     curr = prev;
+                    pt = prevPoint;
+                    terminationCounter++;
                 }
                 else
                 {
+                    prevPoint = point;
                     point = pt;
+                    var delta = curr - prev;
+                    if (!curr.IsWhite &&
+                        !prev.IsWhite &&
+                        delta != Delta.None)
+                    {
+                        prev = curr;
+                        return delta;
+                    }
                 }
             }
+            logger.LogDebug("Program terminates");
+            executing = false;
+            return Delta.None;
         }
 
-        private void Execute(CodelDelta delta)
+        private void Execute(Delta delta)
         {
             if (commands.TryGetValue(delta, out var command))
             {
@@ -78,7 +104,7 @@ namespace PietDotNet
             {
                 throw new InvalidOperationException($"Could not execute delta {delta}.");
             }
-    }
+        }
 
         private void None() { /*Do nothing */ }
 
@@ -88,10 +114,10 @@ namespace PietDotNet
         /// </remarks>
         private void Push()
         {
-            var value = 1;
+            var value = program.Value(prevPoint);
             stack.Push(value);
 
-            logger.LogDebug(Log.Executed(nameof(Push), value));
+            logger.LogDebug(LogHelper.Executed(nameof(Push), value));
         }
 
         /// <summary>Pops the top value off the stack and discards it.</summary>
@@ -99,13 +125,13 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Pop), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Pop), stack));
                 return;
             }
 
             var value = stack.PopInt();
 
-            logger.LogDebug(Log.Executed(nameof(Pop), value));
+            logger.LogDebug(LogHelper.Executed(nameof(Pop), value));
         }
 
         /// <summary>Pops the top two values off the stack, adds them, and pushes the result back on the stack.</summary>
@@ -113,7 +139,7 @@ namespace PietDotNet
         {
             if(!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Add), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Add), stack));
                 return;
             }
 
@@ -123,7 +149,7 @@ namespace PietDotNet
             var result = second + first;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Add), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Add), first, second, result));
         }
 
         /// <summary>Pops the top two values off the stack, calculates the second top value minus the top value, and pushes the result back on the stack.</summary>
@@ -131,7 +157,7 @@ namespace PietDotNet
         {
             if (!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Subtract), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Subtract), stack));
                 return;
             }
 
@@ -141,7 +167,7 @@ namespace PietDotNet
             var result = second - first;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Subtract), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Subtract), first, second, result));
         }
 
         /// <summary>Pops the top two values off the stack, multiplies them, and pushes the result back on the stack.</summary>
@@ -149,7 +175,7 @@ namespace PietDotNet
         {
             if (!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Multiply), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Multiply), stack));
                 return;
             }
 
@@ -159,7 +185,7 @@ namespace PietDotNet
             var result = second * first;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Multiply), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Multiply), first, second, result));
         }
 
         /// <summary>Pops the top two values off the stack, calculates the integer division of the second top value by the top value, and pushes the result back on the stack.</summary>
@@ -170,12 +196,12 @@ namespace PietDotNet
         {
             if (!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Divide), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Divide), stack));
                 return;
             }
             if(stack.Peek() == 0)
             {
-                logger.LogError(Log.DivideByZero());
+                logger.LogError(LogHelper.DivideByZero());
                 return;
             }
 
@@ -185,7 +211,7 @@ namespace PietDotNet
             var result = second / first;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Divide), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Divide), first, second, result));
         }
 
         /// <summary>Pops the top two values off the stack, calculates the second top value modulo the top value, and pushes the result back on the stack.</summary>
@@ -196,12 +222,12 @@ namespace PietDotNet
         {
             if (!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Mod), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Mod), stack));
                 return;
             }
             if (stack.Peek() < 1)
             {
-                logger.LogError(Log.ModuloOnNotPositive(stack.Peek()));
+                logger.LogError(LogHelper.ModuloOnNotPositive(stack.Peek()));
                 return;
             }
 
@@ -211,7 +237,7 @@ namespace PietDotNet
             var result = second.Mod(first);
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Mod), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Mod), first, second, result));
         }
 
         /// <summary>Replaces the top value of the stack with 0 if it is non-zero, and 1 if it is zero.</summary>
@@ -219,7 +245,7 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Not), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Not), stack));
                 return;
             }
 
@@ -227,7 +253,7 @@ namespace PietDotNet
             var result = value == 0;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Not), value));
+            logger.LogDebug(LogHelper.Executed(nameof(Not), value));
         }
 
         /// <summary> Pops the top two values off the stack, and pushes 1 on to the stack if the second top value is greater than the top value, and pushes 0 if it is not greater.</summary>
@@ -235,7 +261,7 @@ namespace PietDotNet
         {
             if (!stack.HasMultiple())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Greater), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Greater), stack));
                 return;
             }
 
@@ -245,7 +271,7 @@ namespace PietDotNet
             var result =  second > first;
             stack.Push(result);
 
-            logger.LogDebug(Log.Executed(nameof(Greater), first, second, result));
+            logger.LogDebug(LogHelper.Executed(nameof(Greater), first, second, result));
         }
 
         /// <summary>Pops the top value off the stack and rotates the DP clockwise that many steps (anticlockwise if negative).</summary>
@@ -253,14 +279,14 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Pointer), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Pointer), stack));
                 return;
             }
 
             var value = stack.PopInt();
             dp = dp.Rotate(value);
 
-            logger.LogDebug(Log.Executed(nameof(Pointer), value));
+            logger.LogDebug(LogHelper.Executed(nameof(Pointer), value));
         }
 
         /// <summary>Pops the top value off the stack and toggles the CC that many times (the absolute value of that many times if negative).</summary>
@@ -268,14 +294,14 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Switch), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Switch), stack));
                 return;
             }
 
             var value = stack.PopInt();
             cc = cc.Switch(value);
 
-            logger.LogDebug(Log.Executed(nameof(Switch), value));
+            logger.LogDebug(LogHelper.Executed(nameof(Switch), value));
         }
 
         /// <summary> Pushes a copy of the top value on the stack on to the stack.</summary>
@@ -283,7 +309,7 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(Duplicate), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Duplicate), stack));
                 return;
             }
 
@@ -303,9 +329,20 @@ namespace PietDotNet
         /// </remarks>
         private void Roll()
         {
-            var first = stack.PopInt();
-            var second = stack.PopInt();
-            throw new NotImplementedException();
+            if (!stack.HasMultiple())
+            {
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(Roll), stack));
+                return;
+            }
+            if(stack[1] < 0 || stack[1] > stack.Count -2)
+            {
+                logger.LogError(LogHelper.InvalidRollDepth(stack[1]));
+                return;
+            }
+
+            var roll = stack.PopInt();
+            var depth = stack.PopInt();
+            stack.Roll((int)roll, (int)depth);
         }
 
         /// <summary>Reads a value from STDIN as either a number or character, depending on the particular incarnation of this command and pushes it on to the stack.</summary>
@@ -320,12 +357,12 @@ namespace PietDotNet
 
             if (!input.HasValue)
             {
-                logger.LogError(Log.InvalidInput());
+                logger.LogError(LogHelper.InvalidInput());
                 return;
             }
             stack.Push(input.Value);
 
-            logger.LogDebug(Log.Executed(nameof(InInt), input.Value));
+            logger.LogDebug(LogHelper.Executed(nameof(InInt), input.Value));
         }
 
         /// <summary>Reads a value from STDIN as either a number or character, depending on the particular incarnation of this command and pushes it on to the stack.</summary>
@@ -334,12 +371,12 @@ namespace PietDotNet
             var input = io.InChr();
             if (!input.HasValue)
             {
-                logger.LogError(Log.InvalidInput());
+                logger.LogError(LogHelper.InvalidInput());
                 return;
             }
             stack.Push(input.Value);
 
-            logger.LogDebug(Log.Executed(nameof(InChr), input.Value));
+            logger.LogDebug(LogHelper.Executed(nameof(InChr), input.Value));
         }
 
         /// <summary>Pops the top value off the stack and prints it to STDOUT as either a number or character, depending on the particular incarnation of this command.</summary>
@@ -347,14 +384,14 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(OutInt), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(OutInt), stack));
                 return;
             }
 
             var value = stack.PopInt();
             io.Out(value);
 
-            logger.LogDebug(Log.Executed(nameof(OutInt), value));
+            logger.LogDebug(LogHelper.Executed(nameof(OutInt), value));
         }
 
         /// <summary>Pops the top value off the stack and prints it to STDOUT as either a number or character, depending on the particular incarnation of this command.</summary>
@@ -362,36 +399,36 @@ namespace PietDotNet
         {
             if (!stack.HasAny())
             {
-                logger.LogWarning(Log.InsufficientStackSize(nameof(OutChr), stack));
+                logger.LogWarning(LogHelper.InsufficientStackSize(nameof(OutChr), stack));
                 return;
             }
 
             var value = stack.PopChar();
             io.Out(value);
 
-            logger.LogDebug(Log.Executed(nameof(OutChr), value));
+            logger.LogDebug(LogHelper.Executed(nameof(OutChr), value));
         }
 
-        private static readonly Dictionary<CodelDelta, Action<Interpreter>> commands = new Dictionary<CodelDelta, Action<Interpreter>>
+        private static readonly Dictionary<Delta, Action<Interpreter>> commands = new Dictionary<Delta, Action<Interpreter>>
         {
-            { CodelDelta.None, /*     */ (i) => i.None() },
-            { CodelDelta.Push, /*     */ (i) => i.Push() },
-            { CodelDelta.Pop, /*      */ (i) => i.Pop() },
-            { CodelDelta.Add, /*      */ (i) => i.Add() },
-            { CodelDelta.Subtract, /* */ (i) => i.Subtract() },
-            { CodelDelta.Multiply, /* */ (i) => i.Multiply() },
-            { CodelDelta.Divide, /*   */ (i) => i.Divide() },
-            { CodelDelta.Mod, /*      */ (i) => i.Mod() },
-            { CodelDelta.Not, /*      */ (i) => i.Not() },
-            { CodelDelta.Greater, /*  */ (i) => i.Greater() },
-            { CodelDelta.Pointer, /*  */ (i) => i.Pointer() },
-            { CodelDelta.Switch, /*   */ (i) => i.Switch() },
-            { CodelDelta.Duplicate, /**/ (i) => i.Duplicate() },
-            { CodelDelta.Roll, /*     */ (i) => i.Roll() },
-            { CodelDelta.InInt, /*    */ (i) => i.InInt() },
-            { CodelDelta.InChr, /*    */ (i) => i.InChr() },
-            { CodelDelta.OutInt, /*   */ (i) => i.OutInt() },
-            { CodelDelta.OutChr, /*   */ (i) => i.OutChr() },
+            { Delta.None, /*     */ (i) => i.None() },
+            { Delta.Push, /*     */ (i) => i.Push() },
+            { Delta.Pop, /*      */ (i) => i.Pop() },
+            { Delta.Add, /*      */ (i) => i.Add() },
+            { Delta.Subtract, /* */ (i) => i.Subtract() },
+            { Delta.Multiply, /* */ (i) => i.Multiply() },
+            { Delta.Divide, /*   */ (i) => i.Divide() },
+            { Delta.Mod, /*      */ (i) => i.Mod() },
+            { Delta.Not, /*      */ (i) => i.Not() },
+            { Delta.Greater, /*  */ (i) => i.Greater() },
+            { Delta.Pointer, /*  */ (i) => i.Pointer() },
+            { Delta.Switch, /*   */ (i) => i.Switch() },
+            { Delta.Duplicate, /**/ (i) => i.Duplicate() },
+            { Delta.Roll, /*     */ (i) => i.Roll() },
+            { Delta.InInt, /*    */ (i) => i.InInt() },
+            { Delta.InChr, /*    */ (i) => i.InChr() },
+            { Delta.OutInt, /*   */ (i) => i.OutInt() },
+            { Delta.OutChr, /*   */ (i) => i.OutChr() },
         };
     }
 }

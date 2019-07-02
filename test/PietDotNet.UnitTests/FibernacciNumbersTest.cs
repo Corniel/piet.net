@@ -3,20 +3,19 @@ using PietDotNet.Tests.Tooling;
 
 namespace PietDotNet.Tests
 {
-    public class FibernacciNumbersTest
+    public class FibernacciNumbersTest : ProgramTest
     {
+        protected override string Location => "fibonacci_numbers.gif";
+
         [Test]
-        public void Run_GeneratesFibernacciNumbers()
+        public void Execute_GeneratesFibernacciNumbers()
         {
-            var io = new TestIO();
-            io.InChrs.Enqueue('c');
-            io.InInts.Enqueue(12);
-            var program = TestProgram.Load("fibonacci_numbers.gif");
-            var interpreter = new Interpreter(io);
+            IO.InChrs.Enqueue('c');
+            IO.InInts.Enqueue(12);
+            
+            Interpreter.Execute();
 
-            interpreter.Execute(program);
-
-            CollectionAssert.AreEqual(new long[] { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765 }, io.OutInts);
+            CollectionAssert.AreEqual(new long[] { 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, 233, 377, 610, 987, 1597, 2584, 4181, 6765 }, IO.OutInts);
         }
     }
 }

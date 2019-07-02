@@ -17,8 +17,8 @@ namespace PietDotNet
 
             var program = Program.From(new FileInfo(args[0]));
 
-            var interpreter = new Interpreter();
-            interpreter.Execute(program);
+            var interpreter = new Interpreter(program);
+            interpreter.Execute();
         }
     }
 }
