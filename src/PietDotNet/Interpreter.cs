@@ -2,10 +2,13 @@
 using PietDotNet.Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
+using System.Text;
 
 namespace PietDotNet
 {
+    [DebuggerDisplay("{DebuggerDisplay}")]
     public class Interpreter
     {
         private readonly Program program;
@@ -17,7 +20,7 @@ namespace PietDotNet
         private CodelChooser cc;
         private DirectionPointer dp;
         internal Point prevPoint;
-        internal Point point;
+        internal Point currPoint;
         private Codel prev;
         internal Codel curr;
         private bool executing = true;
@@ -35,7 +38,7 @@ namespace PietDotNet
 
         public void Execute()
         {
-            prev = program[point];
+            prev = program[currPoint];
 
             // start with identical values.
             curr = prev;
@@ -59,7 +62,7 @@ namespace PietDotNet
 
             while (terminationCounter < 8)
             {
-                var pt = point.Next(dp);
+                var pt = currPoint.Next(dp);
                 curr = program[pt];
 
                 logger.LogDebug($"{pt} codel {curr}");
@@ -67,25 +70,36 @@ namespace PietDotNet
                 if (curr.IsBlack)
                 {
                     // rotate ect.
-                    dp = dp.Rotate(1);
-                    cc = cc.Switch(1);
+                    if ((terminationCounter & 1) == 0)
+                    {
+                        dp = dp.Rotate(1);
+                    }
+                    else
+                    {
+                        cc = cc.Switch(1);
+                    }
                     logger.LogDebug($"DP {dp} CC {cc}");
 
                     curr = prev;
-                    pt = prevPoint;
                     terminationCounter++;
                 }
                 else
                 {
-                    prevPoint = point;
-                    point = pt;
-                    var delta = curr - prev;
-                    if (!curr.IsWhite &&
-                        !prev.IsWhite &&
-                        delta != Delta.None)
+                    prevPoint = currPoint;
+                    currPoint = pt;
+
+                    if (!curr.IsWhite && !prev.IsWhite)
                     {
-                        prev = curr;
-                        return delta;
+                        var delta = curr - prev;
+                        if (delta != Delta.None)
+                        {
+                            prev = curr;
+                            return delta;
+                        }
+                    }
+                    else
+                    {
+                        
                     }
                 }
             }
@@ -430,5 +444,29 @@ namespace PietDotNet
             { Delta.OutInt, /*   */ (i) => i.OutInt() },
             { Delta.OutChr, /*   */ (i) => i.OutChr() },
         };
+
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        private string DebuggerDisplay
+        {
+            get
+            {
+                var sb = new StringBuilder()
+                    .Append($"Curr: {curr.RgbCode} ({currPoint.X,2}, {currPoint.Y,2}), ")
+                    .Append($"Prev: {prev.RgbCode} ({prevPoint.X,2}, {prevPoint.Y,2})")
+                ;
+                if (!curr.IsBlackOrWhite && !prev.IsBlackOrWhite)
+                {
+                    var delta = curr - prev;
+                    var value = program.Value(currPoint);
+
+                    var str = delta == Delta.OutChr
+                        ? "'" + ((char)value).ToString() + "'"
+                        : value.ToString();
+
+                    sb.Append($", Action: {delta.Action}, Value: {str}");
+                }
+                return sb.ToString();
+            }
+        }
     }
 }

@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Programs", "Programs", "{BD
 		programs\Fibonacci_Numbers_WithPath.gif = programs\Fibonacci_Numbers_WithPath.gif
 		programs\hello_world.png = programs\hello_world.png
 		programs\hello_world_artistic.gif = programs\hello_world_artistic.gif
+		programs\hello_world_big.gif = programs\hello_world_big.gif
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{019CE264-1484-4A2D-B262-D9FBA066BE66}"

@@ -20,7 +20,7 @@ namespace PietDotNet
         public string Executed(string command, object value) => $"{this} Executed {command}({value}).";
         public string Executed(string command, long first, long second, object result) => $"{this} Executed {command}({first}, {second}) => {result}.";
 
-        public override string ToString() => $"{_interpreter.curr.RgbCode} ({_interpreter.point.X,2}, {_interpreter.point.Y,2})";
+        public override string ToString() => $"{_interpreter.curr.RgbCode} ({_interpreter.currPoint.X,2}, {_interpreter.currPoint.Y,2})";
 
        
     }

@@ -6,7 +6,7 @@
         {
             IO = new TestIO();
             Logger = new UnitTestLogger();
-            var program = Load(Location);
+            var program = Load(Location, CodelSize);
             Interpreter = new Interpreter(program, IO, Logger);
         }
 
@@ -14,12 +14,13 @@
         public UnitTestLogger Logger { get; }
         public Interpreter Interpreter { get; }
         protected abstract string Location { get; }
+        public virtual int CodelSize { get; } = 1;
 
-        public static Program Load(string path)
+        public static Program Load(string path, int codelsize = 1)
         {
             using (var stream = typeof(ProgramTestBase).Assembly.GetManifestResourceStream("PietDotNet.Tests.Programs." + path))
             {
-                return Program.From(stream);
+                return Program.From(stream, codelsize);
             }
         }
     }
