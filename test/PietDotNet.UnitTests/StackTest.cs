@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace PietDotNet.Tests
 {
@@ -45,6 +46,15 @@ namespace PietDotNet.Tests
             var expected = new long[] { 5, 4, 3, 2, 1, 0 };
 
             CollectionAssert.AreEqual(expected, stack);
+        }
+
+        [Test]
+        public void StackOverflow_ToBig()
+        {
+            var stack = new Stack(1);
+            stack.Push(17);
+
+            Assert.Throws<StackOverflowException>(() => stack.Push(666));
         }
     }
 }
