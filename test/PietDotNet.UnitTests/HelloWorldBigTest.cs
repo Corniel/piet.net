@@ -9,12 +9,12 @@ namespace PietDotNet.Tests
         public override int CodelSize => 4;
 
         [Test]
-        public void Execute_ProducesHelloWorld()
+        public void Execute_HelloWorldBig_ProducesHelloWorld()
         {
             Interpreter.Execute();
 
-            var actual = new string(IO.OutChrs.ToArray());
-            Assert.AreEqual("hello world!\n", actual);
+            Assert.IsTrue(IO.IsCharOnly);
+            Assert.AreEqual("hello world!\n", IO.OutString);
         }
     }
 }

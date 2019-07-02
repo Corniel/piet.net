@@ -8,12 +8,12 @@ namespace PietDotNet.Tests
         protected override string Location => "hello_world_artistic.gif";
 
         [Test]
-        public void Execute_ProducesHelloWorld()
+        public void Execute_HelloWorldArtistic_ProducesHelloWorld()
         {
             Interpreter.Execute();
 
-            var actual = new string(IO.OutChrs.ToArray());
-            Assert.AreEqual("Hello, World!", actual);
+            Assert.IsTrue(IO.IsCharOnly);
+            Assert.AreEqual("Hello, World!", IO.OutString);
         }
     }
 }
