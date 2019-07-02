@@ -1,8 +1,8 @@
 ﻿namespace PietDotNet.Tests.Tooling
 {
-    public abstract class ProgramTest
+    public abstract class ProgramTestBase
     {
-        protected ProgramTest()
+        protected ProgramTestBase()
         {
             IO = new TestIO();
             Logger = new UnitTestLogger();
@@ -17,7 +17,7 @@
 
         public static Program Load(string path)
         {
-            using (var stream = typeof(TestProgram).Assembly.GetManifestResourceStream("PietDotNet.Tests.Programs." + path))
+            using (var stream = typeof(ProgramTestBase).Assembly.GetManifestResourceStream("PietDotNet.Tests.Programs." + path))
             {
                 return Program.From(stream);
             }

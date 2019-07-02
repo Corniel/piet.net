@@ -3,7 +3,7 @@ using PietDotNet.Tests.Tooling;
 
 namespace PietDotNet.Tests
 {
-    public class HelloWorldArtisticTest : ProgramTest
+    public class HelloWorldArtisticTest : ProgramTestBase
     {
         protected override string Location => "hello_world_artistic.gif";
 

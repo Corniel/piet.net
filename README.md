@@ -21,6 +21,13 @@ programs, the term "codel" is used to mean a block of colour equivalent to a
 single pixel of code, to avoid confusion with the actual pixels of the enlarged
 graphic, of which many may make up one codel.
 
+### Colour Blocks
+The basic unit of Piet code is the colour block. A colour block is a contiguous
+block of any number of codels of one colour, bounded by blocks of other colours
+or by the edge of the program graphic. Blocks of colour adjacent only diagonally
+are not considered contiguous. A colour block may be any shape and may have
+"holes" of other colours inside it, which are not considered part of the block. 
+
 ## Syntax Elements
 
 ### Numbers

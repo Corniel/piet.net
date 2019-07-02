@@ -78,8 +78,8 @@ namespace PietDotNet
 
         public Color Colour { get; }
 
-        /// <summary>Returns true if the codel is not black or white.</summary>
-        public bool NotBlackOrWhite => Hue != -1;
+        /// <summary>Returns true if the codel is black or white.</summary>
+        public bool IsBlackOrWhite => Hue == -1;
 
         /// <summary>Returns true if the codel is black.</summary>
         public bool IsBlack => Lightness == int.MaxValue;
@@ -105,7 +105,7 @@ namespace PietDotNet
         /// <summary>Gets the <see cref="Delta"/> of tho <see cref="Codel"/>s.</summary>
         private Delta Subtract(Codel other)
         {
-            if(!NotBlackOrWhite || !other.NotBlackOrWhite)
+            if(IsBlackOrWhite || other.IsBlackOrWhite)
             {
                 throw new InvalidOperationException($"A delta can not be determined once a black or white codel is involved.");
             }

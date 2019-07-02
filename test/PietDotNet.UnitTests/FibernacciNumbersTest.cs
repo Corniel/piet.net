@@ -3,7 +3,7 @@ using PietDotNet.Tests.Tooling;
 
 namespace PietDotNet.Tests
 {
-    public class FibernacciNumbersTest : ProgramTest
+    public class FibernacciNumbersTest : ProgramTestBase
     {
         protected override string Location => "fibonacci_numbers.gif";
 
