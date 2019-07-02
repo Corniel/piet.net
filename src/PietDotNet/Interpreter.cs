@@ -16,6 +16,7 @@ namespace PietDotNet
 
         private CodelChooser cc;
         private DirectionPointer dp;
+        internal Point prevPoint;
         internal Point point;
         private Codel prev;
         internal Codel curr;
@@ -53,29 +54,44 @@ namespace PietDotNet
         /// </remarks>
         private Delta Traverse()
         {
-            while (true)
+            // The interpreter finds the edge of the current colour block which is furthest in the direction of the DP. (This edge may be disjoint if the block is of a complex shape.)
+            var terminationCounter = 0;
+
+            while (terminationCounter < 8)
             {
                 var pt = point.Next(dp);
                 curr = program[pt];
+
+                logger.LogDebug($"{pt} codel {curr}");
 
                 if (curr.IsBlack)
                 {
                     // rotate ect.
                     dp = dp.Rotate(1);
+                    cc = cc.Switch(1);
+                    logger.LogDebug($"DP {dp} CC {cc}");
+
                     curr = prev;
+                    pt = prevPoint;
+                    terminationCounter++;
                 }
                 else
                 {
+                    prevPoint = point;
                     point = pt;
-                    var detla = curr - prev;
-
-                    if(detla != Delta.None)
+                    var delta = curr - prev;
+                    if (!curr.IsWhite &&
+                        !prev.IsWhite &&
+                        delta != Delta.None)
                     {
                         prev = curr;
-                        return detla;
+                        return delta;
                     }
                 }
             }
+            logger.LogDebug("Program terminates");
+            executing = false;
+            return Delta.None;
         }
 
         private void Execute(Delta delta)
@@ -88,7 +104,7 @@ namespace PietDotNet
             {
                 throw new InvalidOperationException($"Could not execute delta {delta}.");
             }
-    }
+        }
 
         private void None() { /*Do nothing */ }
 
@@ -98,7 +114,7 @@ namespace PietDotNet
         /// </remarks>
         private void Push()
         {
-            var value = program.Value(point);
+            var value = program.Value(prevPoint);
             stack.Push(value);
 
             logger.LogDebug(LogHelper.Executed(nameof(Push), value));
