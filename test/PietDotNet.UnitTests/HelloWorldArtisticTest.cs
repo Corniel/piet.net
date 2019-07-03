@@ -7,13 +7,13 @@ namespace PietDotNet.Tests
     {
         protected override string Location => "hello_world_artistic.gif";
 
-        [Test, Ignore("Test runs infinitely at the moment. TODO: Fix")]
-        public void Execute_HelloWorldArtistic_ProducesHelloWorld()
+        [Test]
+        public void Run_HelloWorldArtistic_ProducesHelloWorld()
         {
-            Interpreter.Execute();
+            Interpreter.Run();
 
             Assert.IsTrue(IO.IsCharOnly);
-            Assert.AreEqual("Hello, World!", IO.OutString);
+            Assert.AreEqual("Hello, world!\n", IO.OutString);
         }
     }
 }

@@ -7,7 +7,7 @@
             IO = new TestIO();
             Logger = new UnitTestLogger();
             var program = Load(Location, CodelSize);
-            Interpreter = new Interpreter(program, IO, Logger);
+            Interpreter = new Interpreter(program, IO, Logger, 10000);
         }
 
         public TestIO IO { get; }
