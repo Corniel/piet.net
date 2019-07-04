@@ -71,6 +71,11 @@ namespace Microsoft.Extensions.Logging
             logger.LogError($"{state.Pointer.Debug()} INP() // Invalid input.");
         }
 
+        public static void Terminated(this ILogger logger, State state)
+        {
+            logger.LogWarning($"{state.Pointer.Debug()} EXIT // Terminated on {state.Pointer.Debug()}.");
+        }
+
         public static void Terminated(this ILogger logger, State state, long commands)
         {
             logger.LogWarning($"{state.Pointer.Debug()} EXIT // Terminated after {commands:#,##0} commands.");

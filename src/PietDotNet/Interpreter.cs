@@ -170,7 +170,7 @@ namespace PietDotNet
                 return true;
             }
 
-            logger.Terminated(state, 0);
+            logger.Terminated(state);
             return false;
         }
 
