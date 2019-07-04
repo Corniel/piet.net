@@ -8,7 +8,18 @@ namespace Microsoft.Extensions.Logging
     {
         public static void TraceLocation(this ILogger logger, State state)
         {
-            logger.LogTrace($"{state.Active.Debug()} MOV()");
+            if (!state.Program.OnCanvas(state.Active))
+            {
+                logger.LogWarning($"{state.Active.Debug()} MOV() // Not on canvas.");
+            }
+            else if (state.Program[state.Active].IsBlack)
+            {
+                logger.LogWarning($"{state.Active.Debug()} MOV() // black codel.");
+            }
+            else
+            {
+                logger.LogTrace($"{state.Active.Debug()} MOV() // {state.Program[state.Active].Colour.Debug()} codel.");
+            }
         }
 
         public static void InfoCommand(this ILogger logger, State state, object @return, params object[] args)

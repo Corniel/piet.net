@@ -71,11 +71,11 @@ namespace PietDotNet
 
             if (Active != Current)
             {
-                sb.Append($"Active: {Program[Active].RgbCode} {Active.Debug()}, ");
+                sb.Append($"Active: {Program[Active].Colour.Debug()} {Active.Debug()}, ");
             }
 
-            sb.Append($"Curr: {Program[Current].RgbCode} {Current.Debug()}, ");
-            sb.Append($"Prev: {Program[Previous].RgbCode} {Previous.Debug()}, ");
+            sb.Append($"Curr: {Program[Current].Colour.Debug()} {Current.Debug()}, ");
+            sb.Append($"Prev: {Program[Previous].Colour.Debug()} {Previous.Debug()}, ");
             sb.Append($"DP: {DP}, CC: {CC}, ");
 
             var curr = Program[Current];
