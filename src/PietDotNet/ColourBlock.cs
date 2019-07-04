@@ -32,14 +32,15 @@ namespace PietDotNet
             var yMin = _codels.Min(p => p.Y);
             var yMax = _codels.Max(p => p.Y);
 
-            _edges[new Edge(DirectionPointer.right, /* */ CodelChooser.left)] = _codels.Where(p => p.X == xMax).OrderBy(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.right, /**/ CodelChooser.right)] = _codels.Where(p => p.X == xMax).OrderByDescending(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == xMax).OrderByDescending(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == xMax).OrderBy(p => p.X).FirstOrDefault();
             _edges[new Edge(DirectionPointer.left, /*  */ CodelChooser.left)] = _codels.Where(p => p.X == xMin).OrderByDescending(p => p.Y).FirstOrDefault();
             _edges[new Edge(DirectionPointer.left, /* */ CodelChooser.right)] = _codels.Where(p => p.X == xMin).OrderBy(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.top, /*   */ CodelChooser.left)] = _codels.Where(p => p.X == yMin).OrderBy(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.X == yMin).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.right, /* */ CodelChooser.left)] = _codels.Where(p => p.X == xMax).OrderBy(p => p.Y).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.right, /**/ CodelChooser.right)] = _codels.Where(p => p.X == xMax).OrderByDescending(p => p.Y).FirstOrDefault();
+
+            _edges[new Edge(DirectionPointer.top, /*   */ CodelChooser.left)] = _codels.Where(p => p.Y == yMin).OrderBy(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.Y == yMin).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == xMax).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == xMax).OrderBy(p => p.X).FirstOrDefault();
         }
 
         public bool IsBlack => Codel == Codel.Black;

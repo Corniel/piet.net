@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Programs\Snippets\*.*" />
+    <EmbeddedResource Include="Programs\Snippets\*.*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="..\..\programs\hello_world.png" Link="Programs\hello_world.png" />
     <EmbeddedResource Include="..\..\programs\hello_world_artistic.gif" Link="Programs\hello_world_artistic.gif" />
     <EmbeddedResource Include="..\..\programs\hello_world_big.gif" Link="Programs\hello_world_big.gif" />
