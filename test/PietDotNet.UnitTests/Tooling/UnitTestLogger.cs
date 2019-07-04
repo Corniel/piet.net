@@ -7,17 +7,24 @@ namespace PietDotNet.Tests.Tooling
 {
     public class UnitTestLogger : List<LogRecord>, ILogger
     {
+        public UnitTestLogger(LogLevel minLevel = LogLevel.Information) => MinLevel = minLevel;
+
+        public LogLevel MinLevel { get; }
+
         public IDisposable BeginScope<TState>(TState state)
         {
             throw new NotSupportedException();
         }
 
-        public bool IsEnabled(LogLevel logLevel) => true;
+        public bool IsEnabled(LogLevel logLevel)=> logLevel >= MinLevel;
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            Add(new LogRecord(logLevel, formatter.Invoke(state, exception)));
-            Console.Error.WriteLine(this.LastOrDefault().Message);
+            if (IsEnabled(logLevel))
+            {
+                Add(new LogRecord(logLevel, formatter.Invoke(state, exception)));
+                Console.Error.WriteLine(this.LastOrDefault().Message);
+            }
         }
     }
 

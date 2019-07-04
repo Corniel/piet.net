@@ -39,8 +39,8 @@ namespace PietDotNet
 
             _edges[new Edge(DirectionPointer.top, /*   */ CodelChooser.left)] = _codels.Where(p => p.Y == yMin).OrderBy(p => p.X).FirstOrDefault();
             _edges[new Edge(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.Y == yMin).OrderByDescending(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == xMax).OrderByDescending(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == xMax).OrderBy(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == yMax).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Edge(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == yMax).OrderBy(p => p.X).FirstOrDefault();
         }
 
         public bool IsBlack => Codel == Codel.Black;

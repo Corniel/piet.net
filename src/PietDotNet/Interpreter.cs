@@ -162,6 +162,10 @@ namespace PietDotNet
                 {
                     return OnBlack(retryCount - 1);
                 }
+                if(state.Next.IsWhite)
+                {
+                    return OnWhite();
+                }
                 state.MoveToNext();
                 return true;
             }

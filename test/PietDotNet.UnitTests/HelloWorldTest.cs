@@ -13,7 +13,7 @@ namespace PietDotNet.Tests
             Interpreter.Run();
 
             Assert.IsTrue(IO.IsCharOnly);
-            Assert.AreEqual("Hello, World!", IO.OutString);
+            Assert.AreEqual("Hello world!", IO.OutString);
         }
     }
 }
