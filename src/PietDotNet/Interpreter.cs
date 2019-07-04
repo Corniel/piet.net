@@ -43,6 +43,25 @@ namespace PietDotNet
         /// </remarks>
         private void Traverse()
         {
+            var curr = state.Program.Block(state.Active);
+            var next = state.Program.Block(curr.GetEdge(state.Edge));
+
+            if(next.IsBlack)
+            {
+                // Do something
+            }
+            if(next.IsWhite)
+            {
+                // Do somehting.
+            }
+            else
+            {
+                // Happy camper.
+            }
+
+            var current = state.CurrentBlock;
+            var nextPoint = current.GetEdge(state.Edge);
+
             while (state.OnColourBlock)
             {
                 state.MoveForward();

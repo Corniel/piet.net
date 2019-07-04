@@ -15,7 +15,8 @@ namespace PietDotNet
         public Stack Stack { get; }
 
         public DirectionPointer DP { get; private set; }
-        public CodelChooser CC{ get; private set; }
+        public CodelChooser CC { get; private set; }
+        public Edge Edge => new Edge(DP, CC);
 
         public Point Previous { get; private set; }
         public Point Current { get; private set; }
@@ -38,7 +39,11 @@ namespace PietDotNet
 
         public Delta Delta => Program[Active] - Program[Previous];
 
-        public int Value => Program.Value(Previous);
+        public int Value => Program.Block(Previous).Value;
+
+        public ColourBlock CurrentBlock => Program.Block(Current);
+
+        
 
         /// <summary>Moves the active point to the next point.</summary>
         public void MoveForward() => Active = Active.Next(DP);

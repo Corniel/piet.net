@@ -32,30 +32,31 @@ namespace PietDotNet.Tests
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
 
-            Assert.Throws<InvalidOperationException>(() => program.Value(new Point(8, 9)));
+            //Assert.Throws<InvalidOperationException>(() => program.Value(new Point(8, 9)));
+            Assert.Inconclusive("Determine what to do with a white colour block.");
         }
 
         [Test]
-        public void Value_Black_Throws()
+        public void Block_Black_Border()
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
 
-            Assert.Throws<InvalidOperationException>(() => program.Value(new Point(2, 2)));
+            Assert.AreEqual(ColourBlock.Border,  program.Block(new Point(2, 2)));
         }
 
         [Test]
-        public void Value_NotOnCanvas_Throws()
+        public void Block_NotOnCanvas_Border()
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
 
-            Assert.Throws<InvalidOperationException>(() => program.Value(new Point(-1, 0)));
+            Assert.AreEqual(ColourBlock.Border, program.Block(new Point(-1, 0)));
         }
 
         [Test]
         public void Value_MinimumColourBlock_1()
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
-            var value = program.Value(new Point(0, 5));
+            var value = program.Block(new Point(0, 5)).Value;
             Assert.AreEqual(1, value);
         }
 
@@ -63,7 +64,7 @@ namespace PietDotNet.Tests
         public void Value_BiggerolourBlock_1()
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
-            var value = program.Value(new Point(8, 0));
+            var value = program.Block(new Point(8, 0)).Value;
             Assert.AreEqual(10, value);
         }
     }

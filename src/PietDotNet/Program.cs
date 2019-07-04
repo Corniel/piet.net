@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 
 namespace PietDotNet
 {
@@ -14,7 +15,7 @@ namespace PietDotNet
     public class Program
     {
         private readonly Codel[,] _canvas;
-        private readonly int[,] _values;
+        private readonly ColourBlock[,] _blocks;
 
         /// <summary>Creates a new instance of a Piet <see cref="Program"/>.</summary>
         public Program(Codel[,] canvas)
@@ -22,7 +23,7 @@ namespace PietDotNet
             _canvas = canvas;
             Width = canvas.GetLength(0);
             Height = canvas.GetLength(1);
-            _values = new int[Width, Height];
+            _blocks = new ColourBlock[Width, Height];
         }
 
         /// <summary>Gets the width of the program.</summary>
@@ -38,16 +39,15 @@ namespace PietDotNet
         /// <param name="point">
         /// A point of the program that is member of the colour block.
         /// </param>
-        public int Value(Point point)
+        public ColourBlock Block(Point point)
         {
-            if (this[point].IsBlackOrWhite)
+            if (this[point].IsBlack)
             {
-                throw new InvalidOperationException($"The point ({point}) is not part of a colour block.");
+                return ColourBlock.Border;
             }
-
-            var val = _values[point.X, point.Y];
-            return val == 0
-                ? DetermineValueOfColourBlock(point)
+            var val = _blocks[point.X, point.Y];
+            return val is null
+                ? DetermineColourBlock(point)
                 : val;
         }
 
@@ -64,12 +64,12 @@ namespace PietDotNet
         /// <param name="point">
         /// A point of the program that is member of the colour block.
         /// </param>
-        private int DetermineValueOfColourBlock(Point point)
+        private ColourBlock DetermineColourBlock(Point point)
         {
+            var codel = this[point];
             var counter = 0;
             var visited = new HashSet<Point>();
             var todo = new Queue<Point>();
-            var codel = this[point];
 
             todo.Enqueue(point);
 
@@ -80,7 +80,7 @@ namespace PietDotNet
                 // Already visited.
                 if (visited.Contains(p)) continue;
                 // Already with a value.
-                if (_values[p.X, p.Y] != 0) continue;
+                if (_blocks[p.X, p.Y] != null) continue;
                 // We don't want to do things twice.
                 if (!visited.Add(p)) continue;
 
@@ -95,14 +95,13 @@ namespace PietDotNet
                 }
             }
 
-            foreach (var p in visited)
+            var block = new ColourBlock(codel, visited.Where(p => this[p] == codel));
+
+            foreach (var p in block)
             {
-                if (this[p] == codel)
-                {
-                    _values[p.X, p.Y] = counter;
-                }
+                _blocks[p.X, p.Y] = block;
             }
-            return counter;
+            return block;
         }
 
         /// <summary>Creates a <see cref="Program"/> from a <see cref="FileInfo"/>.</summary>
