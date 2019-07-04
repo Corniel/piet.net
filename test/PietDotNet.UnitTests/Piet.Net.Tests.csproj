@@ -16,6 +16,7 @@
     <EmbeddedResource Include="..\..\programs\hello_world_artistic.gif" Link="Programs\hello_world_artistic.gif" />
     <EmbeddedResource Include="..\..\programs\hello_world_big.gif" Link="Programs\hello_world_big.gif" />
     <EmbeddedResource Include="..\..\programs\Fibonacci_Numbers.gif" Link="Programs\fibonacci_numbers.gif" />
+    <EmbeddedResource Include="..\..\programs\pi_052.png" Link="Programs\pi_052.png" />
   </ItemGroup>
 
   <ItemGroup>
