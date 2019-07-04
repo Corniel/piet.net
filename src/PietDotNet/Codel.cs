@@ -78,6 +78,9 @@ namespace PietDotNet
 
         public Color Colour { get; }
 
+        /// <summary>Returns true if the codel is not black and not white.</summary>
+        public bool HasColour => !IsBlackOrWhite;
+
         /// <summary>Returns true if the codel is black or white.</summary>
         public bool IsBlackOrWhite => Hue == -1;
 

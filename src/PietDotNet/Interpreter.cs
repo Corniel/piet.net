@@ -2,6 +2,7 @@
 using PietDotNet.Logging;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 
 namespace PietDotNet
 {
@@ -20,7 +21,6 @@ namespace PietDotNet
 
         private readonly State state;
         private Stack stack => state.Stack;
-        private bool executing = true;
         public long Commands { get; private set; }
 
         public long MaxCommands { get; }
@@ -28,66 +28,107 @@ namespace PietDotNet
         /// <summary>Executes the <see cref="Program"/>.</summary>
         public void Run()
         {
-            while (executing)
+            while (Traverse())
             {
-                Traverse();
                 Execute();
             }
-            logger.Terminated(state, Commands);
         }
 
-        /// <summary>Traveres the pointer to the next codel.</summary>
+        /// <summary>Traverses the pointer to the next codel.</summary>
         /// The interpreter finds the edge of the current colour block which is
         /// furthest in the direction of the DP. (This edge may be disjoint if
         /// the block is of a complex shape.)
         /// </remarks>
-        private void Traverse()
+        private bool Traverse()
         {
-            var curr = state.Program.Block(state.Active);
-            var next = state.Program.Block(curr.GetEdge(state.Edge));
-
-            if(next.IsBlack)
+            if (Commands >= MaxCommands)
             {
-                // Do something
-            }
-            if(next.IsWhite)
-            {
-                // Do somehting.
-            }
-            else
-            {
-                // Happy camper.
+                logger.Terminated(state, Commands);
+                return false;
             }
 
-            var current = state.CurrentBlock;
-            var nextPoint = current.GetEdge(state.Edge);
+            var next = state.Next;
 
-            while (state.OnColourBlock)
+            if (next.IsBlack)
             {
-                state.MoveForward();
-                logger.TraceLocation(state);
+                return OnBlack();
             }
-            if(state.IsWhite)
+            if (next.IsWhite)
             {
-                executing = OnWhite();
+                return OnWhite();
             }
-            else if (state.IsBlack)
-            {
-                executing = OnBlack();
-            }
-            else
-            {
-                state.UpdateCurrent();
+            state.MoveToNext();
+            logger.TraceLocation(state);
+            return true;
+        }
 
-                while (state.OnColourBlock)
+        /// <summary>Handles traverse for white codels.</summary>
+        /// <remarks>
+        /// Sliding across white blocks takes the interpreter in a straight
+        /// line until it hits a coloured pixel or edge.
+        /// 
+        /// 1. The interpreter "slides" across the white block in a straight line.
+        /// 2. If it hits a restriction, the CC is toggled.Since this results
+        ///    in no difference in where the interpreter is trying to go, the
+        ///    DP is immediately stepped clockwise.
+        /// 3. The interpreter now begins sliding from its current white codel,
+        ///    in the new direction of the DP, until it either enters a
+        ///    coloured block or encounters another restriction.
+        /// 4. Each time the interpreter hits a restriction while within the
+        ///    white block, it toggles the CC and steps the DP clockwise, then
+        ///    tries to slide again. This process repeats until the interpreter
+        ///    either enters a coloured block (where execution then continues);
+        ///    or until the interpreter begins retracing its route.If it retraces
+        ///    its route entirely within a white block, there is no way out of
+        ///    the white block and execution should terminate.
+        /// </remarks>
+        private bool OnWhite()
+        {
+            var pointer = state.NextPointer;
+            var route = new HashSet<Step>();
+
+            // if the step was already added, we're retracing the route. 
+            while (route.Add(new Step(pointer, state.DP)))
+            {
+                var next = pointer.Next(state.DP);
+                var codel = state.Program[next];
+
+                if(codel.HasColour)
                 {
-                    state.UpdateCurrent();
-                    state.MoveAside();
-                    logger.TraceLocation(state);
+                    state.LeaveWhiteBlock(next);
+                    return Traverse();
                 }
+                if (codel.IsWhite)
+                {
+                    pointer = next;
+                }
+                else
+                {
+                    // we face a border, there 3 other options to try.
+                    for(var i = 0; i < 3; i++)
+                    {
+                        state.SwitchCC();
+                        state.RotateDP();
 
-                state.ResetActive();
+                        next = pointer.Next(state.DP);
+                        codel = state.Program[next];
+                        // by rotating we not longer find a border.
+                        if (!codel.IsBlack)
+                        {
+                            pointer = next;
+                            break;
+                        }
+                    }
+                    // No exit found.
+                    if (codel.IsBlack)
+                    {
+                        return false;
+                    }
+                }
             }
+            // We came back to a known path.
+            logger.Terminated(state, route);
+            return false;
         }
 
         /// <summary>Handles traverse for black codels (and program edges).</summary>
@@ -103,46 +144,30 @@ namespace PietDotNet
         /// </remarks>
         private bool OnBlack(int retryCount = 8)
         {
-            // Active is on forbidden ground.
-            state.ResetActive();
-
             while (retryCount > 0)
             {
                 // Switch on 0th, 2nd, 4th and 6th attempt.
                 if ((retryCount & 1) == 0)
                 {
                     state.SwitchCC();
+                    logger.TraceSwitchCC(state, retryCount);
                 }
                 else
                 {
                     state.RotateDP();
+                    logger.TraceRotateDP(state, retryCount);
                 }
-                retryCount--;
 
-                while (state.OnColourBlock)
+                if (state.Next.IsBlack)
                 {
-                    state.MoveAside();
-                    logger.TraceLocation(state);
+                    return OnBlack(retryCount - 1);
                 }
-                if (state.IsBlack)
-                {
-                    return OnBlack(retryCount);
-                }
-                if(state.IsWhite)
-                {
-                    throw new NotImplementedException("TODO deal with White.");
-                }
-                state.UpdateCurrent();
+                state.MoveToNext();
                 return true;
             }
 
             logger.Terminated(state, 0);
             return false;
-        }
-
-        private bool OnWhite(int retryCount = 8)
-        {
-            throw new NotImplementedException();
         }
 
         /// <summary>Executes a command based on the delta of the last two codels.</summary>
@@ -151,12 +176,7 @@ namespace PietDotNet
             if (commands.TryGetValue(state.Delta, out var command))
             {
                 command.Invoke(this);
-                state.UpdatePrevious();
-
-                if (++Commands >= MaxCommands)
-                {
-                    executing = false;
-                }
+                Commands++;
             }
             else
             {

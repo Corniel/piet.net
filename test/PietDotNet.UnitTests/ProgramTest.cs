@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using PietDotNet.Tests.Tooling;
-using System;
 using System.Drawing;
 
 namespace PietDotNet.Tests
@@ -13,6 +12,7 @@ namespace PietDotNet.Tests
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
             Assert.False(program.OnCanvas(new Point(-1, 0)));
         }
+
         [Test]
         public void OnCanvas_HighValue_False()
         {
@@ -28,12 +28,11 @@ namespace PietDotNet.Tests
         }
 
         [Test]
-        public void Value_White_Throws()
+        public void Value_White_IsReturned()
         {
             var program = ProgramTestBase.Load("fibonacci_numbers.gif");
-
-            //Assert.Throws<InvalidOperationException>(() => program.Value(new Point(8, 9)));
-            Assert.Inconclusive("Determine what to do with a white colour block.");
+            var value = program.Block(new Point(8, 9)).Value;
+            Assert.AreEqual(8, value);
         }
 
         [Test]

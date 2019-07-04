@@ -32,51 +32,51 @@ namespace PietDotNet
         /// <summary>Gets the height of the program.</summary>
         public int Height { get; }
 
-        /// <summary>Gets the codel of the point.</summary>
-        public Codel this[Point point] => OnCanvas(point) ? _canvas[point.X, point.Y] : Codel.Black;
+        /// <summary>Gets the codel of the pointer.</summary>
+        public Codel this[Point pointer] => OnCanvas(pointer) ? _canvas[pointer.X, pointer.Y] : Codel.Black;
 
         /// <summary>Gets the value of the colour block.</summary>
-        /// <param name="point">
+        /// <param name="pointer">
         /// A point of the program that is member of the colour block.
         /// </param>
-        public ColourBlock Block(Point point)
+        public ColourBlock Block(Point pointer)
         {
-            if (this[point].IsBlack)
+            if (this[pointer].IsBlack)
             {
                 return ColourBlock.Border;
             }
-            var val = _blocks[point.X, point.Y];
+            var val = _blocks[pointer.X, pointer.Y];
             return val is null
-                ? DetermineColourBlock(point)
+                ? DetermineColourBlock(pointer)
                 : val;
         }
 
         /// <summary>Returns true if the point is on canvas, otherwise false.</summary>
-        public bool OnCanvas(Point point)
+        public bool OnCanvas(Point pointer)
         {
-            return point.X >= 0
-                && point.Y >= 0
-                && point.X < Width
-                && point.Y < Height;
+            return pointer.X >= 0
+                && pointer.Y >= 0
+                && pointer.X < Width
+                && pointer.Y < Height;
         }
 
         /// <summary>Determines the value of the colour block.</summary>
-        /// <param name="point">
+        /// <param name="pointer">
         /// A point of the program that is member of the colour block.
         /// </param>
-        private ColourBlock DetermineColourBlock(Point point)
+        private ColourBlock DetermineColourBlock(Point pointer)
         {
-            var codel = this[point];
+            var codel = this[pointer];
             var counter = 0;
             var visited = new HashSet<Point>();
             var todo = new Queue<Point>();
 
-            todo.Enqueue(point);
+            todo.Enqueue(pointer);
 
             while (todo.TryDequeue(out var p))
             {
                 // Black, or white (or not on canvas).
-                if (this[p].IsBlackOrWhite) continue;
+                if (this[p].IsBlack) continue;
                 // Already visited.
                 if (visited.Contains(p)) continue;
                 // Already with a value.

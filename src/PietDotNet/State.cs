@@ -9,6 +9,9 @@ namespace PietDotNet
         {
             Program = Guard.NotNull(program, nameof(program));
             Stack = Guard.NotNull(stack, nameof(stack));
+
+            Previous = program.Block(default);
+            Current = program.Block(default);
         }
 
         public Program Program { get; }
@@ -18,54 +21,36 @@ namespace PietDotNet
         public CodelChooser CC { get; private set; }
         public Edge Edge => new Edge(DP, CC);
 
-        public Point Previous { get; private set; }
-        public Point Current { get; private set; }
-        public Point Active
-        {
-            get => active;
-            private set
-            {
-                last = active;
-                active = value;
-            }
-        }
-        private Point active;
-        private Point last;
+        public ColourBlock Previous { get; private set; }
+        public ColourBlock Current { get; private set; }
+        public ColourBlock Next => Program.Block(NextPointer);
 
-        public bool IsBlack => Program[Active].IsBlack;
-        public bool IsWhite => Program[Active].IsWhite;
+        public Point Pointer { get; private set; }
+        public Point NextPointer => Current.GetEdge(Edge).Next(DP);
 
-        public bool OnColourBlock => Program[Active] == Program[Current];
+        public bool IsBlack => Current.IsBlack;
+        public bool IsWhite => Current.IsWhite;
 
-        public Delta Delta => Program[Active] - Program[Previous];
+        public Delta Delta => Current.Codel - Previous.Codel;
 
-        public int Value => Program.Block(Previous).Value;
-
-        public ColourBlock CurrentBlock => Program.Block(Current);
-
-        
-
-        /// <summary>Moves the active point to the next point.</summary>
-        public void MoveForward() => Active = Active.Next(DP);
-
-        public void MoveAside() => Active = Active.Next(DP, CC);
+        public int Value => Previous.Value;
 
         public void SwitchCC(long @switch = 1) => CC = CC.Switch(@switch);
 
         public void RotateDP(long rotate = 1) => DP = DP.Rotate(rotate);
 
-        /// <summary>Resets the active pointer to the current pointer.</summary>
-        public void ResetActive() => Active = last;
-
-        /// <summary>Updates the active to current.</summary>
-        public void UpdateCurrent()
+        /// <summary>Moves to the next colour block, by updating both <see cref="Current"/> and <see cref="Previous"/>.</summary>
+        public void MoveToNext()
         {
-            Current = Active;
+            Pointer = NextPointer;
+            Previous = Current;
+            Current = Next;
         }
 
-        /// <summary>Updates the previous to active.</summary>
-        public void UpdatePrevious()
+        public void LeaveWhiteBlock(Point pointer)
         {
+            Pointer = pointer;
+            Current = Program.Block(Pointer);
             Previous = Current;
         }
 
@@ -74,27 +59,21 @@ namespace PietDotNet
         {
             var sb = new StringBuilder();
 
-            if (Active != Current)
-            {
-                sb.Append($"Active: {Program[Active].Colour.Debug()} {Active.Debug()}, ");
-            }
+            var curr = Current.Codel;
+            var prev = Previous.Codel;
 
-            sb.Append($"Curr: {Program[Current].Colour.Debug()} {Current.Debug()}, ");
-            sb.Append($"Prev: {Program[Previous].Colour.Debug()} {Previous.Debug()}, ");
+            sb.Append($"Pointer: {Pointer.Debug()}, ");
+            sb.Append($"Curr: {curr.Colour.Debug()}, ");
+            sb.Append($"Prev: {prev.Colour.Debug()}, ");
             sb.Append($"DP: {DP}, CC: {CC}, ");
-
-            var curr = Program[Current];
-            var prev = Program[Previous];
 
             if (!curr.IsBlackOrWhite && !prev.IsBlackOrWhite)
             {
-                var delta = curr - prev;
-                
-                var str = delta == Delta.OutChr
+                var str = Delta == Delta.OutChr
                     ? "'" + ((char)Value).ToString() + "'"
                     : Value.ToString();
 
-                sb.Append($"Action: {delta.Action}, Value: {str}, ");
+                sb.Append($"Action: {Delta.Action}, Value: {str}, ");
             }
 
             sb.Append($"Stack: {{ {string.Join(", ", Stack)} }}");

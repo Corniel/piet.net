@@ -42,8 +42,8 @@ namespace PietDotNet
             _edges[new Edge(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.X == yMin).OrderByDescending(p => p.X).FirstOrDefault();
         }
 
-        public virtual bool IsBlack => false;
-        public virtual bool IsWhite => Codel == Codel.White;
+        public bool IsBlack => Codel == Codel.Black;
+        public bool IsWhite => Codel == Codel.White;
 
         public virtual Codel Codel { get; }
 
@@ -54,7 +54,7 @@ namespace PietDotNet
         public Point GetEdge(Edge edge) => _edges[edge];
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string DebuggerDisplay => $"{Codel}, Value: {Value}";
+        private string DebuggerDisplay => $"{Codel.Colour.Debug()}, Value: {Value}";
 
         #region IEnumerable
         public IEnumerator<Point> GetEnumerator() => _codels.GetEnumerator();
