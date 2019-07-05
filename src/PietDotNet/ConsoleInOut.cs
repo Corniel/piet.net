@@ -27,7 +27,7 @@ namespace PietDotNet
                 : (long?)null;
         }
 
-        public void Out(long n) => Console.WriteLine(n);
+        public void Out(long n) => Console.Write(n);
 
         public void Out(char c) => Console.Write(c);
     }

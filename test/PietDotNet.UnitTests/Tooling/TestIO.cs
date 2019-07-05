@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PietDotNet.Tests.Tooling
 {
@@ -18,7 +17,7 @@ namespace PietDotNet.Tests.Tooling
         public void Out(char c)=> Outs.Add(c);
 
         public bool IsCharOnly => Outs.All(obj => obj is char);
-        public bool IsIntOnly => Outs.All(obj => obj is long);
+        public bool IsIntOnly => Outs.All(obj => obj is long || (obj is char ch && ch == '\n'));
 
         public string OutString => new string(Outs.OfType<char>().ToArray());
         public long[] OutInts => Outs.OfType<long>().ToArray();
