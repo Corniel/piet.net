@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using PietDotNet.Communication;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace PietDotNet.Tests.Tooling
 {
-    public class TestIO : IInOut
+    public class TestIO : InOut
     {
         public Queue<char?> InChrs { get; } = new Queue<char?>();
         public Queue<long?> InInts { get; } = new Queue<long?>();
@@ -12,9 +14,17 @@ namespace PietDotNet.Tests.Tooling
         public char? InChr() => InChrs.Dequeue();
         public long? InInt() => InInts.Dequeue();
 
-        public void Out(long n)=> Outs.Add(n);
+        public void Out(long n)
+        {
+            Console.Write(n);
+            Outs.Add(n);
+        }
 
-        public void Out(char c)=> Outs.Add(c);
+        public void Out(char c)
+        {
+            Console.Write(c);
+            Outs.Add(c);
+        }
 
         public bool IsCharOnly => Outs.All(obj => obj is char);
         public bool IsIntOnly => Outs.All(obj => obj is long || (obj is char ch && ch == '\n'));

@@ -1,10 +1,11 @@
 ﻿using NUnit.Framework;
+using PietDotNet;
 using PietDotNet.Tests.Tooling;
 using System.Drawing;
 
-namespace PietDotNet.Tests
+namespace ColourBlockTest
 {
-    public class ColourBlockTest
+    public class GetEdge
     {
         [TestCase(0, 3, DirectionPointer.left, /* */ CodelChooser.left)]
         [TestCase(0, 1, DirectionPointer.left, /* */ CodelChooser.right)]
@@ -15,14 +16,14 @@ namespace PietDotNet.Tests
         [TestCase(3, 0, DirectionPointer.top, /*  */ CodelChooser.right)]
         [TestCase(3, 4, DirectionPointer.down, /* */ CodelChooser.left)]
         [TestCase(1, 4, DirectionPointer.down, /* */ CodelChooser.right)]
-        public void Edge_WithComplexForm(int x, int y, DirectionPointer dp, CodelChooser cc)
+        public void From_complex_form(int x, int y, DirectionPointer dp, CodelChooser cc)
         {
             var expected = new Point(x, y);
-            var program = ProgramTestBase.Load("Snippets.edge.png");
-            var block = program.Block(new Point(2, 2));
-            var edge = new Edge(dp, cc);
+            var program = Runner.Load("Snippets.edge.png");
+            var block = program.SelectBlock(new Point(2, 2));
+            var direction = new Direction(dp, cc);
 
-            var actual = block.GetEdge(edge);
+            var actual = block.GetEdge(direction);
 
             Assert.AreEqual(expected, actual);
         }
@@ -36,14 +37,14 @@ namespace PietDotNet.Tests
         [TestCase(DirectionPointer.top, /*  */ CodelChooser.right)]
         [TestCase(DirectionPointer.down, /* */ CodelChooser.left)]
         [TestCase(DirectionPointer.down, /* */ CodelChooser.right)]
-        public void Edge_1x1(DirectionPointer dp, CodelChooser cc)
+        public void From_1x1_form(DirectionPointer dp, CodelChooser cc)
         {
             var expected = new Point(9, 0);
-            var program = ProgramTestBase.Load("fibonacci_numbers.gif");
-            var block = program.Block(expected);
-            var edge = new Edge(dp, cc);
+            var program = Runner.Load("fibonacci_numbers.gif");
+            var block = program.SelectBlock(expected);
+            var direction = new Direction(dp, cc);
 
-            var actual = block.GetEdge(edge);
+            var actual = block.GetEdge(direction);
 
             Assert.AreEqual(expected, actual);
         }

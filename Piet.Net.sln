@@ -5,17 +5,6 @@ VisualStudioVersion = 16.0.29020.237
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Piet.Net", "src\PietDotNet\Piet.Net.csproj", "{7CD80068-FFCC-4219-9E2C-3B28669D1BAD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Programs", "Programs", "{BDD43565-0497-4651-8E79-E9E68555E681}"
-	ProjectSection(SolutionItems) = preProject
-		programs\Fibonacci_Numbers.gif = programs\Fibonacci_Numbers.gif
-		programs\Fibonacci_Numbers_Large.gif = programs\Fibonacci_Numbers_Large.gif
-		programs\Fibonacci_Numbers_WithPath.gif = programs\Fibonacci_Numbers_WithPath.gif
-		programs\hello_world.png = programs\hello_world.png
-		programs\hello_world_artistic.gif = programs\hello_world_artistic.gif
-		programs\hello_world_big.gif = programs\hello_world_big.gif
-		programs\pi_052.png = programs\pi_052.png
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{019CE264-1484-4A2D-B262-D9FBA066BE66}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md

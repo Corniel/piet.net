@@ -2,12 +2,10 @@
 
 namespace PietDotNet
 {
-    /// <summary>Combines the <see cref="DirectionPointer"/> and <see cref="CodelChooser"/>
-    /// to define the edge to search for on a <see cref="ColourBlock"/>.
-    /// </summary>
-    public struct Edge: IEquatable<Edge>
+    /// <summary>Combines the <see cref="DirectionPointer"/> and <see cref="CodelChooser"/>.</summary>
+    public readonly struct Direction : IEquatable<Direction>
     {
-        public Edge(DirectionPointer dp, CodelChooser cc)
+        public Direction(DirectionPointer dp, CodelChooser cc)
         {
             DP = Guard.DefinedEnum(dp, nameof(dp));
             CC = Guard.DefinedEnum(cc, nameof(cc));
@@ -18,12 +16,12 @@ namespace PietDotNet
 
         /// <summary>Gets the <see cref="CodelChooser"/>.</summary>
         public CodelChooser CC { get; }
-        
-        /// <inheritdoc />
-        public override bool Equals(object obj) => obj is Edge other && Equals(other);
 
         /// <inheritdoc />
-        public bool Equals(Edge other) => DP == other.DP && CC == other.CC;
+        public override bool Equals(object obj) => obj is Direction other && Equals(other);
+
+        /// <inheritdoc />
+        public bool Equals(Direction other) => DP == other.DP && CC == other.CC;
 
         /// <inheritdoc />
         public override int GetHashCode() => (int)DP | ((int)CC << 3);

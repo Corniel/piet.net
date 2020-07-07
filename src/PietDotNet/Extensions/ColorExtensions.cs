@@ -1,6 +1,6 @@
 ﻿namespace System.Drawing
 {
-    public static class ColorExtensions
+    internal static class ColorExtensions
     {
         /// <summary>Represents the color as a 3 char RGB code.</summary>
         public static string Debug(this Color color)

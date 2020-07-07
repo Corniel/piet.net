@@ -1,48 +1,62 @@
 ﻿using NUnit.Framework;
+using PietDotNet;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace PietDotNet.Tests
+namespace CodelTests
 {
-    public class CodelTest
+    public class All
     {
         [Test]
-        public void All_20Codels_WithUniqueColours()
+        public void _20_unique_colours_exist()
         {
             Assert.AreEqual(20, Codel.All.Count);
             Assert.AreEqual(20, new HashSet<Color>(Codel.All.Select(codel => codel.Colour)).Count, "All colours should be different too.");
         }
-
+    }
+    public class Subtract
+    {
         [Test]
-        public void Minus_WithBlack_Throws()
+        public void With_Black_is_invalid_operation()
         {
             Assert.Throws<InvalidOperationException>(() => { var delta = Codel.Black - Codel.Green; });
         }
 
         [Test]
-        public void Minus_WithWhite_Throws()
+        public void With_White_is_invalid_operation()
         {
             Assert.Throws<InvalidOperationException>(() => { var delta = Codel.Red - Codel.White; });
         }
 
         [Test]
-        public void Minus_RedMinusDarkRed_Pop()
+        public void Red_and_RedDark_is_Pop()
         {
-            var delta = Codel.Red - Codel.RedDark;
-            Assert.AreEqual(Delta.Pop, delta);
+            Assert.AreEqual(Command.Pop, Codel.Red - Codel.RedDark);
         }
 
         [Test]
-        public void ToString_YellowLight_Descriptive()
+        public void Red_and_GreenLight_is_Roll()
+        {
+            Assert.AreEqual(Command.Roll, Codel.Red - Codel.GreenLight);
+        }
+    }
+
+    public class ToString
+    {
+        [Test]
+        public void Discribes_RGB_and_display_name()
         {
             var str = Codel.YellowLight.ToString();
             Assert.AreEqual("#FFFFC0 light yellow", str);
         }
+    }
 
+    public class Factory
+    {
         [Test]
-        public void From_NotMatchingColour_Null()
+        public void From_not_matching_colour_returns_null()
         {
             var colour = Color.Brown;
             var codel = Codel.From(colour);
@@ -51,7 +65,7 @@ namespace PietDotNet.Tests
         }
 
         [Test]
-        public void From_MatchingColour_Matched()
+        public void From_matching_colour_returns_codel_with_matching_color()
         {
             var colour = Color.FromArgb(255, 255, 255);
             var codel = Codel.From(colour);

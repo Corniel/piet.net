@@ -154,7 +154,7 @@ individual commands are explained below.
   result back on the stack.
 
 * **subtract**: Pops the top two values off the stack, calculates the second
-*   top value minus the top value, and pushes the result back on the stack.
+  top value minus the top value, and pushes the result back on the stack.
 
 * **multiply**: Pops the top two values off the stack, multiplies them, and 
   pushes the result back on the stack.

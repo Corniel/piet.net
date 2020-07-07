@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 
-namespace PietDotNet
+namespace PietDotNet.Communication
 {
-    public class ConsoleInOut : IInOut
+    internal class ConsoleIO : InOut
     {
-        public ConsoleInOut()
+        public ConsoleIO()
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;

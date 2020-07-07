@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>PietDotNet.Tests</RootNamespace>
     <AssemblyName>PietDotNet.Tests</AssemblyName>
   </PropertyGroup>
@@ -12,11 +12,22 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="..\..\programs\alphabet.png" Link="Programs\alphabet.png" />
+    <EmbeddedResource Include="..\..\programs\day_of_week.png" Link="Programs\day_of_week.png" />
+    <EmbeddedResource Include="..\..\programs\euclids_algorithm.png" Link="Programs\euclids_algorithm.png" />
+    <EmbeddedResource Include="..\..\programs\gnome_sort.png" Link="Programs\gnome_sort.png" />
     <EmbeddedResource Include="..\..\programs\hello_world.png" Link="Programs\hello_world.png" />
     <EmbeddedResource Include="..\..\programs\hello_world_artistic.gif" Link="Programs\hello_world_artistic.gif" />
     <EmbeddedResource Include="..\..\programs\hello_world_big.gif" Link="Programs\hello_world_big.gif" />
+    <EmbeddedResource Include="..\..\programs\hello_world_globe.png" Link="Programs\hello_world_globe.png" />
     <EmbeddedResource Include="..\..\programs\Fibonacci_Numbers.gif" Link="Programs\fibonacci_numbers.gif" />
+
+    <EmbeddedResource Include="..\..\programs\multi_codel_program.gif" Link="Programs\multi_codel_program.gif" />
     <EmbeddedResource Include="..\..\programs\pi_052.png" Link="Programs\pi_052.png" />
+    <EmbeddedResource Include="..\..\programs\pong.png" Link="Programs\pong.png" />
+    <EmbeddedResource Include="..\..\programs\power_function.png" Link="Programs\power_function.png" />
+    <EmbeddedResource Include="..\..\programs\prime_tester.png" Link="Programs\prime_tester.png" />
+    <EmbeddedResource Include="..\..\programs\tetris.png" Link="Programs\tetris.png" />
   </ItemGroup>
 
   <ItemGroup>

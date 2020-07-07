@@ -1,12 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.Extensions.Logging;
+using PietDotNet.Communication;
+using PietDotNet.Logging;
+using System;
 using System.IO;
-using System.Text;
 
 namespace PietDotNet
 {
     public static class Piet
     {
+        private static readonly InOut ConsoleIO = new ConsoleIO();
+
         public static void Main(params string[] args)
         {
             if (args is null || args.Length == 0)
@@ -14,11 +17,22 @@ namespace PietDotNet
                 Console.WriteLine("Specify a program.");
                 return;
             }
+            var file = new FileInfo(args[0]);
+            
+            if(!file.Exists)
+            {
+                Console.WriteLine($"Program {file.FullName} does not exist.");
+                return;
+            }
 
-            var program = Program.From(new FileInfo(args[0]));
+            var logLevel = args.Length > 1 && Enum.TryParse<LogLevel>(args[1], true, out var parsed)
+                ? parsed 
+                : LogLevel.Error;
 
-            var interpreter = new Interpreter(program);
-            interpreter.Run();
+            var program = Program.From(file);
+            var logger = new ConsoleLogger(logLevel);
+
+            program.Run(ConsoleIO, logger);
         }
     }
 }

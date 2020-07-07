@@ -3,7 +3,7 @@ using System;
 
 namespace PietDotNet.Logging
 {
-    public class ConsoleLogger : ILogger
+    internal class ConsoleLogger : ILogger
     {
         public ConsoleLogger(LogLevel minLevel = LogLevel.Information)
         {
@@ -21,7 +21,10 @@ namespace PietDotNet.Logging
 
         public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
         {
-            Console.Error.WriteLine($"{logLevel} {formatter(state, exception)}");
+            if (IsEnabled(logLevel))
+            {
+                Console.Error.WriteLine($"{logLevel} {formatter(state, exception)}");
+            }
         }
     }
 }

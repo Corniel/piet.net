@@ -102,11 +102,11 @@ namespace PietDotNet
         /// <summary>The (Hex based) RGB code of the colour.</summary>
         public string RgbCode { get; }
 
-        /// <summary>Gets the <see cref="Delta"/> of tho <see cref="Codel"/>s.</summary>
-        public static Delta operator -(Codel l, Codel r) => l.Subtract(r);
+        /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Codel"/>s.</summary>
+        public static Command operator -(Codel l, Codel r) => l.Subtract(r);
 
-        /// <summary>Gets the <see cref="Delta"/> of tho <see cref="Codel"/>s.</summary>
-        private Delta Subtract(Codel other)
+        /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Codel"/>s.</summary>
+        private Command Subtract(Codel other)
         {
             if(IsBlackOrWhite || other.IsBlackOrWhite)
             {
@@ -114,7 +114,7 @@ namespace PietDotNet
             }
             var h = Hue - other.Hue;
             var l = Lightness - other.Lightness;
-            return new Delta(h, l);
+            return new Command(h, l);
         }
 
         /// <inheritdoc />

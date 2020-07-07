@@ -36,18 +36,23 @@ namespace PietDotNet
         public Codel this[Point pointer] => OnCanvas(pointer) ? _canvas[pointer.X, pointer.Y] : Codel.Black;
 
         /// <summary>Gets the value of the colour block.</summary>
-        /// <param name="pointer">
-        /// A point of the program that is member of the colour block.
+        public ColourBlock SelectBlock(State state) => SelectBlock(state.Pointer.Position);
+
+        /// <summary>Gets the value of the colour block.</summary>
+        /// <param name="position">
+        /// A position of the program that is member of the colour block.
         /// </param>
-        public ColourBlock Block(Point pointer)
+        public ColourBlock SelectBlock(Point position)
         {
-            if (this[pointer].IsBlack)
+
+            if (this[position].IsBlack)
             {
                 return ColourBlock.Border;
             }
-            var val = _blocks[pointer.X, pointer.Y];
+
+            var val = _blocks[position.X, position.Y];
             return val is null
-                ? DetermineColourBlock(pointer)
+                ? DetermineColourBlock(position)
                 : val;
         }
 
@@ -75,12 +80,10 @@ namespace PietDotNet
 
             while (todo.TryDequeue(out var p))
             {
-                // Black, or white (or not on canvas).
-                if (this[p].IsBlack) continue;
-                // Already visited.
-                if (visited.Contains(p)) continue;
-                // Already with a value.
-                if (_blocks[p.X, p.Y] != null) continue;
+                if (this[p].IsBlack ||
+                    visited.Contains(p) ||
+                    _blocks[p.X, p.Y] != null) continue;
+
                 // We don't want to do things twice.
                 if (!visited.Add(p)) continue;
 

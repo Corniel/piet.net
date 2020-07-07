@@ -1,6 +1,6 @@
-﻿namespace PietDotNet
+﻿namespace PietDotNet.Communication
 {
-    public interface IInOut
+    public interface InOut
     {
         long? InInt();
         char? InChr();

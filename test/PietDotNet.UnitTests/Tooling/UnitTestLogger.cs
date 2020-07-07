@@ -7,7 +7,7 @@ namespace PietDotNet.Tests.Tooling
 {
     public class UnitTestLogger : List<LogRecord>, ILogger
     {
-        public UnitTestLogger(LogLevel minLevel = LogLevel.Information) => MinLevel = minLevel;
+        public UnitTestLogger(LogLevel minLevel = LogLevel.Trace) => MinLevel = minLevel;
 
         public LogLevel MinLevel { get; }
 

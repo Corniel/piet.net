@@ -13,7 +13,7 @@ namespace PietDotNet
         public static readonly ColourBlock Border = new Border();
 
         private readonly ISet<Point> _codels;
-        private readonly Dictionary<Edge, Point> _edges = new Dictionary<Edge, Point>(8);
+        private readonly Dictionary<Direction, Point> _edges = new Dictionary<Direction, Point>(8);
 
         protected ColourBlock() { }
 
@@ -32,19 +32,20 @@ namespace PietDotNet
             var yMin = _codels.Min(p => p.Y);
             var yMax = _codels.Max(p => p.Y);
 
-            _edges[new Edge(DirectionPointer.left, /*  */ CodelChooser.left)] = _codels.Where(p => p.X == xMin).OrderByDescending(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.left, /* */ CodelChooser.right)] = _codels.Where(p => p.X == xMin).OrderBy(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.right, /* */ CodelChooser.left)] = _codels.Where(p => p.X == xMax).OrderBy(p => p.Y).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.right, /**/ CodelChooser.right)] = _codels.Where(p => p.X == xMax).OrderByDescending(p => p.Y).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.left, /*  */ CodelChooser.left)] = _codels.Where(p => p.X == xMin).OrderByDescending(p => p.Y).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.left, /* */ CodelChooser.right)] = _codels.Where(p => p.X == xMin).OrderBy(p => p.Y).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.right, /* */ CodelChooser.left)] = _codels.Where(p => p.X == xMax).OrderBy(p => p.Y).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.right, /**/ CodelChooser.right)] = _codels.Where(p => p.X == xMax).OrderByDescending(p => p.Y).FirstOrDefault();
 
-            _edges[new Edge(DirectionPointer.top, /*   */ CodelChooser.left)] = _codels.Where(p => p.Y == yMin).OrderBy(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.Y == yMin).OrderByDescending(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == yMax).OrderByDescending(p => p.X).FirstOrDefault();
-            _edges[new Edge(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == yMax).OrderBy(p => p.X).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.top, /*   */ CodelChooser.left)] = _codels.Where(p => p.Y == yMin).OrderBy(p => p.X).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.top, /*  */ CodelChooser.right)] = _codels.Where(p => p.Y == yMin).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.down, /*  */ CodelChooser.left)] = _codels.Where(p => p.Y == yMax).OrderByDescending(p => p.X).FirstOrDefault();
+            _edges[new Direction(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == yMax).OrderBy(p => p.X).FirstOrDefault();
         }
 
-        public bool IsBlack => Codel == Codel.Black;
-        public bool IsWhite => Codel == Codel.White;
+        public bool HasColour => Codel.HasColour;
+        public bool IsBlack => Codel.IsBlack;
+        public bool IsWhite => Codel.IsWhite;
 
         public virtual Codel Codel { get; }
 
@@ -52,7 +53,13 @@ namespace PietDotNet
 
         public bool Contains(Point point) => _codels.Contains(point);
 
-        public Point GetEdge(Edge edge) => _edges[edge];
+        public Pointer Leave(Pointer pointer)
+        {
+            var position = GetEdge(pointer).Next(pointer.DP);
+            return pointer.Move(position);
+        }
+
+        public Point GetEdge(Direction direction) => _edges[direction];
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         private string DebuggerDisplay => $"{Codel.Colour.Debug()}, Value: {Value}";
