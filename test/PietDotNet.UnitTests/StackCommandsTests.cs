@@ -4,7 +4,7 @@ using PietDotNet.Tests.Tooling;
 using PietDotNet.Validation;
 using System;
 
-namespace StackCommand
+namespace StackCommandTests
 {
     public class Push
     {

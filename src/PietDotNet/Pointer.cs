@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 
 namespace PietDotNet
 {
@@ -8,14 +7,14 @@ namespace PietDotNet
     {
         public static readonly Pointer Initial;
 
-        private Pointer(Point position, DirectionPointer dp, CodelChooser cc)
+        private Pointer(Codel position, DirectionPointer dp, CodelChooser cc)
         {
             Position = position;
             DP = dp;
             CC = cc;
         }
 
-        public Point Position { get; }
+        public Codel Position { get; }
         public DirectionPointer DP { get; }
         public CodelChooser CC { get; }
 
@@ -25,7 +24,7 @@ namespace PietDotNet
             CC);
 
         /// <summary>Moves the pointer based on the <see cref="DirectionPointer"/>.</summary>
-        public Pointer Move(Point position) => new Pointer(
+        public Pointer Move(Codel position) => new Pointer(
             position,
             DP,
             CC);
@@ -43,7 +42,7 @@ namespace PietDotNet
             CC.Switch(@switch));
 
         /// <inheritdoc />
-        public override string ToString() => $"{Position.Debug()}, DP: {DP}, CC: {CC}";
+        public override string ToString() => $"{Position}, DP: {DP}, CC: {CC}";
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Pointer other && Equals(other);
@@ -51,7 +50,7 @@ namespace PietDotNet
         /// <inheritdoc />
         public bool Equals(Pointer other)
         {
-            return Position == other.Position
+            return Position.Equals(other.Position)
                 && DP == other.DP
                 && CC == other.CC;
         }

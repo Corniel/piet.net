@@ -1,4 +1,4 @@
-﻿namespace PietDotNet.Communication
+﻿namespace PietDotNet.IO
 {
     public interface InOut
     {

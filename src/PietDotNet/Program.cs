@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
 using System.Linq;
 
 namespace PietDotNet
@@ -12,18 +11,18 @@ namespace PietDotNet
     /// paintings. The language is named after Piet Mondrian, who pioneered the
     /// field of geometric abstract art.
     /// </remarks>
-    public class Program
+    public class Program : IEnumerable<Colour>
     {
-        private readonly Codel[,] _canvas;
-        private readonly ColourBlock[,] _blocks;
+        private readonly Colour[][] _codels;
+        private readonly ColourBlock[][] _blocks;
 
         /// <summary>Creates a new instance of a Piet <see cref="Program"/>.</summary>
-        public Program(Codel[,] canvas)
+        internal Program(Colour[][] codels)
         {
-            _canvas = canvas;
-            Width = canvas.GetLength(0);
-            Height = canvas.GetLength(1);
-            _blocks = new ColourBlock[Width, Height];
+            _codels = codels;
+            Width = codels.Length;
+            Height = codels[0].Length;
+            _blocks = Jagged.Array<ColourBlock>(Width, Height);
         }
 
         /// <summary>Gets the width of the program.</summary>
@@ -33,7 +32,7 @@ namespace PietDotNet
         public int Height { get; }
 
         /// <summary>Gets the codel of the pointer.</summary>
-        public Codel this[Point pointer] => OnCanvas(pointer) ? _canvas[pointer.X, pointer.Y] : Codel.Black;
+        public Colour this[Codel position] => OnCanvas(position) ? _codels[position.X][position.Y] : Colour.Black;
 
         /// <summary>Gets the value of the colour block.</summary>
         public ColourBlock SelectBlock(State state) => SelectBlock(state.Pointer.Position);
@@ -42,7 +41,7 @@ namespace PietDotNet
         /// <param name="position">
         /// A position of the program that is member of the colour block.
         /// </param>
-        public ColourBlock SelectBlock(Point position)
+        public ColourBlock SelectBlock(Codel position)
         {
 
             if (this[position].IsBlack)
@@ -50,31 +49,31 @@ namespace PietDotNet
                 return ColourBlock.Border;
             }
 
-            var val = _blocks[position.X, position.Y];
+            var val = _blocks[position.X][position.Y];
             return val is null
                 ? DetermineColourBlock(position)
                 : val;
         }
 
         /// <summary>Returns true if the point is on canvas, otherwise false.</summary>
-        public bool OnCanvas(Point pointer)
+        public bool OnCanvas(Codel codel)
         {
-            return pointer.X >= 0
-                && pointer.Y >= 0
-                && pointer.X < Width
-                && pointer.Y < Height;
+            return codel.X >= 0
+                && codel.Y >= 0
+                && codel.X < Width
+                && codel.Y < Height;
         }
 
         /// <summary>Determines the value of the colour block.</summary>
         /// <param name="pointer">
         /// A point of the program that is member of the colour block.
         /// </param>
-        private ColourBlock DetermineColourBlock(Point pointer)
+        private ColourBlock DetermineColourBlock(Codel pointer)
         {
             var codel = this[pointer];
             var counter = 0;
-            var visited = new HashSet<Point>();
-            var todo = new Queue<Point>();
+            var visited = new HashSet<Codel>();
+            var todo = new Queue<Codel>();
 
             todo.Enqueue(pointer);
 
@@ -82,7 +81,7 @@ namespace PietDotNet
             {
                 if (this[p].IsBlack ||
                     visited.Contains(p) ||
-                    _blocks[p.X, p.Y] != null) continue;
+                    _blocks[p.X][p.Y] != null) continue;
 
                 // We don't want to do things twice.
                 if (!visited.Add(p)) continue;
@@ -102,65 +101,24 @@ namespace PietDotNet
 
             foreach (var p in block)
             {
-                _blocks[p.X, p.Y] = block;
+                _blocks[p.X][p.Y] = block;
             }
             return block;
         }
+  
+        public IEnumerator<Colour> GetEnumerator() => Enumerate().GetEnumerator();
 
-        /// <summary>Creates a <see cref="Program"/> from a <see cref="FileInfo"/>.</summary>
-        public static Program From(FileInfo file, int codelSize = 1)
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+ 
+        private IEnumerable<Colour> Enumerate()
         {
-            Guard.NotNull(file, nameof(file));
-
-            if (!file.Exists)
+            for (var x = 0; x < Width; x++)
             {
-                throw new FileNotFoundException($"Program '{file}' does not exist.", file.FullName);
-            }
-            return From(file.OpenRead(), codelSize);
-        }
-
-        /// <summary>Creates a <see cref="Program"/> from a <see cref="Stream"/>.</summary>
-        public static Program From(Stream stream, int codelSize = 1)
-        {
-            Guard.NotNull(stream, nameof(stream));
-
-            var image = Image.FromStream(stream);
-            return From(new Bitmap(image), codelSize);
-        }
-
-        /// <summary>Creates a <see cref="Program"/> from a <see cref="Bitmap"/>.</summary>
-        public static Program From(Bitmap bitmap, int codelSize = 1)
-        {
-            Guard.NotNull(bitmap, nameof(bitmap));
-            Guard.Positive(codelSize, nameof(codelSize));
-
-            if (bitmap.Width % codelSize != 0 || bitmap.Height % codelSize != 0)
-            {
-                throw new BadImageFormatException($"The dimensions ({bitmap.Width} x {bitmap.Height}) do not go along with a codel size of {codelSize}.");
-            }
-
-            var width = bitmap.Width / codelSize;
-            var height = bitmap.Height / codelSize;
-            var canvas = new Codel[width, height];
-            // Get the codels
-            for (var y = 0; y < height; y++)
-            {
-                for (var x = 0; x < width; x++)
+                for (var y = 0; y < Height; y++)
                 {
-                    var colour = bitmap.GetPixel(x * codelSize, y * codelSize);
-                    var type = Codel.From(colour);
-
-                    if (type is null)
-                    {
-                        throw new BadImageFormatException($"The colour '#{colour.R.ToString("X2")}{colour.G.ToString("X2")}{colour.B.ToString("X2")}' of codel ({x}, {y}) is not allowed.");
-                    }
-                    canvas[x, y] = type;
+                    yield return _codels[x][y];
                 }
             }
-
-            var program = new Program(canvas);
-
-            return program;
         }
     }
 }

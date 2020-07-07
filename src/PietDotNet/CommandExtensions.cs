@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using PietDotNet.Communication;
+using PietDotNet.IO;
 using PietDotNet.Validation;
 using System;
 using System.Collections.Generic;

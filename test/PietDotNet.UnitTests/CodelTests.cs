@@ -1,18 +1,18 @@
 ﻿using NUnit.Framework;
-using System.Drawing;
+using PietDotNet;
 
-namespace PietDotNet.Tests
+namespace CodelTests
 {
-    public class PointNavigationTest
+    public class Next
     {
         [TestCase(+0, -1, DirectionPointer.top)]
         [TestCase(+1, +0, DirectionPointer.right)]
         [TestCase(+0, +1, DirectionPointer.down)]
         [TestCase(-1, +0, DirectionPointer.left)]
-        public void Next(int x, int y, DirectionPointer dp)
+        public void with_dp(int x, int y, DirectionPointer dp)
         {
-            var expected = new Point(x, y);
-            var next = new Point(0, 0).Next(dp);
+            var expected = new Codel(x, y);
+            var next = new Codel(0, 0).Next(dp);
             Assert.AreEqual(expected, next);
         }
     }

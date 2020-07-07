@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
-using PietDotNet.Communication;
+using PietDotNet.Drawing;
+using PietDotNet.IO;
 using PietDotNet.Logging;
 using System;
 using System.IO;
@@ -29,7 +30,7 @@ namespace PietDotNet
                 ? parsed 
                 : LogLevel.Error;
 
-            var program = Program.From(file);
+            var program = Bitmapping.Load(file);
             var logger = new ConsoleLogger(logLevel);
 
             program.Run(ConsoleIO, logger);

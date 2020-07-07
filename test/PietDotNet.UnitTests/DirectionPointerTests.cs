@@ -1,8 +1,9 @@
 ﻿using NUnit.Framework;
+using PietDotNet;
 
-namespace PietDotNet.Tests
+namespace DirectionPointerTests
 {
-    public class DirectionPointerTest
+    public class Rotate
     {
         [TestCase(DirectionPointer.down, -4, DirectionPointer.down)]
         [TestCase(DirectionPointer.down, +4, DirectionPointer.down)]
@@ -10,9 +11,9 @@ namespace PietDotNet.Tests
         [TestCase(DirectionPointer.down, +5, DirectionPointer.left)]
         [TestCase(DirectionPointer.left, +0, DirectionPointer.left)]
         [TestCase(DirectionPointer.left, +3, DirectionPointer.down)]
-        public void Rotate(DirectionPointer direction, int rotate, DirectionPointer expected)
+        public void with_dp_and_steps(DirectionPointer direction, int steps, DirectionPointer expected)
         {
-            var rotated = direction.Rotate(rotate);
+            var rotated = direction.Rotate(steps);
             Assert.AreEqual(expected, rotated);
         }
     }

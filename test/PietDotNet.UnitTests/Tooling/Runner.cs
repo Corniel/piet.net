@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PietDotNet.Drawing;
+using System;
 
 namespace PietDotNet.Tests.Tooling
 {
@@ -31,7 +32,7 @@ namespace PietDotNet.Tests.Tooling
         internal static Program Load(string path, int codelsize = 1)
         {
             using var stream = typeof(Runner).Assembly.GetManifestResourceStream("PietDotNet.Tests.Programs." + path);
-            return Program.From(stream, codelsize);
+            return Bitmapping.Load(stream, codelsize);
         }
     }
 }

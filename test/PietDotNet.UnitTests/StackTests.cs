@@ -1,12 +1,13 @@
 ﻿using NUnit.Framework;
+using PietDotNet;
 using PietDotNet.Tests.Tooling;
 
-namespace PietDotNet.Tests
+namespace StackTests
 {
-    public class StackTest
+    public class Enumerator
     {
         [Test]
-        public void Enumerator_iterates_from_top_to_bottom()
+        public void Iterates_from_top_to_bottom()
         {
             var stack = Stack.Empty
                 .Push(0)

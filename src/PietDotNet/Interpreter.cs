@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using PietDotNet.Communication;
+using PietDotNet.IO;
 using PietDotNet.Validation;
 using System;
 using System.Collections.Generic;
@@ -20,7 +20,7 @@ namespace PietDotNet
                 {
                     state = Traverse(state, program, logger);
                     var current = program.SelectBlock(state);
-                    var cmd = current.Codel - state.Codel;
+                    var cmd = current.Colour - state.Colour;
                     state = cmd.TryExecute(state, io, logger);
                     state = state.SelectBlock(current);
                 }

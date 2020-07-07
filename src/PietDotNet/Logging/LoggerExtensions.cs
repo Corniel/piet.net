@@ -1,6 +1,5 @@
 ﻿using PietDotNet;
 using System;
-using System.Drawing;
 
 namespace Microsoft.Extensions.Logging
 {
@@ -26,14 +25,14 @@ namespace Microsoft.Extensions.Logging
         public static void Command(this ILogger logger, State state, Command cmd, Exception exception)
         {
             var name = cmd.Name.ToUpperInvariant().Substring(0, 3);
-            logger.LogError($"{state.Position.Debug()} {name}() ERROR: {exception.Message}");
+            logger.LogError($"{state.Position} {name}() ERROR: {exception.Message}");
         }
 
         private static string Debug(this State state)
         {
             var c = state.Pointer;
             var dir = $"{c.DP.ToString()[0]}{c.CC.ToString()[0]}".ToUpperInvariant();
-            return $"{state.Position.Debug()} {state.Codel.Colour.Debug()} {dir}";
+            return $"{state.Position} {state.Colour.Debug()} {dir}";
         }
     }
 }

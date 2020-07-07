@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
 using PietDotNet;
 using PietDotNet.Tests.Tooling;
-using System.Drawing;
 
 namespace ColourBlockTest
 {
@@ -18,9 +17,9 @@ namespace ColourBlockTest
         [TestCase(1, 4, DirectionPointer.down, /* */ CodelChooser.right)]
         public void From_complex_form(int x, int y, DirectionPointer dp, CodelChooser cc)
         {
-            var expected = new Point(x, y);
+            var expected = new Codel(x, y);
             var program = Runner.Load("Snippets.edge.png");
-            var block = program.SelectBlock(new Point(2, 2));
+            var block = program.SelectBlock(new Codel(2, 2));
             var direction = new Direction(dp, cc);
 
             var actual = block.GetEdge(direction);
@@ -39,7 +38,7 @@ namespace ColourBlockTest
         [TestCase(DirectionPointer.down, /* */ CodelChooser.right)]
         public void From_1x1_form(DirectionPointer dp, CodelChooser cc)
         {
-            var expected = new Point(9, 0);
+            var expected = new Codel(9, 0);
             var program = Runner.Load("fibonacci_numbers.gif");
             var block = program.SelectBlock(expected);
             var direction = new Direction(dp, cc);

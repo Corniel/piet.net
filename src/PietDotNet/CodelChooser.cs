@@ -10,10 +10,9 @@ namespace PietDotNet
 
     public static class ClodelChooserExtensions
     {
-        public static CodelChooser Switch(this CodelChooser cc, long @switch)
+        public static CodelChooser Switch(this CodelChooser cc, long times)
         {
-            var value = (long)cc + Math.Abs(@switch);
-            value &= 1;
+            var value = ((long)cc + times) % 2;
             return value == 0 ? CodelChooser.left : CodelChooser.right;
         }
     }

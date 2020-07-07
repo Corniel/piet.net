@@ -9,7 +9,7 @@ using System.Linq;
 namespace PietDotNet.Diagnostics
 {
     /// <summary>Allows the debugger to display collections.</summary>
-    public class CollectionDebugView
+    internal class CollectionDebugView
     {
         /// <summary>Constructor.</summary>
         public CollectionDebugView(IEnumerable enumeration) => Enumeration = enumeration;

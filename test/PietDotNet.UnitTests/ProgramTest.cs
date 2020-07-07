@@ -1,6 +1,5 @@
 ﻿using NUnit.Framework;
 using PietDotNet.Tests.Tooling;
-using System.Drawing;
 
 namespace PietDotNet.Tests
 {
@@ -10,28 +9,28 @@ namespace PietDotNet.Tests
         public void OnCanvas_Negative_False()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            Assert.False(program.OnCanvas(new Point(-1, 0)));
+            Assert.False(program.OnCanvas(new Codel(-1, 0)));
         }
 
         [Test]
         public void OnCanvas_HighValue_False()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            Assert.False(program.OnCanvas(new Point(0, 1204)));
+            Assert.False(program.OnCanvas(new Codel(0, 1204)));
         }
 
         [Test]
         public void OnCanvas_RightBottom_True()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            Assert.True(program.OnCanvas(new Point(9, 10)));
+            Assert.True(program.OnCanvas(new Codel(9, 10)));
         }
 
         [Test]
         public void Value_White_IsReturned()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            var value = program.SelectBlock(new Point(8, 9)).Value;
+            var value = program.SelectBlock(new Codel(8, 9)).Value;
             Assert.AreEqual(8, value);
         }
 
@@ -40,7 +39,7 @@ namespace PietDotNet.Tests
         {
             var program = Runner.Load("fibonacci_numbers.gif");
 
-            Assert.AreEqual(ColourBlock.Border,  program.SelectBlock(new Point(2, 2)));
+            Assert.AreEqual(ColourBlock.Border,  program.SelectBlock(new Codel(2, 2)));
         }
 
         [Test]
@@ -48,14 +47,14 @@ namespace PietDotNet.Tests
         {
             var program = Runner.Load("fibonacci_numbers.gif");
 
-            Assert.AreEqual(ColourBlock.Border, program.SelectBlock(new Point(-1, 0)));
+            Assert.AreEqual(ColourBlock.Border, program.SelectBlock(new Codel(-1, 0)));
         }
 
         [Test]
         public void Value_MinimumColourBlock_1()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            var value = program.SelectBlock(new Point(0, 5)).Value;
+            var value = program.SelectBlock(new Codel(0, 5)).Value;
             Assert.AreEqual(1, value);
         }
 
@@ -63,7 +62,7 @@ namespace PietDotNet.Tests
         public void Value_BiggerolourBlock_1()
         {
             var program = Runner.Load("fibonacci_numbers.gif");
-            var value = program.SelectBlock(new Point(8, 0)).Value;
+            var value = program.SelectBlock(new Codel(8, 0)).Value;
             Assert.AreEqual(10, value);
         }
     }

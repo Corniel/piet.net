@@ -1,6 +1,4 @@
-﻿using System;
-using System.Drawing;
-using System.Text;
+﻿using System.Text;
 
 namespace PietDotNet
 {
@@ -9,7 +7,7 @@ namespace PietDotNet
         public static State Intial(Program program)
         {
             Guard.NotNull(program, nameof(program));
-            return new State(Pointer.Initial, Stack.Empty, program.SelectBlock((Point)default));
+            return new State(Pointer.Initial, Stack.Empty, program.SelectBlock((Codel)default));
         }
 
         private State(Pointer pointer, Stack stack, ColourBlock block)
@@ -22,8 +20,8 @@ namespace PietDotNet
         public Pointer Pointer { get; }
         public Stack Stack { get; }
         public ColourBlock Block { get; }
-        public Point Position => Pointer.Position;
-        public Codel Codel => Block.Codel;
+        public Codel Position => Pointer.Position;
+        public Colour Colour => Block.Colour;
         public long Value => Block.Value;
 
         public State SelectBlock(ColourBlock block) => new State(
@@ -57,7 +55,7 @@ namespace PietDotNet
             var sb = new StringBuilder();
 
             sb.Append($"Cursor: {Pointer}, ");
-            sb.Append($"Block: {Block.Codel.Colour.Debug()}, ");
+            sb.Append($"Block: {Block.Colour.Debug()}, ");
             sb.Append($"Value: {Value}, ");
             sb.Append($"Stack: {{ {string.Join(", ", Stack)} }}");
 

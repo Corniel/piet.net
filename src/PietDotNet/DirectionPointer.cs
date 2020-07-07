@@ -12,9 +12,9 @@ namespace PietDotNet
 
     public static class DirectionPointerExtensions
     {
-        public static DirectionPointer Rotate(this DirectionPointer dp, long rotate)
+        public static DirectionPointer Rotate(this DirectionPointer dp, long steps)
         {
-            return (DirectionPointer)((long)dp + rotate).Modulo(4);
+            return (DirectionPointer)((long)dp + steps).Modulo(4);
         }
     }
 }

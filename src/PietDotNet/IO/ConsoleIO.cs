@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace PietDotNet.Communication
+namespace PietDotNet.IO
 {
     internal class ConsoleIO : InOut
     {

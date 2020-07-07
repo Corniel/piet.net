@@ -1,29 +1,30 @@
 ﻿using NUnit.Framework;
+using PietDotNet;
 
-namespace PietDotNet.Tests
+namespace CodelChooserTests
 {
-    public class CodelChooserSwitchTest
+    public class Switch
     {
         [Test]
-        public void Switch_left_odd_times_becomes_right()
+        public void Left_odd_times_becomes_right()
         {
             Assert.AreEqual(CodelChooser.right, CodelChooser.left.Switch(3));
         }
 
         [Test]
-        public void Switch_left_even_times_stays_left()
+        public void Left_even_times_stays_left()
         {
             Assert.AreEqual(CodelChooser.left, CodelChooser.left.Switch(4));
         }
 
         [Test]
-        public void Switch_right_odd_times_becomes_left()
+        public void Right_odd_times_becomes_left()
         {
             Assert.AreEqual(CodelChooser.left, CodelChooser.right.Switch(3));
         }
 
         [Test]
-        public void Switch_right_even_times_stays_right()
+        public void Right_even_times_stays_right()
         {
             Assert.AreEqual(CodelChooser.right, CodelChooser.right.Switch(4));
         }

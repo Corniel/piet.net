@@ -2,25 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
 
 namespace PietDotNet
 {
     [DebuggerDisplay("{DebuggerDisplay}"), DebuggerTypeProxy(typeof(CollectionDebugView))]
-    public class ColourBlock : IEnumerable<Point>
+    public class ColourBlock : IEnumerable<Codel>
     {
         public static readonly ColourBlock Border = new Border();
 
-        private readonly ISet<Point> _codels;
-        private readonly Dictionary<Direction, Point> _edges = new Dictionary<Direction, Point>(8);
+        private readonly ISet<Codel> _codels;
+        private readonly Dictionary<Direction, Codel> _edges = new Dictionary<Direction, Codel>(8);
 
         protected ColourBlock() { }
 
-        public ColourBlock(Codel codel, IEnumerable<Point> codels)
+        public ColourBlock(Colour colour, IEnumerable<Codel> codels)
         {
-            Codel = Guard.NotNull(codel, nameof(codel));
-            _codels = new HashSet<Point>(Guard.HasAny(codels, nameof(codels)));
+            Colour = Guard.NotNull(colour, nameof(colour));
+            _codels = new HashSet<Codel>(Guard.HasAny(codels, nameof(codels)));
 
             InitEdges();
         }
@@ -43,15 +42,15 @@ namespace PietDotNet
             _edges[new Direction(DirectionPointer.down, /* */ CodelChooser.right)] = _codels.Where(p => p.Y == yMax).OrderBy(p => p.X).FirstOrDefault();
         }
 
-        public bool HasColour => Codel.HasColour;
-        public bool IsBlack => Codel.IsBlack;
-        public bool IsWhite => Codel.IsWhite;
+        public bool HasColour => Colour.NotBlackOrWhite;
+        public bool IsBlack => Colour.IsBlack;
+        public bool IsWhite => Colour.IsWhite;
 
-        public virtual Codel Codel { get; }
+        public virtual Colour Colour { get; }
 
         public int Value => _codels.Count;
 
-        public bool Contains(Point point) => _codels.Contains(point);
+        public bool Contains(Codel codel) => _codels.Contains(codel);
 
         public Pointer Leave(Pointer pointer)
         {
@@ -59,13 +58,13 @@ namespace PietDotNet
             return pointer.Move(position);
         }
 
-        public Point GetEdge(Direction direction) => _edges[direction];
+        public Codel GetEdge(Direction direction) => _edges[direction];
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private string DebuggerDisplay => $"{Codel.Colour.Debug()}, Value: {Value}";
+        private string DebuggerDisplay => $"{Colour.Name}, Value: {Value}";
 
         #region IEnumerable
-        public IEnumerator<Point> GetEnumerator() => _codels.GetEnumerator();
+        public IEnumerator<Codel> GetEnumerator() => _codels.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

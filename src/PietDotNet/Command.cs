@@ -32,7 +32,7 @@ namespace PietDotNet
         public static readonly Command OutInt = /*   */ new Command(5, 1);
         public static readonly Command OutChr = /*   */ new Command(5, 2);
 
-        internal Command(int hue, int lightness)
+        private Command(int hue, int lightness)
         {
             Hue = hue.Modulo(6);
             Lightness = lightness.Modulo(3);
@@ -59,8 +59,17 @@ namespace PietDotNet
         /// <inheritdoc />
         public override int GetHashCode() => (Hue << 2) + Lightness;
 
-        public static bool operator ==(Command l, Command r) => l.Equals(r);
-        public static bool operator !=(Command l, Command r) => !(l == r);
+        /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Colour"/>s.</summary>
+        internal static Command Delta(Colour current, Colour previour)
+        {
+            if (current.IsBlackOrWhite || previour.IsBlackOrWhite)
+            {
+                throw new InvalidOperationException($"A command not be determined once a black or white colour is involved.");
+            }
+            var h = current.Hue - previour.Hue;
+            var l = current.Lightness - previour.Lightness;
+            return new Command(h, l);
+        }
 
         private static Dictionary<Command, string> Names
         {
