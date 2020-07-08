@@ -29,13 +29,13 @@ namespace PietDotNet
             }
         }
 
-        public static State Execute(this Command delta, State state, InOut io)
+        public static State Execute(this Command cmd, State state, InOut io)
         {
-            if (commands.TryGetValue(delta, out var command))
+            if (commands.TryGetValue(cmd, out var command))
             {
                 return command(state, io);
             }
-            else throw new NotSupportedDelta();
+            else throw new UnkownCommand();
         }
 
         internal static State None(State state, InOut io) => state;

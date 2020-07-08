@@ -92,7 +92,7 @@ namespace PietDotNet
             var depth = stack.Second();
             var roll = stack.First() % depth;
 
-            if (depth < 0) throw new InvalidDepth();
+            if (depth < 0) throw new NegativeDepth();
             if (depth > updated.Count) throw new InsufficientStackSize();
             if (depth == 0 || roll == 0) return updated;
 
