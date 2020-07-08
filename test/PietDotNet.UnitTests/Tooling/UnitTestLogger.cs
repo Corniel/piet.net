@@ -1,13 +1,13 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using PietDotNet.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace PietDotNet.Tests.Tooling
 {
-    public class UnitTestLogger : List<LogRecord>, ILogger
+    public class UnitTestLogger : List<LogRecord>, Logger
     {
-        public UnitTestLogger(LogLevel minLevel = LogLevel.Trace) => MinLevel = minLevel;
+        public UnitTestLogger(LogLevel minLevel = LogLevel.Info) => MinLevel = minLevel;
 
         public LogLevel MinLevel { get; }
 
@@ -16,15 +16,12 @@ namespace PietDotNet.Tests.Tooling
             throw new NotSupportedException();
         }
 
-        public bool IsEnabled(LogLevel logLevel)=> logLevel >= MinLevel;
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
+        public void Log(LogLevel level, string message)
         {
-            if (IsEnabled(logLevel))
-            {
-                Add(new LogRecord(logLevel, formatter.Invoke(state, exception)));
-                Console.Error.WriteLine(this.LastOrDefault().Message);
-            }
+            if (level < MinLevel) return;
+
+            Add(new LogRecord(level, message));
+            Console.Error.WriteLine(this.LastOrDefault().Message);
         }
     }
 

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using PietDotNet.IO;
+﻿using PietDotNet.IO;
+using PietDotNet.Logging;
 using PietDotNet.Validation;
 using System;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace PietDotNet
     {
         private delegate State Executable(State state, InOut io);
 
-        public static State TryExecute(this Command cmd, State state, InOut io, ILogger logger)
+        public static State TryExecute(this Command cmd, State state, InOut io, Logger logger)
         {
             try
             {

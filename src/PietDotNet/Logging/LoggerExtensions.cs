@@ -1,32 +1,34 @@
-﻿using PietDotNet;
-using System;
+﻿using System;
 
-namespace Microsoft.Extensions.Logging
+namespace PietDotNet.Logging
 {
     internal static class LoggerExtensions
     {
-        public static void Start(this ILogger logger, State state)
+        public static void Start(this Logger logger, State state)
         {
-            logger.LogInformation($"{state.Debug()} START()");
+            logger.LogInfo($"{state.Debug()} START()");
         }
 
-        public static void Terminated(this ILogger logger, State state, long commands)
+        public static void Terminated(this Logger logger, State state, long commands)
         {
-            logger.LogInformation($"{state.Debug()} EXIT() // Terminated after {commands:#,##0} commands.");
+            logger.LogInfo($"{state.Debug()} EXIT() // Terminated after {commands:#,##0} commands.");
         }
 
-        public static void Command(this ILogger logger, State state, Command cmd)
+        public static void Command(this Logger logger, State state, Command cmd)
         {
             var name = cmd.Name.ToUpperInvariant().Substring(0, 3);
 
-            logger.LogInformation($"{state.Debug()} {name}() // [{string.Join(", ", state.Stack)}]");
+            logger.LogInfo($"{state.Debug()} {name}() // [{string.Join(", ", state.Stack)}]");
         }
 
-        public static void Command(this ILogger logger, State state, Command cmd, Exception exception)
+        public static void Command(this Logger logger, State state, Command cmd, Exception exception)
         {
             var name = cmd.Name.ToUpperInvariant().Substring(0, 3);
             logger.LogError($"{state.Position} {name}() ERROR: {exception.Message}");
         }
+
+        private static void LogError(this Logger logger, string message) => logger.Log(LogLevel.Error, message);
+        private static void LogInfo(this Logger logger, string message) => logger.Log(LogLevel.Info, message);
 
         private static string Debug(this State state)
         {

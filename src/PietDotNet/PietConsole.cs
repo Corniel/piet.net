@@ -1,15 +1,20 @@
-﻿using System;
+﻿using PietDotNet.IO;
+using PietDotNet.Logging;
+using System;
 using System.Text;
 
-namespace PietDotNet.IO
+namespace PietDotNet
 {
-    internal class ConsoleIO : InOut
+    internal class PietConsole : InOut, Logger
     {
-        public ConsoleIO()
+        public PietConsole(LogLevel minLevel = LogLevel.Error)
         {
             Console.InputEncoding = Encoding.Unicode;
             Console.OutputEncoding = Encoding.Unicode;
+            MinLevel = minLevel;
         }
+
+        private LogLevel MinLevel { get; }
 
         public char? InChr()
         {
@@ -30,5 +35,12 @@ namespace PietDotNet.IO
         public void Out(long n) => Console.Write(n);
 
         public void Out(char c) => Console.Write(c);
+
+        public void Log(LogLevel level, string message)
+        {
+            if (level < MinLevel) return;
+
+            Console.Error.WriteLine($"{level} {message}");
+        }
     }
 }
