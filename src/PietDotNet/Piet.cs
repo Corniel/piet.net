@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using PietDotNet.Drawing;
-using PietDotNet.IO;
+﻿using PietDotNet.Drawing;
 using PietDotNet.Logging;
 using System;
 using System.IO;
@@ -9,8 +7,6 @@ namespace PietDotNet
 {
     public static class Piet
     {
-        private static readonly InOut ConsoleIO = new ConsoleIO();
-
         public static void Main(params string[] args)
         {
             if (args is null || args.Length == 0)
@@ -31,9 +27,9 @@ namespace PietDotNet
                 : LogLevel.Error;
 
             var program = Bitmapping.Load(file);
-            var logger = new ConsoleLogger(logLevel);
+            var console = new PietConsole(logLevel);
 
-            program.Run(ConsoleIO, logger);
+            program.Run(console, console);
         }
     }
 }

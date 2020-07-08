@@ -7,7 +7,7 @@ namespace Program
     public class Run
     {
         [Test]
-        public void alphabet_prints_a_till_z()
+        public void Alphabet_prints_a_till_z()
         {
             var result = Runner.Run("alphabet.png");
             RunAssert.HasStringOutput(result, "abcdefghijklmnopqrstuvwxyz");

@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using PietDotNet.IO;
+﻿using PietDotNet.IO;
+using PietDotNet.Logging;
 using PietDotNet.Validation;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ namespace PietDotNet
 {
     public static class Interpreter
     {
-        public static void Run(this Program program, InOut io, ILogger logger, long maxRuns = long.MaxValue)
+        public static void Run(this Program program, InOut io, Logger logger, long maxRuns = long.MaxValue)
         {
             long runs = 0;
             var state = State.Intial(program);
@@ -31,7 +31,7 @@ namespace PietDotNet
             }
         }
 
-        private static State Traverse(State state, Program program, ILogger logger)
+        private static State Traverse(State state, Program program, Logger logger)
         {
             var traversed = state.PointerLeaves(program.SelectBlock(state));
             var target = program.SelectBlock(traversed);
@@ -52,7 +52,7 @@ namespace PietDotNet
         /// If after eight attempts the interpreter cannot leave its current
         /// colour block, there is no way out and the program terminates. 
         /// </remarks>
-        internal static State TraverseBlack(State state, Program program, ILogger logger, int retry = 0)
+        internal static State TraverseBlack(State state, Program program, Logger logger, int retry = 0)
         {
             if (retry >= 8) throw new Terminated();
 
@@ -88,7 +88,7 @@ namespace PietDotNet
         ///    its route entirely within a white block, there is no way out of
         ///    the white block and execution should terminate.
         /// </remarks>
-        private static State TraverseWhite(State state, Program program, ILogger logger)
+        private static State TraverseWhite(State state, Program program, Logger logger)
         {
             var visits = new HashSet<Pointer>();
 
