@@ -62,7 +62,5 @@ namespace PietDotNet
                 ^ (DP.GetHashCode() << 16)
                 ^ (CC.GetHashCode() << 24);
         }
-    
-        public static implicit operator Direction(Pointer pointer) => new Direction(pointer.DP, pointer.CC);
     }
 }

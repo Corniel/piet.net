@@ -70,7 +70,7 @@ namespace PietDotNet
         /// </param>
         private ColourBlock DetermineColourBlock(Codel pointer)
         {
-            var codel = this[pointer];
+            var colour = this[pointer];
             var counter = 0;
             var visited = new HashSet<Codel>();
             var todo = new Queue<Codel>();
@@ -86,8 +86,8 @@ namespace PietDotNet
                 // We don't want to do things twice.
                 if (!visited.Add(p)) continue;
 
-                var testCodel = this[p];
-                if (codel == testCodel)
+                var testColour = this[p];
+                if (colour == testColour)
                 {
                     counter++;
                     todo.Enqueue(p.Next(DirectionPointer.top));
@@ -97,11 +97,13 @@ namespace PietDotNet
                 }
             }
 
-            var block = new ColourBlock(codel, visited.Where(p => this[p] == codel));
+            var codels = visited.Where(p => this[p] == colour);
 
-            foreach (var p in block)
+            var block = new ColourBlock(colour, codels);
+
+            foreach (var codel in codels)
             {
-                _blocks[p.X][p.Y] = block;
+                _blocks[codel.X][codel.Y] = block;
             }
             return block;
         }

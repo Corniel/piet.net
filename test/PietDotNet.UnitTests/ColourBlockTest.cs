@@ -20,9 +20,9 @@ namespace ColourBlockTest
             var expected = new Codel(x, y);
             var program = Runner.Load("Snippets.edge.png");
             var block = program.SelectBlock(new Codel(2, 2));
-            var direction = new Direction(dp, cc);
+            var pointer = Pointer.Initial.Rotate((int)dp).Switch((int)cc);
 
-            var actual = block.GetEdge(direction);
+            var actual = block.Edge(pointer);
 
             Assert.AreEqual(expected, actual);
         }
@@ -41,9 +41,9 @@ namespace ColourBlockTest
             var expected = new Codel(9, 0);
             var program = Runner.Load("fibonacci_numbers.gif");
             var block = program.SelectBlock(expected);
-            var direction = new Direction(dp, cc);
+            var pointer = Pointer.Initial.Rotate((int)dp).Switch((int)cc);
 
-            var actual = block.GetEdge(direction);
+            var actual = block.Edge(pointer);
 
             Assert.AreEqual(expected, actual);
         }
