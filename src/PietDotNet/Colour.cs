@@ -9,29 +9,29 @@ namespace PietDotNet
         public static readonly Colour Black = new Colour(0, 0x000000, -1, int.MaxValue, "black");
         public static readonly Colour White = new Colour(1, 0xFFFFFF, -1, int.MinValue, "white");
 
-        public static readonly Colour RedLight = /*     */ new Colour(02, 0xFFC0C0, 0, 0, "light red");
-        public static readonly Colour Red = /*          */ new Colour(03, 0xFF0000, 0, 1, "red");
-        public static readonly Colour RedDark = /*      */ new Colour(04, 0xC00000, 0, 2, "dark red");
+        public static readonly Colour RedLight = /*    */ new Colour(02, 0xFFC0C0, 0, 0, "light red");
+        public static readonly Colour Red = /*         */ new Colour(03, 0xFF0000, 0, 1, "red");
+        public static readonly Colour RedDark = /*     */ new Colour(04, 0xC00000, 0, 2, "dark red");
 
-        public static readonly Colour YellowLight = /*  */ new Colour(05, 0xFFFFC0, 1, 0, "light yellow");
-        public static readonly Colour Yellow = /*       */ new Colour(06, 0xFFFF00, 1, 1, "yellow");
-        public static readonly Colour YellowDark = /*   */ new Colour(07, 0xC0C000, 1, 2, "dark yellow");
+        public static readonly Colour YellowLight = /* */ new Colour(05, 0xFFFFC0, 1, 0, "light yellow");
+        public static readonly Colour Yellow = /*      */ new Colour(06, 0xFFFF00, 1, 1, "yellow");
+        public static readonly Colour YellowDark = /*  */ new Colour(07, 0xC0C000, 1, 2, "dark yellow");
 
-        public static readonly Colour GreenLight = /*   */ new Colour(08, 0xC0FFC0, 2, 0, "light green");
-        public static readonly Colour Green = /*        */ new Colour(09, 0x00FF00, 2, 1, "green");
-        public static readonly Colour GreenDark = /*    */ new Colour(10, 0x00C000, 2, 2, "dark green");
+        public static readonly Colour GreenLight = /*  */ new Colour(08, 0xC0FFC0, 2, 0, "light green");
+        public static readonly Colour Green = /*       */ new Colour(09, 0x00FF00, 2, 1, "green");
+        public static readonly Colour GreenDark = /*   */ new Colour(10, 0x00C000, 2, 2, "dark green");
 
-        public static readonly Colour CyanLight = /*    */ new Colour(11, 0xC0FFFF, 3, 0, "light cyan");
-        public static readonly Colour Cyan = /*         */ new Colour(12, 0x00FFFF, 3, 1, "cyan");
-        public static readonly Colour CyanDark = /*     */ new Colour(13, 0x00C0C0, 3, 2, "dark cyan");
+        public static readonly Colour CyanLight = /*   */ new Colour(11, 0xC0FFFF, 3, 0, "light cyan");
+        public static readonly Colour Cyan = /*        */ new Colour(12, 0x00FFFF, 3, 1, "cyan");
+        public static readonly Colour CyanDark = /*    */ new Colour(13, 0x00C0C0, 3, 2, "dark cyan");
 
-        public static readonly Colour BlueLight = /*    */ new Colour(14, 0xC0C0FF, 4, 0, "light blue");
-        public static readonly Colour Blue = /*         */ new Colour(15, 0x0000FF, 4, 1, "blue");
-        public static readonly Colour BlueDark = /*     */ new Colour(16, 0x0000C0, 4, 2, "dark blue");
+        public static readonly Colour BlueLight = /*   */ new Colour(14, 0xC0C0FF, 4, 0, "light blue");
+        public static readonly Colour Blue = /*        */ new Colour(15, 0x0000FF, 4, 1, "blue");
+        public static readonly Colour BlueDark = /*    */ new Colour(16, 0x0000C0, 4, 2, "dark blue");
 
-        public static readonly Colour MargentaLight = /**/ new Colour(17, 0xFFC0FF, 5, 0, "light magenta");
-        public static readonly Colour Margenta = /*     */ new Colour(18, 0xFF00FF, 5, 1, "magenta");
-        public static readonly Colour MargentaDark = /* */ new Colour(19, 0xC000C0, 5, 2, "dark magenta");
+        public static readonly Colour MagentaLight = /**/ new Colour(17, 0xFFC0FF, 5, 0, "light magenta");
+        public static readonly Colour Magenta = /*     */ new Colour(18, 0xFF00FF, 5, 1, "magenta");
+        public static readonly Colour MagentaDark = /* */ new Colour(19, 0xC000C0, 5, 2, "dark magenta");
 
         /// <summary>Gets all defined <see cref="Colour"/>s.</summary>
         public static readonly IReadOnlyList<Colour> All = new[]
@@ -42,7 +42,7 @@ namespace PietDotNet
             GreenLight, Green, GreenDark,
             CyanLight, Cyan, CyanDark,
             BlueLight, Blue, BlueDark,
-            MargentaLight, Margenta, MargentaDark,
+            MagentaLight, Magenta, MagentaDark,
         };
 
         /// <summary>Creates a new instance of a <see cref="Colour"/>.</summary>

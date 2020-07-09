@@ -79,8 +79,8 @@ namespace PietDotNet.IO
                     writer.Write((uint)buffer);
                     writer.Write((ushort)(buffer >> 32));
                     buffer = 0;
+                    size = 0;
                 }
-                size %= 11;
             }
             if (buffer != 0)
             {

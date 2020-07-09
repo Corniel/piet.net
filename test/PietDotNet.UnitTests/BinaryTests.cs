@@ -11,7 +11,7 @@ namespace BinaryTests
     public class Compression
     {
         [Test]
-        public void Desinity_of_11_codels_per_6_byte_is_achieved()
+        public void Density_of_11_codels_per_6_byte_is_achieved()
         {
             ulong size = 1;
             var codels = 1;
@@ -36,21 +36,21 @@ namespace BinaryTests
             }
 
             Assert.AreEqual(11, results.First().Codels);
-            Assert.AreEqual(6, results.First().Size);
+            Assert.AreEqual(6, results.First().ByteSize);
         }
         private readonly struct CodelDensity : IComparable<CodelDensity>
         {
             public CodelDensity(int codels, ulong size)
             {
                 Codels = codels;
-                Size = (size.ToString("X2").Length + 1) / 2;
+                ByteSize = (size.ToString("X2").Length + 1) / 2;
             }
 
             public int Codels { get; }
-            public int Size { get; }
-            public double Density => Codels / (double)Size;
+            public int ByteSize { get; }
+            public double Density => Codels / (double)ByteSize;
             public int CompareTo(CodelDensity other) => other.Density.CompareTo(Density);
-            public override string ToString() => $"Codels: {Codels:00} {Size} byte, {Density:0.000}";
+            public override string ToString() => $"Codels: {Codels:00} {ByteSize} byte, {Density:0.000}";
         }
     }
     

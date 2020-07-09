@@ -9,7 +9,7 @@ namespace PietDotNet
         /// <summary>Pops the top two values off the stack, adds them, and
         /// pushes the result back on the stack.
         /// </summary>
-        public static Stack Add(this Stack stack) => 
+        public static Stack Add(this Stack stack) =>
             stack.Arithmetic(stack.Second() + stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
@@ -52,7 +52,7 @@ namespace PietDotNet
         /// <summary>Replaces the top value of the stack with 0 if it is
         /// non-zero, and 1 if it is zero.
         /// </summary>
-        public static Stack Not(this Stack stack) =>stack
+        public static Stack Not(this Stack stack) => stack
             .HasAny()
             .Pop()
             .Push(stack.First() == 0);
@@ -100,7 +100,7 @@ namespace PietDotNet
 
             var index = 0;
 
-            foreach(var item in updated.Take((int)depth))
+            foreach (var item in updated.Take((int)depth))
             {
                 copy[(index - roll).Modulo(depth)] = item;
                 index++;
