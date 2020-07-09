@@ -60,14 +60,14 @@ namespace PietDotNet
         public override int GetHashCode() => (Hue << 2) + Lightness;
 
         /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Colour"/>s.</summary>
-        internal static Command Delta(Colour current, Colour previour)
+        internal static Command Delta(Colour current, Colour previous)
         {
-            if (current.IsBlackOrWhite || previour.IsBlackOrWhite)
+            if (current.IsBlackOrWhite || previous.IsBlackOrWhite)
             {
                 throw new InvalidOperationException($"A command not be determined once a black or white colour is involved.");
             }
-            var h = current.Hue - previour.Hue;
-            var l = current.Lightness - previour.Lightness;
+            var h = current.Hue - previous.Hue;
+            var l = current.Lightness - previous.Lightness;
             return new Command(h, l);
         }
 

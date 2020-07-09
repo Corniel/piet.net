@@ -11,7 +11,7 @@ namespace PietDotNet
         public static void Run(this Program program, InOut io, Logger logger, long maxRuns = long.MaxValue)
         {
             long runs = 0;
-            var state = State.Intial(program);
+            var state = State.Initial(program);
             logger.Start(state);
 
             try
