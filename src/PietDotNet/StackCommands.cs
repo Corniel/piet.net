@@ -10,20 +10,24 @@ namespace PietDotNet
         /// pushes the result back on the stack.
         /// </summary>
         public static Stack Add(this Stack stack) =>
-            stack.Arithmetic(stack.Second() + stack.First());
+            stack
+            .Pop(2)
+            .Push(stack.Second() + stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
         /// second top value minus the top value, and pushes the result back on
         /// the stack.
         /// </summary>
         public static Stack Subtract(this Stack stack) =>
-            stack.Arithmetic(stack.Second() - stack.First());
+            stack.Pop(2)
+            .Push(stack.Second() - stack.First());
 
         /// <summary>Pops the top two values off the stack, multiplies them,
         /// and pushes the result back on the stack.
         /// </summary>
         public static Stack Multiply(this Stack stack) =>
-            stack.Arithmetic(stack.Second() * stack.First());
+            stack.Pop(2)
+            .Push(stack.Second() * stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
         /// integer division of the second top value by the top value, and
@@ -34,7 +38,8 @@ namespace PietDotNet
         /// dependent error, though simply ignoring the command is recommended.
         /// </remarks>
         public static Stack Divide(this Stack stack) =>
-            stack.Arithmetic(stack.Second() / stack.First());
+            stack.Pop(2)
+            .Push(stack.Second() / stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
         /// second top value modulo the top value, and pushes the result back
@@ -47,13 +52,13 @@ namespace PietDotNet
         ///  ignoring the command is recommended.
         /// </remarks>
         public static Stack Modulo(this Stack stack) =>
-            stack.Arithmetic(stack.Second().Modulo(stack.First()));
+            stack.Pop(2)
+            .Push(stack.Second().Modulo(stack.First()));
 
         /// <summary>Replaces the top value of the stack with 0 if it is
         /// non-zero, and 1 if it is zero.
         /// </summary>
         public static Stack Not(this Stack stack) => stack
-            .HasAny()
             .Pop()
             .Push(stack.First() == 0);
 
@@ -62,14 +67,11 @@ namespace PietDotNet
         /// and pushes 0 if it is not greater.
         /// </summary>
         public static Stack Greater(this Stack stack) => stack
-            .HasMultiple()
-            .Pop()
-            .Pop()
+            .Pop(2)
             .Push(stack.Second() > stack.First());
 
         /// <summary> Pushes a copy of the top value on the stack on to the stack.</summary>
         public static Stack Duplicate(this Stack stack) => stack
-            .HasAny()
             .Push(stack.Peek());
 
         /// <summary>Pops the top two values off the stack and "rolls" the
@@ -87,39 +89,29 @@ namespace PietDotNet
         /// </remarks>
         public static Stack Roll(this Stack stack)
         {
-            var updated = stack.HasMultiple().Pop().Pop();
+            var updated = stack.Pop(2);
 
-            var depth = stack.Second();
-            var roll = stack.First() % depth;
+            int depth = (int)stack.Second();
+            var roll = stack.First();
 
             if (depth < 0) throw new NegativeDepth();
             if (depth > updated.Count) throw new InsufficientStackSize();
             if (depth == 0 || roll == 0) return updated;
 
-            var copy = updated.ToArray();
+            var rolled = updated.Pop(depth);
 
-            var index = 0;
+            roll %= depth;
 
-            foreach (var item in updated.Take((int)depth))
+            foreach (var value in Enumerable
+                .Range(0, depth)
+                .Reverse()
+                .Select(i => (int)(i + roll).Modulo(depth))
+                .Select(i => updated.Pop(i).Peek()))
             {
-                copy[(index - roll).Modulo(depth)] = item;
-                index++;
-            }
-
-            var rolled = Stack.Empty;
-
-            foreach (var item in copy.Reverse())
-            {
-                rolled = rolled.Push(item);
+                rolled = rolled.Push(value);
             }
             return rolled;
         }
-
-        internal static Stack Arithmetic(this Stack stack, long result) => stack
-            .HasMultiple()
-            .Pop()
-            .Pop()
-            .Push(result);
 
         internal static long First(this Stack stack) => stack.Peek();
         internal static long Second(this Stack stack) => stack.Pop().Peek();

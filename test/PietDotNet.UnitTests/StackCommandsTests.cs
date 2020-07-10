@@ -249,4 +249,92 @@ namespace StackCommandTests
             StackAssert.AreEqual(stack, 42, 42);
         }
     }
+
+    public class Roll
+    {
+        [Test]
+        public void with_one_item_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Push(42).Roll());
+        }
+
+        [Test]
+        public void With_negative_depth_is_not_allowed()
+        {
+            Assert.Catch<NegativeDepth>(() => Stack.Empty
+                .Push(42)
+                .Push(-1)
+                .Push(1)
+                .Roll());
+        }
+
+        [Test]
+        public void With_depth_greater_then_stack_size_is_not_allowed()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty
+                .Push(42)
+                .Push(2)
+                .Push(1)
+                .Roll());
+        }
+
+        [Test]
+        public void With_zero_depth_keeps_same_order()
+        {
+            var stack = Stack.Empty
+                 .Push(42)
+                 .Push(17)
+                 .Push(0)
+                 .Push(1)
+                 .Roll();
+
+            StackAssert.AreEqual(stack, 17, 42);
+        }
+
+        [Test]
+        public void With_zero_rolls_keeps_same_order()
+        {
+            var stack = Stack.Empty
+                 .Push(42)
+                 .Push(17)
+                 .Push(2)
+                 .Push(0)
+                 .Roll();
+
+            StackAssert.AreEqual(stack, 17, 42);
+        }
+
+
+        [Test]
+        public void With_positive_rolls_moves_items_within_depth_range_up()
+        {
+            var stack = Stack
+                .Empty
+                .Push(666)
+                .Push(69)
+                .Push(17)
+                .Push(42)
+                .Push(3)
+                .Push(1)
+                .Roll();
+
+            StackAssert.AreEqual(stack, 17, 69, 42, 666);
+        }
+
+        [Test]
+        public void With_negative_rolls_moves_items_within_depth_range_down()
+        {
+            var stack = Stack
+                .Empty
+                .Push(666)
+                .Push(69)
+                .Push(17)
+                .Push(42)
+                .Push(3)
+                .Push(-1)
+                .Roll();
+
+            StackAssert.AreEqual(stack, 69, 42, 17, 666);
+        }
+    }
 }

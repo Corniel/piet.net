@@ -20,6 +20,12 @@ namespace PietDotNet
         /// <summary>Removes the top item from the stack.</summary>
         public abstract Stack Pop();
 
+        /// <summary>Removes the top n items from the stack.</summary>
+        public Stack Pop(int repeat) => 
+            repeat == 0 
+            ? this 
+            : Pop().Pop(repeat - 1);
+
         /// <summary>Returns the top integer from the stack without removing it.</summary>
         public abstract long Peek();
 
