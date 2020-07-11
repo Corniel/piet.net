@@ -4,8 +4,41 @@ using PietDotNet.Tests.Tooling;
 using PietDotNet.Validation;
 using System;
 
-namespace StackCommandTests
+namespace Stack_command_specs
 {
+    public class Pop
+    {
+        [Test]
+        public void Empty_stack_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Pop());
+        }
+
+        [Test]
+        public void Removes_top_item_from_not_empty_stack()
+        {
+            var stack = Stack.Empty.Push(3).Push(17).Pop();
+            StackAssert.AreEqual(stack, 3);
+        }
+    }
+
+    public class Peek
+    {
+        [Test]
+        public void Empty_stack_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Peek());
+        }
+
+        [Test]
+        public void Returns_top_value_on_not_empty_stack()
+        {
+            var stack = Stack.Empty.Push(3).Push(17);
+            Assert.AreEqual(17, stack.Peek());
+            StackAssert.AreEqual(stack, 17, 3);
+        }
+    }
+
     public class Push
     {
         [Test]

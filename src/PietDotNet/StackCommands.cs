@@ -96,11 +96,9 @@ namespace PietDotNet
 
             if (depth < 0) throw new NegativeDepth();
             if (depth > updated.Count) throw new InsufficientStackSize();
-            if (depth == 0 || roll == 0) return updated;
+            if (depth == 0 || roll.Modulo(depth) == 0) return updated;
 
             var rolled = updated.Pop(depth);
-
-            roll %= depth;
 
             foreach (var value in Enumerable
                 .Range(0, depth)

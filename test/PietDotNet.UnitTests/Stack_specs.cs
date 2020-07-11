@@ -2,7 +2,7 @@
 using PietDotNet;
 using PietDotNet.Tests.Tooling;
 
-namespace StackTests
+namespace Stack_specs
 {
     public class Enumerator
     {

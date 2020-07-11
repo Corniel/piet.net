@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using PietDotNet;
 
-namespace DirectionPointerTests
+namespace Direction_pointer_specs
 {
     public class Rotate
     {

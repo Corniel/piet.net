@@ -1,9 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace PietDotNet
 {
     /// <summary>Represents a colour.</summary>
+    /// <remarks>
+    /// The British spelling is used, as it the same as the in the language specs.
+    /// </remarks>
     public sealed class Colour
     {
         public static readonly Colour Black = new Colour(0, 0x000000, -1, int.MaxValue, "black");

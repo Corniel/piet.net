@@ -2,9 +2,26 @@
 using PietDotNet;
 using PietDotNet.Tests.Tooling;
 
-namespace ColourBlockTest
+namespace Colour_block_specs
 {
-    public class GetEdge
+    public class Value
+    {
+        [Test]
+        public void Equals_the_number_of_codels_of_the_block()
+        {
+            var program = Runner.Load("fibonacci_numbers.gif");
+            var value = program.SelectBlock(new Codel(8, 9)).Value;
+            Assert.AreEqual(8, value);
+        }
+
+        [Test]
+        public void Of_border_block_is_zero()
+        {
+            Assert.AreEqual(0, ColourBlock.Border.Value);
+        }
+    }
+
+    public class Edge
     {
         [TestCase(0, 3, DirectionPointer.left, /* */ CodelChooser.left)]
         [TestCase(0, 1, DirectionPointer.left, /* */ CodelChooser.right)]

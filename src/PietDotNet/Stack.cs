@@ -35,9 +35,6 @@ namespace PietDotNet
         /// <summary>Pushes an boolean to the top of the stack.</summary>
         public Stack Push(bool boolean) => Push(boolean ? 1 : 0);
 
-        /// <summary>Clears the stack.</summary>
-        public Stack Clear() => Empty;
-
         /// <inheritdoc />
         public abstract IEnumerator<long> GetEnumerator();
 
