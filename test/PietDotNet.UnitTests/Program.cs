@@ -37,15 +37,13 @@ Copyright 2010 Joshua Schulter
 How many elements to be sorted?
 elements:
 the sorted list:
-
-
-
-
+0
+17
+42
+69
 This work by Joshua Schulter is licensed under 
 the CC-GNU GPL version 2.0 or later.
 ".Replace("\r\n", "\n"));
-
-            RunAssert.HasNumericOutput(result, 0, 17, 42, 69);
         }
 
         [Test]
