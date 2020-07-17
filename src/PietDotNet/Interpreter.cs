@@ -3,6 +3,7 @@ using PietDotNet.Logging;
 using PietDotNet.Validation;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PietDotNet
 {
@@ -18,17 +19,25 @@ namespace PietDotNet
             {
                 while (runs++ < maxRuns)
                 {
-                    state = Traverse(state, program, logger);
-                    var current = program.SelectBlock(state);
-                    var cmd = current.Colour - state.Colour;
-                    state = cmd.TryExecute(state, io, logger);
-                    state = state.SelectBlock(current);
+                    state = program.Run(state, io, logger);
                 }
             }
             catch (Terminated)
             {
                 logger.Terminated(state, runs);
             }
+        }
+
+        private static State Run(this Program program, State state, InOut io, Logger logger)
+        {
+            var traversed = Traverse(state, program, logger);
+
+            var current = program.SelectBlock(traversed);
+            var cmd = current.Colour - traversed.Colour;
+            var executed = cmd.TryExecute(traversed, io, logger);
+            executed = executed.SelectBlock(current);
+
+            return executed;
         }
 
         private static State Traverse(State state, Program program, Logger logger)

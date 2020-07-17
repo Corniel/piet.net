@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using PietDotNet.Diagnostics;
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace PietDotNet
 {
-    public class ColourBlock
+    [DebuggerTypeProxy(typeof(CollectionDebugView))]
+    public class ColourBlock : IEnumerable<Pointer>
     {
         public static readonly ColourBlock Border = new Border();
         private readonly Codel[] _edges;
@@ -55,6 +59,17 @@ namespace PietDotNet
 
         /// <inheritdoc />
         public override string ToString() => $"{Colour.Name}, Value: {Value}";
+
+        /// <inheritdoc />
+        public IEnumerator<Pointer> GetEnumerator()
+        {
+            return _edges
+                .Select((codel, i) =>
+                    new Pointer(codel, (DirectionPointer)(i >> 1), (CodelChooser)(i & 1))
+                ).GetEnumerator();
+        }
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
         private static int Index(Pointer p) => (int)p.CC | ((int)p.DP << 1);
     }

@@ -4,7 +4,7 @@ namespace PietDotNet.Tests.Tooling
 {
     internal static class RunAssert
     {
-        public static void HasStringOutput(RunResult result, string expected)
+        public static void HasOutput(RunResult result, string expected)
         {
             Assert.AreEqual(expected, result.IO.ToString());
         }

@@ -7,7 +7,7 @@ namespace PietDotNet
     {
         public static readonly Pointer Initial;
 
-        private Pointer(Codel position, DirectionPointer dp, CodelChooser cc)
+        internal Pointer(Codel position, DirectionPointer dp, CodelChooser cc)
         {
             Position = position;
             DP = dp;
