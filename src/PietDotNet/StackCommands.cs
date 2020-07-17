@@ -9,8 +9,7 @@ namespace PietDotNet
         /// <summary>Pops the top two values off the stack, adds them, and
         /// pushes the result back on the stack.
         /// </summary>
-        public static Stack Add(this Stack stack) =>
-            stack
+        public static Stack Add(this Stack stack) => stack
             .Pop(2)
             .Push(stack.Second() + stack.First());
 
@@ -18,15 +17,15 @@ namespace PietDotNet
         /// second top value minus the top value, and pushes the result back on
         /// the stack.
         /// </summary>
-        public static Stack Subtract(this Stack stack) =>
-            stack.Pop(2)
+        public static Stack Subtract(this Stack stack) => stack
+            .Pop(2)
             .Push(stack.Second() - stack.First());
 
         /// <summary>Pops the top two values off the stack, multiplies them,
         /// and pushes the result back on the stack.
         /// </summary>
-        public static Stack Multiply(this Stack stack) =>
-            stack.Pop(2)
+        public static Stack Multiply(this Stack stack) => stack
+            .Pop(2)
             .Push(stack.Second() * stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
@@ -37,8 +36,8 @@ namespace PietDotNet
         /// If a divide by zero occurs, it is handled as an implementation-
         /// dependent error, though simply ignoring the command is recommended.
         /// </remarks>
-        public static Stack Divide(this Stack stack) =>
-            stack.Pop(2)
+        public static Stack Divide(this Stack stack) => stack
+            .Pop(2)
             .Push(stack.Second() / stack.First());
 
         /// <summary>Pops the top two values off the stack, calculates the
@@ -51,8 +50,8 @@ namespace PietDotNet
         ///  handled as an implementation-dependent error, though simply
         ///  ignoring the command is recommended.
         /// </remarks>
-        public static Stack Modulo(this Stack stack) =>
-            stack.Pop(2)
+        public static Stack Modulo(this Stack stack) => stack
+            .Pop(2)
             .Push(stack.Second().Modulo(stack.First()));
 
         /// <summary>Replaces the top value of the stack with 0 if it is
