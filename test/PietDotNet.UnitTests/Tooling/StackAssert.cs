@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System.Linq;
 
 namespace PietDotNet.Tests.Tooling
 {
@@ -6,7 +7,10 @@ namespace PietDotNet.Tests.Tooling
     {
         public static void AreEqual(Stack actual, params long[] expected)
         {
-            CollectionAssert.AreEqual(expected, actual);
+            if (!Enumerable.SequenceEqual(actual, expected))
+            {
+                Assert.Fail($"Expected: {string.Join(", ", expected)}\r\nBut was:  {string.Join(", ", actual)}");
+            }
         }
     }
 }

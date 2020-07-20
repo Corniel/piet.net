@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 
-namespace ColourTests
+namespace Colour_specs
 {
-    public class All
+    public class General
     {
         [Test]
         public void _20_unique_colours_exist()
@@ -17,6 +17,7 @@ namespace ColourTests
             Assert.AreEqual(20, new HashSet<int>(Colour.All.Select(codel => codel.RgbCode)).Count, "All colours should be different too.");
         }
     }
+   
     public class Subtract
     {
         [Test]
@@ -44,20 +45,20 @@ namespace ColourTests
         }
     }
 
-    public class ToString
+    public class Display
     {
         [Test]
-        public void Discribes_RGB_and_display_name()
+        public void ToString_shows_RGB_code_and_name()
         {
             var str = Colour.YellowLight.ToString();
             Assert.AreEqual("#FFFFC0 light yellow", str);
         }
     }
 
-    public class Factory
+    public class Relation_to_System_Drawing_Color
     {
         [Test]
-        public void From_not_matching_colour_returns_null()
+        public void Creation_from_not_matching_colour_returns_null()
         {
             var colour = Color.Brown;
             var codel = Bitmapping.Colour(colour);
@@ -66,7 +67,7 @@ namespace ColourTests
         }
 
         [Test]
-        public void From_matching_colour_returns_codel_with_matching_color()
+        public void Creation_from_matching_color_returns_codel_with_matching_colour()
         {
             var colour = Color.FromArgb(255, 255, 255);
             var codel = Bitmapping.Colour(colour);

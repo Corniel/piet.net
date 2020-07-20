@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 
 namespace PietDotNet
 {
@@ -48,7 +45,7 @@ namespace PietDotNet
         public string Name => Names[this];
 
         /// <inheritdoc />
-        public override string ToString() => $"{Name}, Hue: {Hue}, Lightness: {Lightness}";
+        public override string ToString() => Name;
 
         /// <inheritdoc />
         public override bool Equals(object obj) => obj is Command other && Equals(other);
@@ -60,37 +57,37 @@ namespace PietDotNet
         public override int GetHashCode() => (Hue << 2) + Lightness;
 
         /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Colour"/>s.</summary>
-        internal static Command Delta(Colour current, Colour previour)
+        internal static Command Delta(Colour current, Colour previous)
         {
-            if (current.IsBlackOrWhite || previour.IsBlackOrWhite)
+            if (current.IsBlackOrWhite || previous.IsBlackOrWhite)
             {
                 throw new InvalidOperationException($"A command not be determined once a black or white colour is involved.");
             }
-            var h = current.Hue - previour.Hue;
-            var l = current.Lightness - previour.Lightness;
+            var h = current.Hue - previous.Hue;
+            var l = current.Lightness - previous.Lightness;
             return new Command(h, l);
         }
 
-        private static Dictionary<Command, string> Names
+        private static readonly Dictionary<Command, string> Names = new Dictionary<Command, string>
         {
-            get
-            {
-                if (_names is null)
-                {
-                    _names = new Dictionary<Command, string>();
-
-                    var all = typeof(Command).GetFields(BindingFlags.Public | BindingFlags.Static).Where(f => f.FieldType == typeof(Command));
-
-                    foreach (var field in all)
-                    {
-                        var cmd = (Command)field.GetValue(null);
-                        _names.Add(cmd, field.Name);
-                    }
-                }
-                return _names;
-            }
-        }
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        private static Dictionary<Command, string> _names;
+            { None, /*     */ "NONE" },
+            { Push, /*     */ "PUSH" },
+            { Pop, /*      */ "POP" },
+            { Add, /*      */ "ADD" },
+            { Subtract, /* */ "SUB" },
+            { Multiply, /* */ "MUL" },
+            { Divide, /*   */ "DIV" },
+            { Modulo, /*   */ "MOD" },
+            { Not, /*      */ "NOT" },
+            { Greater, /*  */ "GT" },
+            { Rotate, /*   */ "ROT" },
+            { Switch, /*   */ "SWI" },
+            { Duplicate, /**/ "DUP" },
+            { Roll, /*     */ "ROL" },
+            { InInt, /*    */ "INi" },
+            { InChr, /*    */ "INc" },
+            { OutInt, /*   */ "OUTi" },
+            { OutChr, /*   */ "OUTc" },
+        };
     }
 }

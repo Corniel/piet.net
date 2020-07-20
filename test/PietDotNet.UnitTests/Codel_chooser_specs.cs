@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
 using PietDotNet;
 
-namespace CodelChooserTests
+namespace Codel_chooser_specs
 {
     public class Switch
     {

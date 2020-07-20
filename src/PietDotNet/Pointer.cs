@@ -7,7 +7,7 @@ namespace PietDotNet
     {
         public static readonly Pointer Initial;
 
-        private Pointer(Codel position, DirectionPointer dp, CodelChooser cc)
+        internal Pointer(Codel position, DirectionPointer dp, CodelChooser cc)
         {
             Position = position;
             DP = dp;
@@ -62,7 +62,5 @@ namespace PietDotNet
                 ^ (DP.GetHashCode() << 16)
                 ^ (CC.GetHashCode() << 24);
         }
-    
-        public static implicit operator Direction(Pointer pointer) => new Direction(pointer.DP, pointer.CC);
     }
 }

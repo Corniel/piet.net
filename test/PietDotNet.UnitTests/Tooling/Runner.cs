@@ -1,5 +1,6 @@
 ﻿using PietDotNet.Drawing;
 using System;
+using System.IO;
 
 namespace PietDotNet.Tests.Tooling
 {
@@ -31,7 +32,10 @@ namespace PietDotNet.Tests.Tooling
 
         internal static Program Load(string path, int codelsize = 1)
         {
-            using var stream = typeof(Runner).Assembly.GetManifestResourceStream("PietDotNet.Tests.Programs." + path);
+            using var stream = typeof(Runner).Assembly
+                .GetManifestResourceStream("PietDotNet.Tests.Programs." + path)
+                ?? throw new FileNotFoundException(path);
+
             return Bitmapping.Load(stream, codelsize);
         }
     }

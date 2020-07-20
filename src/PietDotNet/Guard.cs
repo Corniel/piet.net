@@ -16,6 +16,12 @@ namespace PietDotNet
     /// </remarks>
     internal static partial class Guard
     {
+        public static long HasInput(this long? value)
+            => value ?? throw new InvalidInput();
+
+        public static long HasInput(this char? value)
+            => value ?? throw new InvalidInput();
+
         /// <summary>Guards the parameter if not null, otherwise throws an argument (null) exception.</summary>
         /// <typeparam name="T">The type to guard; cannot be a structure.</typeparam>
         /// <param name="parameter">The parameter to guard.</param>

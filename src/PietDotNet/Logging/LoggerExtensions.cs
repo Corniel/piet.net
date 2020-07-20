@@ -16,15 +16,12 @@ namespace PietDotNet.Logging
 
         public static void Command(this Logger logger, State state, Command cmd)
         {
-            var name = cmd.Name.ToUpperInvariant().Substring(0, 3);
-
-            logger.LogInfo($"{state.Debug()} {name}() // [{string.Join(", ", state.Stack)}]");
+            logger.LogInfo($"{state.Debug()} {cmd}() // [{string.Join(", ", state.Stack)}]");
         }
 
         public static void Command(this Logger logger, State state, Command cmd, Exception exception)
         {
-            var name = cmd.Name.ToUpperInvariant().Substring(0, 3);
-            logger.LogError($"{state.Position} {name}() ERROR: {exception.Message}");
+            logger.LogError($"{state.Position} {cmd}() ERROR: {exception.Message}");
         }
 
         private static void LogError(this Logger logger, string message) => logger.Log(LogLevel.Error, message);

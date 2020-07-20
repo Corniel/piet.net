@@ -34,7 +34,7 @@ namespace PietDotNet
                 DirectionPointer.left => /* */ new Codel(X - 1, Y + 0),
                 DirectionPointer.top => /*  */ new Codel(X + 0, Y - 1),
                 DirectionPointer.down => /* */ new Codel(X + 0, Y + 1),
-                _ => throw new InvalidOperationException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(dp)),
             };
         }
 

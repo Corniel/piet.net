@@ -15,6 +15,7 @@
     <EmbeddedResource Include="..\..\programs\alphabet.png" Link="Programs\alphabet.png" />
     <EmbeddedResource Include="..\..\programs\day_of_week.png" Link="Programs\day_of_week.png" />
     <EmbeddedResource Include="..\..\programs\euclids_algorithm.png" Link="Programs\euclids_algorithm.png" />
+    <EmbeddedResource Include="..\..\programs\fizz_buzz.png" Link="Programs\fizz_buzz.png" />
     <EmbeddedResource Include="..\..\programs\gnome_sort.png" Link="Programs\gnome_sort.png" />
     <EmbeddedResource Include="..\..\programs\hello_world.png" Link="Programs\hello_world.png" />
     <EmbeddedResource Include="..\..\programs\hello_world_artistic.gif" Link="Programs\hello_world_artistic.gif" />

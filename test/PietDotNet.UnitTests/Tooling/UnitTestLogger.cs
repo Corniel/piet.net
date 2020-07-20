@@ -11,11 +11,6 @@ namespace PietDotNet.Tests.Tooling
 
         public LogLevel MinLevel { get; }
 
-        public IDisposable BeginScope<TState>(TState state)
-        {
-            throw new NotSupportedException();
-        }
-
         public void Log(LogLevel level, string message)
         {
             if (level < MinLevel) return;

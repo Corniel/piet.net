@@ -1,11 +1,43 @@
 ﻿using NUnit.Framework;
 using PietDotNet;
 using PietDotNet.Tests.Tooling;
-using PietDotNet.Validation;
 using System;
 
-namespace StackCommandTests
+namespace Stack_command_specs
 {
+    public class Pop
+    {
+        [Test]
+        public void Empty_stack_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Pop());
+        }
+
+        [Test]
+        public void Removes_top_item_from_not_empty_stack()
+        {
+            var stack = Stack.Empty.Push(3).Push(17).Pop();
+            StackAssert.AreEqual(stack, 3);
+        }
+    }
+
+    public class Peek
+    {
+        [Test]
+        public void Empty_stack_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Peek());
+        }
+
+        [Test]
+        public void Returns_top_value_on_not_empty_stack()
+        {
+            var stack = Stack.Empty.Push(3).Push(17);
+            Assert.AreEqual(17, stack.Peek());
+            StackAssert.AreEqual(stack, 17, 3);
+        }
+    }
+
     public class Push
     {
         [Test]
@@ -247,6 +279,94 @@ namespace StackCommandTests
                  .Duplicate();
 
             StackAssert.AreEqual(stack, 42, 42);
+        }
+    }
+
+    public class Roll
+    {
+        [Test]
+        public void with_one_item_has_insufficient_stack_size()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty.Push(42).Roll());
+        }
+
+        [Test]
+        public void With_negative_depth_is_not_allowed()
+        {
+            Assert.Catch<NegativeDepth>(() => Stack.Empty
+                .Push(42)
+                .Push(-1)
+                .Push(1)
+                .Roll());
+        }
+
+        [Test]
+        public void With_depth_greater_then_stack_size_is_not_allowed()
+        {
+            Assert.Catch<InsufficientStackSize>(() => Stack.Empty
+                .Push(42)
+                .Push(2)
+                .Push(1)
+                .Roll());
+        }
+
+        [Test]
+        public void With_zero_depth_keeps_same_order()
+        {
+            var stack = Stack.Empty
+                 .Push(42)
+                 .Push(17)
+                 .Push(0)
+                 .Push(1)
+                 .Roll();
+
+            StackAssert.AreEqual(stack, 17, 42);
+        }
+
+        [Test]
+        public void With_zero_rolls_keeps_same_order()
+        {
+            var stack = Stack.Empty
+                 .Push(42)
+                 .Push(17)
+                 .Push(2)
+                 .Push(0)
+                 .Roll();
+
+            StackAssert.AreEqual(stack, 17, 42);
+        }
+
+
+        [Test]
+        public void With_positive_rolls_moves_items_within_depth_range_up()
+        {
+            var stack = Stack
+                .Empty
+                .Push(666)
+                .Push(69)
+                .Push(17)
+                .Push(42)
+                .Push(3)
+                .Push(1)
+                .Roll();
+
+            StackAssert.AreEqual(stack, 17, 69, 42, 666);
+        }
+
+        [Test]
+        public void With_negative_rolls_moves_items_within_depth_range_down()
+        {
+            var stack = Stack
+                .Empty
+                .Push(666)
+                .Push(69)
+                .Push(17)
+                .Push(42)
+                .Push(3)
+                .Push(-1)
+                .Roll();
+
+            StackAssert.AreEqual(stack, 69, 42, 17, 666);
         }
     }
 }

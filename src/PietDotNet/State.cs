@@ -4,7 +4,7 @@ namespace PietDotNet
 {
     public class State
     {
-        public static State Intial(Program program)
+        public static State Initial(Program program)
         {
             Guard.NotNull(program, nameof(program));
             return new State(Pointer.Initial, Stack.Empty, program.SelectBlock((Codel)default));

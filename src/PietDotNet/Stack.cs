@@ -1,6 +1,4 @@
 ﻿using PietDotNet.Diagnostics;
-using PietDotNet.Validation;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -21,6 +19,12 @@ namespace PietDotNet
         /// <summary>Removes the top item from the stack.</summary>
         public abstract Stack Pop();
 
+        /// <summary>Removes the top n items from the stack.</summary>
+        public Stack Pop(int repeat) => 
+            repeat == 0 
+            ? this 
+            : Pop().Pop(repeat - 1);
+
         /// <summary>Returns the top integer from the stack without removing it.</summary>
         public abstract long Peek();
 
@@ -29,9 +33,6 @@ namespace PietDotNet
 
         /// <summary>Pushes an boolean to the top of the stack.</summary>
         public Stack Push(bool boolean) => Push(boolean ? 1 : 0);
-
-        /// <summary>Clears the stack.</summary>
-        public Stack Clear() => Empty;
 
         /// <inheritdoc />
         public abstract IEnumerator<long> GetEnumerator();

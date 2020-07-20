@@ -190,7 +190,7 @@ individual commands are explained below.
   stack entries to a depth equal to the second value popped, by a number of
   rolls equal to the first value popped. A single roll to depth n is defined as
   burying the top value on the stack n deep and bringing all values above it up
-  by 1 place. A negative number of rolls rolls in the opposite direction. A
+  by 1 place. A negative number of rolls, rolls in the opposite direction. A
   negative depth is an error and the command is ignored. If a roll is greater
   than an implementation-dependent maximum stack depth, it is handled as an
   implementation-dependent error, though simply ignoring the command is
