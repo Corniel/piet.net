@@ -23,13 +23,7 @@
     <EmbeddedResource Include="Logging\LoggerExtensions.cs" Link="Compilation\Files\Logging\LoggerExtensions.cs" />
     <EmbeddedResource Include="Logging\LogLevel.cs" Link="Compilation\Files\Logging\LogLevel.cs" />
 
-    <EmbeddedResource Include="Validation\InsufficientStackSize.cs" Link="Compilation\Files\Validation\InsufficientStackSize.cs" />
-    <EmbeddedResource Include="Validation\InvalidInput.cs" Link="Compilation\Files\Validation\InvalidInput.cs" />
-    <EmbeddedResource Include="Validation\Must.cs" Link="Compilation\Files\Validation\Must.cs" />
-    <EmbeddedResource Include="Validation\NegativeDepth.cs" Link="Compilation\Files\Validation\NegativeDepth.cs" />
-    <EmbeddedResource Include="Validation\Terminated.cs" Link="Compilation\Files\Validation\Terminated.cs" />
-    <EmbeddedResource Include="Validation\UnkownCommand.cs" Link="Compilation\Files\Validation\UnkownCommand.cs" />
-
+    <EmbeddedResource Include="_Exceptions.cs" Link="_Exceptions.cs" />
     <EmbeddedResource Include="Codel.cs" Link="Compilation\Files\Codel.cs" />
     <EmbeddedResource Include="CodelChooser.cs" Link="Compilation\Files\CodelChooser.cs" />
     <EmbeddedResource Include="Colour.cs" Link="Compilation\Files\Colour.cs" />
@@ -37,7 +31,6 @@
     <EmbeddedResource Include="ColourBlock.cs" Link="Compilation\Files\ColourBlock.cs" />
     <EmbeddedResource Include="Command.cs" Link="Compilation\Files\Command.cs" />
     <EmbeddedResource Include="CommandExtensions.cs" Link="Compilation\Files\CommandExtensions.cs" />
-    <EmbeddedResource Include="Direction.cs" Link="Compilation\Files\Direction.cs" />
     <EmbeddedResource Include="DirectionPointer.cs" Link="Compilation\Files\DirectionPointer.cs" />
     <EmbeddedResource Include="Guard.cs" Link="Compilation\Files\Guard.cs" />
     <EmbeddedResource Include="Interpreter.cs" Link="Compilation\Files\Interpreter.cs" />

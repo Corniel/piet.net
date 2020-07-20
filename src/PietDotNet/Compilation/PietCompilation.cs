@@ -51,7 +51,7 @@ namespace PietDotNet.Compilation
 
             return compilation
                 .Emit(
-                    Path.Combine(location.FullName, compilation.AssemblyName + ".exe.dll"), 
+                    Path.Combine(location.FullName, compilation.AssemblyName + ".exe"), 
                     manifestResources: binary);
         }
     
