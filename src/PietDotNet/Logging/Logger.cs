@@ -1,7 +1,6 @@
-﻿namespace PietDotNet.Logging
+﻿namespace PietDotNet.Logging;
+
+public interface Logger
 {
-    public interface Logger
-    {
-        void Log(LogLevel level, string message);
-    }
+    void Log(LogLevel level, string message);
 }

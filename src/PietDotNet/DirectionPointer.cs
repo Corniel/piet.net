@@ -1,20 +1,17 @@
-﻿using System;
+﻿namespace PietDotNet;
 
-namespace PietDotNet
+public enum DirectionPointer
 {
-    public enum DirectionPointer
-    {
-        right = 0,
-        down = 1,
-        left = 2,
-        top = 3,
-    }
+    right = 0,
+    down = 1,
+    left = 2,
+    top = 3,
+}
 
-    public static class DirectionPointerExtensions
+public static class DirectionPointerExtensions
+{
+    public static DirectionPointer Rotate(this DirectionPointer dp, long steps)
     {
-        public static DirectionPointer Rotate(this DirectionPointer dp, long steps)
-        {
-            return (DirectionPointer)((long)dp + steps).Modulo(4);
-        }
+        return (DirectionPointer)((long)dp + steps).Modulo(4);
     }
 }

@@ -1,14 +1,13 @@
-﻿namespace PietDotNet.Tests.Tooling
-{
-    internal class RunResult
-    {
-        public TestIO IO { get; }
-        public UnitTestLogger Logger { get; }
+﻿namespace PietDotNet.Tests.Tooling;
 
-        public RunResult(TestIO io, UnitTestLogger logger)
-        {
-            IO = io;
-            Logger = logger;
-        }
+internal class RunResult
+{
+    public TestIO IO { get; }
+    public UnitTestLogger Logger { get; }
+
+    public RunResult(TestIO io, UnitTestLogger logger)
+    {
+        IO = io;
+        Logger = logger;
     }
 }

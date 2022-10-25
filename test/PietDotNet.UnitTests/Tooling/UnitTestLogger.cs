@@ -1,36 +1,32 @@
 ﻿using PietDotNet.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace PietDotNet.Tests.Tooling
+namespace PietDotNet.Tests.Tooling;
+
+public class UnitTestLogger : List<LogRecord>, Logger
 {
-    public class UnitTestLogger : List<LogRecord>, Logger
+    public UnitTestLogger(LogLevel minLevel = LogLevel.Info) => MinLevel = minLevel;
+
+    public LogLevel MinLevel { get; }
+
+    public void Log(LogLevel level, string message)
     {
-        public UnitTestLogger(LogLevel minLevel = LogLevel.Info) => MinLevel = minLevel;
+        if (level < MinLevel) return;
 
-        public LogLevel MinLevel { get; }
+        Add(new LogRecord(level, message));
+        Console.Error.WriteLine(this.LastOrDefault().Message);
+    }
+}
 
-        public void Log(LogLevel level, string message)
-        {
-            if (level < MinLevel) return;
-
-            Add(new LogRecord(level, message));
-            Console.Error.WriteLine(this.LastOrDefault().Message);
-        }
+public struct LogRecord
+{
+    public LogRecord(LogLevel level, string message)
+    {
+        Level = level;
+        Message = message;
     }
 
-    public struct LogRecord
-    {
-        public LogRecord(LogLevel level, string message)
-        {
-            Level = level;
-            Message = message;
-        }
+    public LogLevel Level { get; }
+    public string Message { get; }
 
-        public LogLevel Level { get; }
-        public string Message { get; }
-
-        public override string ToString() => $"{Level} {Message}";
-    }
+    public override string ToString() => $"{Level} {Message}";
 }

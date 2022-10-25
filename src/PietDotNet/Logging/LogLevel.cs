@@ -1,10 +1,9 @@
-﻿namespace PietDotNet.Logging
+﻿namespace PietDotNet.Logging;
+
+public enum LogLevel
 {
-    public enum LogLevel
-    {
-        Info = 0,
-        Warn,
-        Error,
-        Fatal,
-    }
+    Info = 0,
+    Warn,
+    Error,
+    Fatal,
 }
