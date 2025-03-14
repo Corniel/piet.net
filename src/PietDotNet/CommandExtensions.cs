@@ -1,4 +1,4 @@
-﻿using PietDotNet.IO;
+using PietDotNet.IO;
 using PietDotNet.Logging;
 
 namespace PietDotNet;
@@ -178,23 +178,23 @@ public static class CommandExtensions
 
     private static readonly Dictionary<Command, Executable> commands = new()
     {
-        { Command.None, /*     */ None },
-        { Command.Push, /*     */ Push },
-        { Command.Pop, /*      */ Pop },
-        { Command.Add, /*      */ Add },
-        { Command.Subtract, /* */ Subtract },
-        { Command.Multiply, /* */ Multiply },
-        { Command.Divide, /*   */ Divide },
-        { Command.Modulo, /*   */ Modulo },
-        { Command.Not, /*      */ Not },
-        { Command.Greater, /*  */ Greater },
-        { Command.Rotate, /*   */ Rotate },
-        { Command.Switch, /*   */ Switch },
-        { Command.Duplicate, /**/ Duplicate },
-        { Command.Roll, /*     */ Roll },
-        { Command.InInt, /*    */ InInt },
-        { Command.InChr, /*    */ InChr },
-        { Command.OutInt, /*   */ OutInt },
-        { Command.OutChr, /*   */ OutChr },
+        [Command.None] /*......*/ = None,
+        [Command.Push] /*......*/ = Push,
+        [Command.Pop] /*.......*/ = Pop,
+        [Command.Add] /*.......*/ = Add,
+        [Command.Subtract] /*..*/ = Subtract,
+        [Command.Multiply] /*..*/ = Multiply,
+        [Command.Divide] /*....*/ = Divide,
+        [Command.Modulo] /*....*/ = Modulo,
+        [Command.Not] /*.......*/ = Not,
+        [Command.Greater] /*...*/ = Greater,
+        [Command.Rotate] /*....*/ = Rotate,
+        [Command.Switch] /*....*/ = Switch,
+        [Command.Duplicate] /*.*/ = Duplicate,
+        [Command.Roll] /*......*/ = Roll,
+        [Command.InInt] /*.....*/ = InInt,
+        [Command.InChr] /*.....*/ = InChr,
+        [Command.OutInt] /*....*/ = OutInt,
+        [Command.OutChr] /*....*/ = OutChr,
     };
 }

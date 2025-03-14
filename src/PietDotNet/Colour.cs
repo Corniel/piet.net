@@ -1,41 +1,41 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 /// <summary>Represents a colour.</summary>
 /// <remarks>
 /// The British spelling is used, as it the same as the in the language specs.
 /// </remarks>
-public sealed class Colour
+public sealed record Colour
 {
     public static readonly Colour Black = new(0, 0x000000, -1, int.MaxValue, "black");
     public static readonly Colour White = new(1, 0xFFFFFF, -1, int.MinValue, "white");
 
-    public static readonly Colour RedLight = /*    */ new(02, 0xFFC0C0, 0, 0, "light red");
-    public static readonly Colour Red = /*         */ new(03, 0xFF0000, 0, 1, "red");
-    public static readonly Colour RedDark = /*     */ new(04, 0xC00000, 0, 2, "dark red");
+    public static readonly Colour RedLight = /*.....*/ new(02, 0xFFC0C0, 0, 0, "light red");
+    public static readonly Colour Red = /*..........*/ new(03, 0xFF0000, 0, 1, "red");
+    public static readonly Colour RedDark = /*......*/ new(04, 0xC00000, 0, 2, "dark red");
 
-    public static readonly Colour YellowLight = /* */ new(05, 0xFFFFC0, 1, 0, "light yellow");
-    public static readonly Colour Yellow = /*      */ new(06, 0xFFFF00, 1, 1, "yellow");
-    public static readonly Colour YellowDark = /*  */ new(07, 0xC0C000, 1, 2, "dark yellow");
+    public static readonly Colour YellowLight = /*..*/ new(05, 0xFFFFC0, 1, 0, "light yellow");
+    public static readonly Colour Yellow = /*.......*/ new(06, 0xFFFF00, 1, 1, "yellow");
+    public static readonly Colour YellowDark = /*...*/ new(07, 0xC0C000, 1, 2, "dark yellow");
 
-    public static readonly Colour GreenLight = /*  */ new(08, 0xC0FFC0, 2, 0, "light green");
-    public static readonly Colour Green = /*       */ new(09, 0x00FF00, 2, 1, "green");
-    public static readonly Colour GreenDark = /*   */ new(10, 0x00C000, 2, 2, "dark green");
+    public static readonly Colour GreenLight = /*...*/ new(08, 0xC0FFC0, 2, 0, "light green");
+    public static readonly Colour Green = /*........*/ new(09, 0x00FF00, 2, 1, "green");
+    public static readonly Colour GreenDark = /*....*/ new(10, 0x00C000, 2, 2, "dark green");
 
-    public static readonly Colour CyanLight = /*   */ new(11, 0xC0FFFF, 3, 0, "light cyan");
-    public static readonly Colour Cyan = /*        */ new(12, 0x00FFFF, 3, 1, "cyan");
-    public static readonly Colour CyanDark = /*    */ new(13, 0x00C0C0, 3, 2, "dark cyan");
+    public static readonly Colour CyanLight = /*....*/ new(11, 0xC0FFFF, 3, 0, "light cyan");
+    public static readonly Colour Cyan = /*.........*/ new(12, 0x00FFFF, 3, 1, "cyan");
+    public static readonly Colour CyanDark = /*.....*/ new(13, 0x00C0C0, 3, 2, "dark cyan");
 
-    public static readonly Colour BlueLight = /*   */ new(14, 0xC0C0FF, 4, 0, "light blue");
-    public static readonly Colour Blue = /*        */ new(15, 0x0000FF, 4, 1, "blue");
-    public static readonly Colour BlueDark = /*    */ new(16, 0x0000C0, 4, 2, "dark blue");
+    public static readonly Colour BlueLight = /*....*/ new(14, 0xC0C0FF, 4, 0, "light blue");
+    public static readonly Colour Blue = /*.........*/ new(15, 0x0000FF, 4, 1, "blue");
+    public static readonly Colour BlueDark = /*.....*/ new(16, 0x0000C0, 4, 2, "dark blue");
 
-    public static readonly Colour MagentaLight = /**/ new(17, 0xFFC0FF, 5, 0, "light magenta");
-    public static readonly Colour Magenta = /*     */ new(18, 0xFF00FF, 5, 1, "magenta");
-    public static readonly Colour MagentaDark = /* */ new(19, 0xC000C0, 5, 2, "dark magenta");
+    public static readonly Colour MagentaLight = /*.*/ new(17, 0xFFC0FF, 5, 0, "light magenta");
+    public static readonly Colour Magenta = /*......*/ new(18, 0xFF00FF, 5, 1, "magenta");
+    public static readonly Colour MagentaDark = /*..*/ new(19, 0xC000C0, 5, 2, "dark magenta");
 
     /// <summary>Gets all defined <see cref="Colour"/>s.</summary>
-    public static readonly IReadOnlyList<Colour> All = new[]
-    {
+    public static readonly IReadOnlyList<Colour> All =
+    [
         Black, White,
         RedLight, Red, RedDark,
         YellowLight, Yellow, YellowDark,
@@ -43,7 +43,7 @@ public sealed class Colour
         CyanLight, Cyan, CyanDark,
         BlueLight, Blue, BlueDark,
         MagentaLight, Magenta, MagentaDark,
-    };
+    ];
 
     /// <summary>Creates a new instance of a <see cref="Colour"/>.</summary>
     /// <param name="rgb">

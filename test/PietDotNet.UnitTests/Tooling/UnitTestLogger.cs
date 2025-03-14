@@ -1,4 +1,4 @@
-﻿using PietDotNet.Logging;
+using PietDotNet.Logging;
 
 namespace PietDotNet.Tests.Tooling;
 

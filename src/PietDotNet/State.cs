@@ -1,4 +1,4 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 public class State
 {

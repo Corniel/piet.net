@@ -1,4 +1,4 @@
-﻿using PietDotNet.Diagnostics;
+using PietDotNet.Diagnostics;
 
 namespace PietDotNet;
 

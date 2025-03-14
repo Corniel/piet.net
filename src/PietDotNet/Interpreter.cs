@@ -1,4 +1,4 @@
-﻿using PietDotNet.IO;
+using PietDotNet.IO;
 using PietDotNet.Logging;
 
 namespace PietDotNet;

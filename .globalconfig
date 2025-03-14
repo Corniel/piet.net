@@ -1,0 +1,15 @@
+root = true
+
+dotnet_diagnostic.IDE0005.severity   = warning    # IDE0005: Using directive unnecessary
+dotnet_diagnostic.IDE0079.severity   = warning    # IDE0079: Unnecessary suppression
+dotnet_diagnostic.IDE0090.severity   = warning    # IDE0090: Simplify new expression
+
+dotnet_diagnostic.IDE1006.severity   = none       # IDE1006: Naming Styles
+
+dotnet_diagnostic.CA1416.severity    = none       # This call site is reachable on all platforms
+
+dotnet_diagnostic.NUnit2005.severity = suggestion # Consider using Assert.That
+dotnet_diagnostic.NUnit2049.severity = suggestion # Consider using Assert.That
+
+dotnet_diagnostic.S101.severity      = none       # Naming styles
+dotnet_diagnostic.S3376.severity     = none       # Use Exception suffix

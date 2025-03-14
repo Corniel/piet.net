@@ -1,4 +1,4 @@
-﻿namespace Codel_specs;
+namespace Codel_specs;
 
 public class Next
 {

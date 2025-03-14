@@ -1,4 +1,4 @@
-﻿using PietDotNet.Drawing;
+using PietDotNet.Drawing;
 using System.Drawing;
 
 namespace Colour_specs;
@@ -18,13 +18,13 @@ public class Subtract
     [Test]
     public void With_Black_is_invalid_operation()
     {
-        Assert.Throws<InvalidOperationException>(() => { var delta = Colour.Black - Colour.Green; });
+        Assert.Throws<InvalidOperationException>(() => { _ = Colour.Black - Colour.Green; });
     }
 
     [Test]
     public void With_White_is_invalid_operation()
     {
-        Assert.Throws<InvalidOperationException>(() => { var delta = Colour.Red - Colour.White; });
+        Assert.Throws<InvalidOperationException>(() => {_ = Colour.Red - Colour.White; });
     }
 
     [Test]

@@ -1,4 +1,4 @@
-﻿namespace PietDotNet
+namespace PietDotNet
 {
     /// <summary>Supplies parameter guarding for methods and constructors.</summary>
     /// <remarks>

@@ -1,0 +1,23 @@
+<Project>
+
+  <PropertyGroup>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <Copyright>Corniel Nobel</Copyright>
+    <ProductName>Piet.NET</ProductName>
+    <Description>
+      Piet is a programming language in which programs look like abstract paintings.
+    </Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageLicenseFile>../LICENES.md</PackageLicenseFile>
+    <RepositoryUrl>https://github.com/corniel/piet.net</RepositoryUrl>
+    <IsPackable>false</IsPackable>
+    <IsPublishable>false</IsPublishable>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="DotNetProjectFile.Analyzers" PrivateAssets="all" ExcludeAssets="compile" />
+    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" ExcludeAssets="compile" />
+    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" ExcludeAssets="compile" />
+  </ItemGroup>
+
+</Project>

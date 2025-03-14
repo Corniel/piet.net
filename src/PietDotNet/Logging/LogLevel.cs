@@ -1,4 +1,4 @@
-﻿namespace PietDotNet.Logging;
+namespace PietDotNet.Logging;
 
 public enum LogLevel
 {

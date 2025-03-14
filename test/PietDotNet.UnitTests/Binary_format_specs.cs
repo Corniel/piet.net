@@ -1,4 +1,4 @@
-﻿using PietDotNet.IO;
+using PietDotNet.IO;
 using PietDotNet.Tests.Tooling;
 using System.IO;
 

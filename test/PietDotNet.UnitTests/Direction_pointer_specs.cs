@@ -1,4 +1,4 @@
-﻿namespace Direction_pointer_specs;
+namespace Direction_pointer_specs;
 
 public class Rotate
 {

@@ -1,4 +1,4 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 /// <summary>Represents a codel (position).</summary>
 /// <remarks>
@@ -24,17 +24,14 @@ public readonly struct Codel : IEquatable<Codel>
     public int Y { get; }
 
     /// <summary>Moves to the next codel based on the <see cref="DirectionPointer"/>.</summary>
-    public Codel Next(DirectionPointer dp)
+    public Codel Next(DirectionPointer dp) => dp switch
     {
-        return dp switch
-        {
-            DirectionPointer.right => /**/ new Codel(X + 1, Y + 0),
-            DirectionPointer.left => /* */ new Codel(X - 1, Y + 0),
-            DirectionPointer.top => /*  */ new Codel(X + 0, Y - 1),
-            DirectionPointer.down => /* */ new Codel(X + 0, Y + 1),
-            _ => throw new ArgumentOutOfRangeException(nameof(dp)),
-        };
-    }
+        DirectionPointer.right => /*.*/ new(X + 1, Y + 0),
+        DirectionPointer.left => /*..*/ new(X - 1, Y + 0),
+        DirectionPointer.top => /*...*/ new(X + 0, Y - 1),
+        DirectionPointer.down => /*..*/ new(X + 0, Y + 1),
+        _ => throw new ArgumentOutOfRangeException(nameof(dp)),
+    };
 
     /// <inheritdoc />
     public override string ToString() => $"({X}, {Y})";

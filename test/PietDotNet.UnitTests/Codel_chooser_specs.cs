@@ -1,4 +1,4 @@
-﻿namespace Codel_chooser_specs;
+namespace Codel_chooser_specs;
 
 public class Switch
 {

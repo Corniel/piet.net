@@ -1,4 +1,4 @@
-﻿using PietDotNet.Tests.Tooling;
+using PietDotNet.Tests.Tooling;
 
 namespace Colour_block_specs;
 

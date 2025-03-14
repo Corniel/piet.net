@@ -1,4 +1,4 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 /// <summary>Represents a Piet program.</summary>
 /// <remarks>

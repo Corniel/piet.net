@@ -1,4 +1,4 @@
-﻿using PietDotNet.Drawing;
+using PietDotNet.Drawing;
 using PietDotNet.Logging;
 using System.IO;
 

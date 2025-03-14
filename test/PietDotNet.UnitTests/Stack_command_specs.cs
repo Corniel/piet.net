@@ -1,4 +1,4 @@
-﻿using PietDotNet.Tests.Tooling;
+using PietDotNet.Tests.Tooling;
 using Stack = PietDotNet.Stack;
 
 namespace Stack_command_specs;

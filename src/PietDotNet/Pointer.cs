@@ -1,4 +1,4 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 /// <summary>Represents the pointer with its position and directions.</summary>
 public readonly struct Pointer : IEquatable<Pointer>

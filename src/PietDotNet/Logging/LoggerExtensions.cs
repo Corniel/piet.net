@@ -1,4 +1,4 @@
-﻿namespace PietDotNet.Logging;
+namespace PietDotNet.Logging;
 
 internal static class LoggerExtensions
 {

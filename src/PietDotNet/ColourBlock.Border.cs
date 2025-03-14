@@ -1,4 +1,4 @@
-﻿namespace PietDotNet;
+namespace PietDotNet;
 
 [DebuggerDisplay("Border")]
 internal class Border : ColourBlock

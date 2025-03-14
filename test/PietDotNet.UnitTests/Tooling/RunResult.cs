@@ -1,4 +1,4 @@
-﻿namespace PietDotNet.Tests.Tooling;
+namespace PietDotNet.Tests.Tooling;
 
 internal class RunResult
 {
