@@ -1,5 +1,5 @@
 using PietDotNet.IO;
-using PietDotNet.Tests.Tooling;
+using System.Globalization;
 using System.IO;
 
 namespace Binary_format_specs;
@@ -25,36 +25,28 @@ public class Compression
             catch (OverflowException) { overflown = true; }
         }
         results.Sort();
-
-        foreach (var result in results)
-        {
-            Console.WriteLine(result);
-        }
-
-        Assert.AreEqual(11, results.First().Codels);
-        Assert.AreEqual(6, results.First().ByteSize);
+        results[0].Should().BeEquivalentTo(new { Codels = 11, ByteSize = 6 });
     }
 
     [Test]
     public void With_density_of_1_8501_is_theoratical_optimum()
     {
         var optimum = Math.Log(256) / Math.Log(20);
-        Assert.AreEqual(1.8510, optimum, delta: 0.0001);
+        optimum.Should().BeApproximately(1.8510, precision: 0.0001);
     }
 
-    private readonly struct CodelDensity : IComparable<CodelDensity>
+    private readonly struct CodelDensity(int codels, ulong size) : IComparable<CodelDensity>
     {
-        public CodelDensity(int codels, ulong size)
-        {
-            Codels = codels;
-            ByteSize = (size.ToString("X2").Length + 1) / 2;
-        }
+        public int Codels { get; } = codels;
 
-        public int Codels { get; }
-        public int ByteSize { get; }
+        public int ByteSize { get; } = (size.ToString("X2").Length + 1) / 2;
+        
         public double Density => Codels / (double)ByteSize;
+        
         public int CompareTo(CodelDensity other) => other.Density.CompareTo(Density);
-        public override string ToString() => $"Codels: {Codels:00} {ByteSize} byte, {Density:0.000}";
+
+        public override string ToString() => string.Create(CultureInfo.InvariantCulture,
+            $"Codels = {Codels:00} ({ByteSize} byte), Density = {Density:0.000} Codels/byte");
     }
 }
 
@@ -68,13 +60,18 @@ public class Storage
         using var stream = new MemoryStream();
         program.Save(stream);
 
-        Assert.AreEqual(188, stream.Length);
+        stream.Should().HaveLength(188);
 
         stream.Position = 0;
 
         var reloaded = Binary.Load(stream);
-        Assert.AreEqual(program.Width, reloaded.Width);
-        Assert.AreEqual(program.Height, reloaded.Height);
-        CollectionAssert.AreEqual(program.ToArray(), reloaded.ToArray());
+
+        ((object)reloaded).Should().BeEquivalentTo(new
+        {
+            program.Width,
+            program.Height,
+        });
+
+        reloaded.Should().BeEquivalentTo(program);
     }
 }

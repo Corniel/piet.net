@@ -45,7 +45,7 @@ public readonly struct Command : IEquatable<Command>
     public override string ToString() => Name;
 
     /// <inheritdoc />
-    public override bool Equals(object obj) => obj is Command other && Equals(other);
+    public override bool Equals(object? obj) => obj is Command other && Equals(other);
 
     /// <inheritdoc />
     public bool Equals(Command other) => Hue == other.Hue && Lightness == other.Lightness;

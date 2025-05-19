@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
-    <RootNamespace>PietDotNet.Tests</RootNamespace>
-    <AssemblyName>PietDotNet.Tests</AssemblyName>
     <IsTestProject>true</IsTestProject>
     <OutputType>library</OutputType>
   </PropertyGroup>
@@ -32,20 +29,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../../src/PietDotNet/Piet.Net.csproj" />
+    <ProjectReference Include="../PietDotNet/Piet.Net.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AwesomeAssertions" />
     <PackageReference Include="nunit" />
   </ItemGroup>
 
   <ItemGroup Label="Tooling">
-    <PackageReference Include="Microsoft.NET.Test.Sdk" PrivateAssets="all" />
-    <PackageReference Include="NUnit3TestAdapter" PrivateAssets="all" />
+    <PackageReference PrivateAssets="all" Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference PrivateAssets="all" Include="NUnit3TestAdapter" />
   </ItemGroup>
 
   <ItemGroup Label="Analyzers">
-    <PackageReference Include="NUnit.Analyzers" PrivateAssets="all" ExcludeAssets="compile" />
+    <PackageReference PrivateAssets="all" Include="AwesomeAssertions.Analyzers" />
+    <PackageReference PrivateAssets="all" Include="NUnit.Analyzers" />
   </ItemGroup>
 
 </Project>

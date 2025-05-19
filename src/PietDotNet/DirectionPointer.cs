@@ -10,8 +10,8 @@ public enum DirectionPointer
 
 public static class DirectionPointerExtensions
 {
-    public static DirectionPointer Rotate(this DirectionPointer dp, long steps)
+    extension(DirectionPointer dp)
     {
-        return (DirectionPointer)((long)dp + steps).Modulo(4);
+        public DirectionPointer Rotate(long steps) => (DirectionPointer)((long)dp + steps).Modulo(4);
     }
 }

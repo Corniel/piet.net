@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path=".net.csproj" />
+  <Project Path="src/PietDotNet/Piet.Net.csproj" />
+  <Project Path="src/Specs/Specs.csproj" />
+</Solution>

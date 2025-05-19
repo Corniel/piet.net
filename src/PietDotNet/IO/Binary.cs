@@ -14,7 +14,7 @@ public static class Binary
 {
     public static Program Load(Stream stream)
     {
-        Guard.NotNull(stream, nameof(stream));
+        Guard.NotNull(stream);
 
         var lookup = Colour.All.ToArray();
 
@@ -56,8 +56,8 @@ public static class Binary
 
     public static void Save(this Program program, Stream stream)
     {
-        Guard.NotNull(program, nameof(program));
-        Guard.NotNull(stream, nameof(stream));
+        Guard.NotNull(program);
+        Guard.NotNull(stream);
 
         var writer = new BinaryWriter(stream);
         writer.Write(program.Width);

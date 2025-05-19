@@ -6,18 +6,18 @@ namespace PietDotNet;
 /// paintings. The language is named after Piet Mondrian, who pioneered the
 /// field of geometric abstract art.
 /// </remarks>
-public class Program : IEnumerable<Colour>
+public sealed class Program : IEnumerable<Colour>
 {
-    private readonly Colour[][] _codels;
-    private readonly ColourBlock[][] _blocks;
+    private readonly Colour[][] Codels;
+    private readonly ColourBlock[][] Blocks;
 
     /// <summary>Creates a new instance of a Piet <see cref="Program"/>.</summary>
     internal Program(Colour[][] codels)
     {
-        _codels = codels;
+        Codels = codels;
         Width = codels.Length;
         Height = codels[0].Length;
-        _blocks = Jagged.Array<ColourBlock>(Width, Height);
+        Blocks = Jagged.Array<ColourBlock>(Width, Height);
     }
 
     /// <summary>Gets the width of the program.</summary>
@@ -27,7 +27,7 @@ public class Program : IEnumerable<Colour>
     public int Height { get; }
 
     /// <summary>Gets the codel of the pointer.</summary>
-    public Colour this[Codel position] => OnCanvas(position) ? _codels[position.X][position.Y] : Colour.Black;
+    public Colour this[Codel position] => OnCanvas(position) ? Codels[position.X][position.Y] : Colour.Black;
 
     /// <summary>Gets the value of the colour block.</summary>
     public ColourBlock SelectBlock(State state) => SelectBlock(state.Pointer.Position);
@@ -44,7 +44,7 @@ public class Program : IEnumerable<Colour>
             return ColourBlock.Border;
         }
 
-        var val = _blocks[position.X][position.Y];
+        var val = Blocks[position.X][position.Y];
         return val is null
             ? DetermineColourBlock(position)
             : val;
@@ -52,12 +52,10 @@ public class Program : IEnumerable<Colour>
 
     /// <summary>Returns true if the point is on canvas, otherwise false.</summary>
     public bool OnCanvas(Codel codel)
-    {
-        return codel.X >= 0
-            && codel.Y >= 0
-            && codel.X < Width
-            && codel.Y < Height;
-    }
+        => codel.X >= 0
+        && codel.Y >= 0
+        && codel.X < Width
+        && codel.Y < Height;
 
     /// <summary>Determines the value of the colour block.</summary>
     /// <param name="pointer">
@@ -76,7 +74,7 @@ public class Program : IEnumerable<Colour>
         {
             if (this[p].IsBlack ||
                 visited.Contains(p) ||
-                _blocks[p.X][p.Y] != null) continue;
+                Blocks[p.X][p.Y] != null) continue;
 
             // We don't want to do things twice.
             if (!visited.Add(p)) continue;
@@ -98,7 +96,7 @@ public class Program : IEnumerable<Colour>
 
         foreach (var codel in codels)
         {
-            _blocks[codel.X][codel.Y] = block;
+            Blocks[codel.X][codel.Y] = block;
         }
         return block;
     }
@@ -113,7 +111,7 @@ public class Program : IEnumerable<Colour>
         {
             for (var y = 0; y < Height; y++)
             {
-                yield return _codels[x][y];
+                yield return Codels[x][y];
             }
         }
     }

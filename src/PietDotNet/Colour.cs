@@ -95,9 +95,7 @@ public sealed record Colour
     internal int Index { get; }
 
     internal string Debug()
-    {
-        return $"#{(RgbCode >> 20) & 15:X}{(RgbCode >> 12) & 15:X}{(RgbCode >> 4) & 15:X}";
-    }
+        => $"#{(RgbCode >> 20) & 15:X}{(RgbCode >> 12) & 15:X}{(RgbCode >> 4) & 15:X}";
 
     /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Colour"/>s.</summary>
     public static Command operator -(Colour l, Colour r) => Command.Delta(l, r);

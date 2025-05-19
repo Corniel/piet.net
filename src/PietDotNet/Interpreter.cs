@@ -39,11 +39,13 @@ public static class Interpreter
     private static State Traverse(State state, Program program, Logger logger)
     {
         var traversed = state.PointerLeaves(program.SelectBlock(state));
-        var target = program.SelectBlock(traversed);
 
-        if (target.IsBlack) return TraverseBlack(state, program, logger);
-        else if (target.IsWhite) return TraverseWhite(traversed, program, logger);
-        else return traversed;
+        return program.SelectBlock(traversed) switch
+        {
+            { IsBlack: true } => TraverseBlack(state, program, logger),
+            { IsWhite: true } => TraverseWhite(traversed, program, logger),
+            _ => traversed
+        };
     }
 
     /// <summary>Handles traverse for black codels (and program edges).</summary>
@@ -66,11 +68,13 @@ public static class Interpreter
             : state.Rotate();
 
         var leave = traversed.PointerLeaves(program.SelectBlock(traversed));
-        var block = program.SelectBlock(leave);
 
-        if (block.IsBlack) return TraverseBlack(traversed, program, logger, retry + 1);
-        else if (block.IsWhite) return TraverseWhite(leave, program, logger);
-        else return leave;
+        return program.SelectBlock(leave) switch
+        {
+            { IsBlack: true } => TraverseBlack(traversed, program, logger, retry + 1),
+            { IsWhite: true } => TraverseWhite(leave, program, logger),
+            _ => leave
+        };
     }
 
     /// <summary>Handles traverse for white codels.</summary>
@@ -110,13 +114,11 @@ public static class Interpreter
                 traversed = next_state.SelectBlock(next_block);
                 return Traverse(traversed, program, logger);
             }
-            else if (next_block.IsWhite)
-            {
-                traversed = next_state;
-            }
             else
             {
-                traversed = traversed.Switch().Rotate();
+                traversed = next_block.IsWhite
+                    ? next_state
+                    : traversed.Switch().Rotate();
             }
         }
         throw new Terminated();

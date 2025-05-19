@@ -1,7 +1,7 @@
 using PietDotNet.Drawing;
 using System.IO;
 
-namespace PietDotNet.Tests.Tooling;
+namespace Specs.Tooling;
 
 internal static class Runner
 {
@@ -19,7 +19,7 @@ internal static class Runner
     
     }
 
-    internal static RunResult Run(string path, int codelSize = 1, int maxRuns = int.MaxValue, TestIO io = null)
+    internal static RunResult Run(string path, int codelSize = 1, int maxRuns = int.MaxValue, TestIO? io = null)
     {
         var program = Load(path, codelSize);
         var logger = new UnitTestLogger();
@@ -32,7 +32,7 @@ internal static class Runner
     internal static Program Load(string path, int codelsize = 1)
     {
         using var stream = typeof(Runner).Assembly
-            .GetManifestResourceStream("PietDotNet.Tests.Programs." + path)
+            .GetManifestResourceStream("Specs.Programs." + path)
             ?? throw new FileNotFoundException(path);
 
         return Bitmapping.Load(stream, codelsize);

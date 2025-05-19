@@ -2,19 +2,20 @@ using PietDotNet.Diagnostics;
 
 namespace PietDotNet;
 
+[DebuggerDisplay("Colour = {Colour.Name}, Value = {Value}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
 public class ColourBlock : IEnumerable<Pointer>
 {
     public static readonly ColourBlock Border = new Border();
-    private readonly Codel[] _edges;
+    private readonly Codel[] Edges = [];
 
     protected ColourBlock() { }
 
     internal ColourBlock(Colour colour, IEnumerable<Codel> codels)
     {
-        Colour = Guard.NotNull(colour, nameof(colour));
+        Colour = Guard.NotNull(colour);
         Value = codels.Count();
-        _edges = InitEdges(codels);
+        Edges = InitEdges(codels);
     }
 
     private static Codel[] InitEdges(IEnumerable<Codel> codels)
@@ -24,8 +25,8 @@ public class ColourBlock : IEnumerable<Pointer>
         var yMin = codels.Min(p => p.Y);
         var yMax = codels.Max(p => p.Y);
 
-        return new[]
-        {
+        return
+        [
             /* DP.right CC.left  */ codels.Where(p => p.X == xMax).OrderBy(p => p.Y).FirstOrDefault(),
             /* DP.right CC.right */ codels.Where(p => p.X == xMax).OrderByDescending(p => p.Y).FirstOrDefault(),
             /* DP.down  CC.left  */ codels.Where(p => p.Y == yMax).OrderByDescending(p => p.X).FirstOrDefault(),
@@ -34,14 +35,14 @@ public class ColourBlock : IEnumerable<Pointer>
             /* DP.left  CC.right */ codels.Where(p => p.X == xMin).OrderBy(p => p.Y).FirstOrDefault(),
             /* DP.top   CC.left  */ codels.Where(p => p.Y == yMin).OrderBy(p => p.X).FirstOrDefault(),
             /* DP.top   CC.right */ codels.Where(p => p.Y == yMin).OrderByDescending(p => p.X).FirstOrDefault(),
-        };
+        ];
     }
 
     public bool HasColour => Colour.NotBlackOrWhite;
     public bool IsBlack => Colour.IsBlack;
     public bool IsWhite => Colour.IsWhite;
 
-    public virtual Colour Colour { get; }
+    public virtual Colour Colour { get; } = Colour.Black;
 
     public int Value { get; }
 
@@ -51,19 +52,16 @@ public class ColourBlock : IEnumerable<Pointer>
         return pointer.Move(position);
     }
 
-    public Codel Edge(Pointer pointer) => _edges[Index(pointer)];
+    public Codel Edge(Pointer pointer) => Edges[Index(pointer)];
 
     /// <inheritdoc />
     public override string ToString() => $"{Colour.Name}, Value: {Value}";
 
     /// <inheritdoc />
-    public IEnumerator<Pointer> GetEnumerator()
-    {
-        return _edges
-            .Select((codel, i) =>
-                new Pointer(codel, (DirectionPointer)(i >> 1), (CodelChooser)(i & 1))
-            ).GetEnumerator();
-    }
+    public IEnumerator<Pointer> GetEnumerator() => Edges
+        .Select((codel, i) => new Pointer(codel, (DirectionPointer)(i >> 1), (CodelChooser)(i & 1)))
+        .GetEnumerator();
+
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 

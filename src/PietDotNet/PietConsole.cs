@@ -3,7 +3,7 @@ using PietDotNet.Logging;
 
 namespace PietDotNet;
 
-internal class PietConsole : InOut, Logger
+internal sealed class PietConsole : InOut, Logger
 {
     public PietConsole(LogLevel minLevel = LogLevel.Error)
     {
@@ -19,7 +19,7 @@ internal class PietConsole : InOut, Logger
         var input = Console.Read();
         return input > -1
             ? (char)input
-            : (char?)null;
+            : null;
     }
 
     public long? InInt()
@@ -27,7 +27,7 @@ internal class PietConsole : InOut, Logger
         var input = Console.ReadLine();
         return long.TryParse(input, out var @in)
             ? @in
-            : (long?)null;
+            : null;
     }
 
     public void Out(long n) => Console.Write(n);

@@ -1,7 +1,7 @@
 namespace PietDotNet;
 
 [DebuggerDisplay("Border")]
-internal class Border : ColourBlock
+internal sealed class Border : ColourBlock
 {
     public override Colour Colour => Colour.Black;
 }

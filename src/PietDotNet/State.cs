@@ -1,10 +1,10 @@
 namespace PietDotNet;
 
-public class State
+public sealed class State
 {
     public static State Initial(Program program)
     {
-        Guard.NotNull(program, nameof(program));
+        Guard.NotNull(program);
         return new State(Pointer.Initial, Stack.Empty, program.SelectBlock((Codel)default));
     }
 

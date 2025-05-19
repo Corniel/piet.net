@@ -1,11 +1,22 @@
 <Project>
 
   <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>14.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <NuGetAuditMode>all</NuGetAuditMode>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <Copyright>Corniel Nobel</Copyright>
     <ProductName>Piet.NET</ProductName>
     <Description>
-      Piet is a programming language in which programs look like abstract paintings.
+      <![CDATA[
+Piet is a programming language in which programs look like abstract paintings.
+    ]]>
     </Description>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageLicenseFile>../LICENES.md</PackageLicenseFile>
@@ -13,11 +24,13 @@
     <IsPackable>false</IsPackable>
     <IsPublishable>false</IsPublishable>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="DotNetProjectFile.Analyzers" PrivateAssets="all" ExcludeAssets="compile" />
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" ExcludeAssets="compile" />
-    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" ExcludeAssets="compile" />
-  </ItemGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(ContinuousIntegrationBuild)' == 'true'">
+    <RestoreLockedMode>true</RestoreLockedMode>
+  </PropertyGroup>
 
 </Project>

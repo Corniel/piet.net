@@ -9,19 +9,13 @@ namespace PietDotNet;
 ///  confusion with the actual pixels of the enlarged graphic, of which
 ///  many may make up one codel. 
 /// </remarks>
-public readonly struct Codel : IEquatable<Codel>
+public readonly struct Codel(int x, int y) : IEquatable<Codel>
 {
-    public Codel(int x, int y)
-    {
-        X = x;
-        Y = y;
-    }
-
     /// <summary>Gets the x-coordinate of the codel.</summary>
-    public int X { get; }
+    public int X { get; } = x;
 
     /// <summary>Gets the y-coordinate of the codel.</summary>
-    public int Y { get; }
+    public int Y { get; } = y;
 
     /// <summary>Moves to the next codel based on the <see cref="DirectionPointer"/>.</summary>
     public Codel Next(DirectionPointer dp) => dp switch
@@ -37,7 +31,7 @@ public readonly struct Codel : IEquatable<Codel>
     public override string ToString() => $"({X}, {Y})";
 
     /// <inheritdoc />
-    public override bool Equals(object obj) => obj is Codel other && Equals(other);
+    public override bool Equals(object? obj) => obj is Codel other && Equals(other);
 
     /// <inheritdoc />
     public bool Equals(Codel other) => X == other.X && Y == other.Y;

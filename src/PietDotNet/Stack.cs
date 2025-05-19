@@ -2,7 +2,8 @@ using PietDotNet.Diagnostics;
 
 namespace PietDotNet;
 
-[DebuggerDisplay("{DebuggerDisplay}"), DebuggerTypeProxy(typeof(CollectionDebugView))]
+[DebuggerDisplay("Count = {Count}")]
+[DebuggerTypeProxy(typeof(CollectionDebugView))]
 public abstract class Stack : IEnumerable<long>
 {
     public static readonly Stack Empty = new EmptyStack();
@@ -35,9 +36,6 @@ public abstract class Stack : IEnumerable<long>
 
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private string DebuggerDisplay => $"Count = {Count}";
 
     private sealed class NonEmptyStack : Stack
     {

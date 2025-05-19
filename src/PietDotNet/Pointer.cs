@@ -43,21 +43,17 @@ public readonly struct Pointer : IEquatable<Pointer>
     public override string ToString() => $"{Position}, DP: {DP}, CC: {CC}";
 
     /// <inheritdoc />
-    public override bool Equals(object obj) => obj is Pointer other && Equals(other);
+    public override bool Equals(object? obj) => obj is Pointer other && Equals(other);
 
     /// <inheritdoc />
     public bool Equals(Pointer other)
-    {
-        return Position.Equals(other.Position)
-            && DP == other.DP
-            && CC == other.CC;
-    }
+        => Position.Equals(other.Position)
+        && DP == other.DP
+        && CC == other.CC;
 
     /// <inheritdoc />
     public override int GetHashCode()
-    {
-        return Position.GetHashCode()
-            ^ (DP.GetHashCode() << 16)
-            ^ (CC.GetHashCode() << 24);
-    }
+        => Position.GetHashCode()
+        ^ (DP.GetHashCode() << 16)
+        ^ (CC.GetHashCode() << 24);
 }

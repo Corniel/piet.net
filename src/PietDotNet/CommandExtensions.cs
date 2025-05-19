@@ -27,13 +27,9 @@ public static class CommandExtensions
     }
 
     public static State Execute(this Command cmd, State state, InOut io)
-    {
-        if (commands.TryGetValue(cmd, out var command))
-        {
-            return command(state, io);
-        }
-        else throw new UnkownCommand();
-    }
+        => commands.TryGetValue(cmd, out var command)
+        ? command(state, io)
+        : throw new UnkownCommand();
 
     internal static State None(State state, InOut io) => state;
 
@@ -42,89 +38,63 @@ public static class CommandExtensions
     ///  Note that values of colour blocks are not automatically pushed on to the stack - this push operation must be explicitly carried out.
     /// </remarks>
     internal static State Push(State state, InOut io)
-    {
-        return state.With(state.Stack.Push(state.Value));
-    }
+        => state.With(state.Stack.Push(state.Value));
 
     /// <summary>Pops the top value off the stack and discards it.</summary>
     internal static State Pop(State state, InOut io)
-    {
-        return state.With(state.Stack.Pop());
-    }
+        => state.With(state.Stack.Pop());
 
     /// <summary>Pops the top two values off the stack, adds them, and pushes the result back on the stack.</summary>
     internal static State Add(State state, InOut io)
-    {
-        return state.With(state.Stack.Add());
-    }
+        => state.With(state.Stack.Add());
 
     /// <summary>Pops the top two values off the stack, calculates the second top value minus the top value, and pushes the result back on the stack.</summary>
     internal static State Subtract(State state, InOut io)
-    {
-        return state.With(state.Stack.Subtract());
-    }
+        => state.With(state.Stack.Subtract());
 
     /// <summary>Pops the top two values off the stack, multiplies them, and pushes the result back on the stack.</summary>
     internal static State Multiply(State state, InOut io)
-    {
-        return state.With(state.Stack.Multiply());
-    }
+        => state.With(state.Stack.Multiply());
 
     /// <summary>Pops the top two values off the stack, calculates the integer division of the second top value by the top value, and pushes the result back on the stack.</summary>
     /// <remarks>
     /// If a divide by zero occurs, it is handled as an implementation-dependent error, though simply ignoring the command is recommended.
     /// </remarks>
     internal static State Divide(State state, InOut io)
-    {
-        return state.With(state.Stack.Divide());
-    }
+        => state.With(state.Stack.Divide());
 
     /// <summary>Pops the top two values off the stack, calculates the second top value modulo the top value, and pushes the result back on the stack.</summary>
     /// <remarks>
     ///  The result has the same sign as the divisor (the top value). If the top value is zero, this is a divide by zero error, which is handled as an implementation-dependent error, though simply ignoring the command is recommended. (See note below.)
     /// </remarks>
     internal static State Modulo(State state, InOut io)
-    {
-        return state.With(state.Stack.Modulo());
-    }
+        => state.With(state.Stack.Modulo());
 
     /// <summary>Replaces the top value of the stack with 0 if it is non-zero, and 1 if it is zero.</summary>
     internal static State Not(State state, InOut io)
-    {
-        return state.With(state.Stack.Not());
-    }
+        => state.With(state.Stack.Not());
 
     /// <summary> Pops the top two values off the stack, and pushes 1 on to the stack if the second top value is greater than the top value, and pushes 0 if it is not greater.</summary>
     internal static State Greater(State state, InOut io)
-    {
-        return state.With(state.Stack.Greater());
-    }
+        => state.With(state.Stack.Greater());
 
     /// <summary>Pops the top value off the stack and rotates the DP clockwise that many steps (anticlockwise if negative).</summary>
-    internal static State Rotate(State state, InOut io)
-    {
-        return state.With
-        (
-            state.Pointer.Rotate(state.Stack.First()),
-            state.Stack.Pop()
-        );
-    }
+    internal static State Rotate(State state, InOut io) => state.With
+    (
+        state.Pointer.Rotate(state.Stack.First()),
+        state.Stack.Pop()
+    );
 
     /// <summary>Pops the top value off the stack and toggles the CC that many times (the absolute value of that many times if negative).</summary>
-    internal static State Switch(State state, InOut io)
-    {
-        return state.With
-        (
-            state.Pointer.Switch(state.Stack.First()),
-            state.Stack.Pop()
-        );
-    }
+    internal static State Switch(State state, InOut io) => state.With
+    (
+        state.Pointer.Switch(state.Stack.First()),
+        state.Stack.Pop()
+    );
 
     /// <summary> Pushes a copy of the top value on the stack on to the stack.</summary>
     internal static State Duplicate(State state, InOut io)
-    {
-        return state.With(state.Stack.Duplicate());
-    }
+        => state.With(state.Stack.Duplicate());
 
     /// <summary>Pops the top two values off the stack and "rolls" the remaining stack entries to a depth equal to the second value popped, by a number of rolls equal to the first value popped.</summary>
     /// <remarks>
@@ -137,9 +107,7 @@ public static class CommandExtensions
     /// is recommended.
     /// </remarks>
     internal static State Roll(State state, InOut io)
-    {
-        return state.With(state.Stack.Roll());
-    }
+        => state.With(state.Stack.Roll());
 
     /// <summary>Reads a value from STDIN as either a number or character, depending on the particular incarnation of this command and pushes it on to the stack.</summary>
     /// <remarks>
