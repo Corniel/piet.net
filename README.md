@@ -1,4 +1,8 @@
-# Introduction
+# Piet.NET
+This is an interpreter for the Piet programming language written in C#. The
+`Specs` project includes some actual [programs](PROGRAMS.md) that are executed.
+
+## Introduction
 
 Piet is a programming language in which programs look like abstract paintings. 
 The language is named after Piet Mondrian, who pioneered the field of geometric
@@ -11,9 +15,9 @@ scripting language.
 *Composition with Red, Yellow and Blue.*
 1921, Piet Mondrian.
 
-## Language Concepts
+### Language Concepts
 
-### Codels
+#### Codels
 Piet code takes the form of graphics made up of the recognised colours. Individual
 pixels of colour are significant in the language, so it is common for programs to
 be enlarged for viewing so that the details are easily visible. In such enlarged
@@ -21,14 +25,14 @@ programs, the term "codel" is used to mean a block of colour equivalent to a
 single pixel of code, to avoid confusion with the actual pixels of the enlarged
 graphic, of which many may make up one codel.
 
-### Colour Blocks
+#### Colour Blocks
 The basic unit of Piet code is the colour block. A colour block is a contiguous
 block of any number of codels of one colour, bounded by blocks of other colours
 or by the edge of the program graphic. Blocks of colour adjacent only diagonally
 are not considered contiguous. A colour block may be any shape and may have
 "holes" of other colours inside it, which are not considered part of the block. 
 
-### Stack
+#### Stack
 Piet uses a stack for storage of all data values. Data values exist only as
 integers, though they may be read in or printed as Unicode character values with
 appropriate commands.
@@ -37,7 +41,7 @@ The stack is notionally infinitely deep, but implementations may elect to provid
 a finite maximum stack size. If a finite stack overflows, it should be treated
 as a runtime error, and handling this will be implementation dependent. 
 
-### Program Execution
+#### Program Execution
 | DP    | CC    | Codel chosen |
 |-------|-------|--------------|
 | right | left  | uppermost    |
@@ -71,9 +75,9 @@ program under the following rules:
 
 The interpreter continues doing this until the program terminates. 
 
-## Syntax Elements
+### Syntax Elements
 
-### Numbers
+#### Numbers
 Each non-black, non-white colour block in a Piet program represents an integer
 equal to the number of codels in that block. Note that non-positive integers
 cannot be represented, although they can be constructed with operators. When
@@ -85,7 +89,7 @@ The maximum size of integers is notionally infinite, though implementations may
 implement a finite maximum integer size. An integer overflow is a runtime error,
 and handling this will be implementation dependent. 
 
-### Black Blocks and Edges
+#### Black Blocks and Edges
 Black colour blocks and the edges of the program restrict program flow. If the
 Piet interpreter attempts to move into a black block or off an edge, it is
 stopped and the CC is toggled. The interpreter then attempts to move from its
@@ -94,7 +98,7 @@ step. These attempts are repeated, with the CC and DP being changed between
 alternate attempts. If after eight attempts the interpreter cannot leave its
 current colour block, there is no way out and the program terminates. 
 
-### White Blocks
+#### White Blocks
 White colour blocks are "free" zones through which the interpreter passes
 unhindered. If it moves from a colour block into a white area, the interpreter
 "slides" through the white codels in the direction of the DP until it reaches a
@@ -127,7 +131,7 @@ My interpretation follows from a literal reading of the above text_:
   route. If it retraces its route entirely within a white block, there is no
   way out of the white block and execution should terminate.
 
-## Commands
+### Commands
 Commands are defined by the transition of colour from one colour block to the 
 next as the interpreter travels through the program. The number of steps along 
 the Hue Cycle and Lightness Cycle in each transition determine the command 
@@ -223,6 +227,6 @@ integer N. So:
 The mod command is thus identical to floored division in Wikipedia's page on
 the [modulus operation](https://en.wikipedia.org/wiki/Modulo_operation).
 
-## Links
+### Links
 * http://www.dangermouse.net/esoteric/piet.html
 * https://en.wikipedia.org/wiki/Piet_Mondrian
