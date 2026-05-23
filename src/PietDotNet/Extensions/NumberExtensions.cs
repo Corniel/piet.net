@@ -1,14 +1,27 @@
+using System.Reflection;
+
 namespace System;
 
 internal static class NumberExtensions
 {
-    public static bool IsEven(this int number) => (number & 1) == 0;
-
-    public static int Modulo(this int n, int modulo) => (int)Modulo((long)n, modulo);
-    
-    public static long Modulo(this long n, long modulo)
+    extension(long n)
     {
-        var result = n % modulo;
-        return result >= 0 ? result : result + modulo;
+        public bool IsEven => (n & 1) is 0;
+
+        public long Modulo(long modulo)
+        {
+            var result = n % modulo;
+            return result >= 0 ? result : result + modulo;
+        }
+    }
+    extension(int n)
+    {
+        public bool IsEven => (n & 1) is 0;
+
+        public int Modulo(int modulo)
+        {
+            var result = n % modulo;
+            return result >= 0 ? result : result + modulo;
+        }
     }
 }

@@ -63,7 +63,7 @@ public static class Interpreter
     {
         if (retry >= 8) throw new Terminated();
 
-        var traversed = retry.IsEven()
+        var traversed = retry.IsEven
             ? state.Switch()
             : state.Rotate();
 

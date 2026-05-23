@@ -1,6 +1,6 @@
 namespace PietDotNet;
 
-public sealed class State
+public readonly struct State
 {
     public static State Initial(Program program)
     {

@@ -55,7 +55,7 @@ public class Storage
     [Test]
     public void Save_and_reload_of_program_has_no_data_loss()
     {
-        var program = Runner.Load("tetris.png");
+        var program = Programs.Tetris;
 
         using var stream = new MemoryStream();
         program.Save(stream);

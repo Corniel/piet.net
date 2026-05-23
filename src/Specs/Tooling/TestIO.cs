@@ -43,7 +43,7 @@ public class TestIO : InOut
         public static void WriteLine(string? value)
         {
 #if DEBUG
-            Console.WriteLine(value);
+            Console.Error.WriteLine(value);
 #endif
         }
     }

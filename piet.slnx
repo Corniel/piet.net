@@ -1,5 +1,7 @@
 <Solution>
   <Project Path=".net.csproj" />
+  <Project Path="src/Benchmarks/Benchmarks.csproj" />
   <Project Path="src/PietDotNet/Piet.Net.csproj" />
+  <Project Path="src/Programs/Programs.csproj" />
   <Project Path="src/Specs/Specs.csproj" />
 </Solution>

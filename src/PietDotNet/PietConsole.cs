@@ -12,7 +12,7 @@ internal sealed class PietConsole : InOut, Logger
         MinLevel = minLevel;
     }
 
-    private LogLevel MinLevel { get; }
+    public LogLevel MinLevel { get; }
 
     public char? InChr()
     {

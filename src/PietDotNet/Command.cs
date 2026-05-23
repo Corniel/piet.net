@@ -1,3 +1,7 @@
+using PietDotNet.IO;
+using PietDotNet.Logging;
+using System.Diagnostics.Contracts;
+
 namespace PietDotNet;
 
 public readonly struct Command : IEquatable<Command>
@@ -41,6 +45,30 @@ public readonly struct Command : IEquatable<Command>
     /// <summary>Gets the name.</summary>
     public string Name => Names[this];
 
+    [Pure]
+    public State TryExecute(State state, InOut io, Logger logger)
+    {
+        try
+        {
+            var executed = Execute(state, io);
+            logger.Command(executed, this);
+            return executed;
+        }
+        catch (Terminated)
+        {
+            throw;
+        }
+        catch (Exception exception)
+        {
+            logger.Command(state, this, exception);
+            return state;
+        }
+    }
+
+    [Pure]
+    public State Execute(State state, InOut io)
+        => commands.TryGetValue(this)(state, io);
+
     /// <inheritdoc />
     public override string ToString() => Name;
 
@@ -64,6 +92,8 @@ public readonly struct Command : IEquatable<Command>
         var l = current.Lightness - previous.Lightness;
         return new Command(h, l);
     }
+
+    private static readonly Commands commands = new();
 
     private static readonly Dictionary<Command, string> Names = new()
     {

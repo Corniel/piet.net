@@ -1,88 +1,39 @@
 using PietDotNet.Diagnostics;
+using System.Collections.Immutable;
 
 namespace PietDotNet;
 
 [DebuggerDisplay("Count = {Count}")]
 [DebuggerTypeProxy(typeof(CollectionDebugView))]
-public abstract class Stack : IEnumerable<long>
+public readonly partial struct Stack : IEnumerable<long>
 {
-    public static readonly Stack Empty = new EmptyStack();
+    public static readonly Stack Empty = new([]);
 
-    private Stack() { }
+    private readonly ImmutableStack<long> Buffer;
+
+    private Stack(ImmutableStack<long> buffer) => Buffer = buffer;
+
+    public bool IsEmpty => Buffer.IsEmpty;
 
     /// <summary>Gets the number of items in the stack.</summary>
-    public abstract int Count { get; }
+    public int Count => Buffer.Count();
 
     /// <summary>Removes the top item from the stack.</summary>
-    public abstract Stack Pop();
-
-    /// <summary>Removes the top n items from the stack.</summary>
-    public Stack Pop(int repeat) => 
-        repeat == 0 
-        ? this 
-        : Pop().Pop(repeat - 1);
+    public Stack Pop() => Buffer.IsEmpty
+        ? throw new InsufficientStackSize()
+        : new(Buffer.Pop());
 
     /// <summary>Returns the top integer from the stack without removing it.</summary>
-    public abstract long Peek();
+    public long Peek() => Buffer.IsEmpty
+        ? throw new InsufficientStackSize()
+        :  Buffer.Peek();
 
     /// <summary>Pushes an integer to the top of the stack.</summary>
-    public Stack Push(long integer) => new NonEmptyStack(this, integer);
-
-    /// <summary>Pushes an boolean to the top of the stack.</summary>
-    public Stack Push(bool boolean) => Push(boolean ? 1 : 0);
+    public Stack Push(long integer) => new(Buffer.Push(integer));
 
     /// <inheritdoc />
-    public abstract IEnumerator<long> GetEnumerator();
+    public IEnumerator<long> GetEnumerator() => Buffer.AsEnumerable().GetEnumerator();
 
     /// <inheritdoc />
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
-
-    private sealed class NonEmptyStack : Stack
-    {
-        private readonly Stack previous;
-        private readonly long value;
-
-        internal NonEmptyStack(Stack previous, long value)
-        {
-            this.previous = previous;
-            this.value = value;
-        }
-
-        /// <inheritdoc />
-        public override int Count => previous.Count + 1;
-
-        /// <inheritdoc />
-        public override long Peek() => value;
-
-        /// <inheritdoc />
-        public override Stack Pop() => previous;
-
-        /// <inheritdoc />
-        public override IEnumerator<long> GetEnumerator() => Enumerate().GetEnumerator();
-        
-        private IEnumerable<long> Enumerate()
-        {
-            Stack current = this;
-            while (current is NonEmptyStack nonEmpty)
-            {
-                yield return nonEmpty.value;
-                current = nonEmpty.previous;
-            }
-        }
-    }
-
-    private sealed class EmptyStack : Stack
-    {
-        /// <inheritdoc />
-        public override int Count => 0;
-
-        /// <inheritdoc />
-        public override IEnumerator<long> GetEnumerator() => Enumerable.Empty<long>().GetEnumerator();
-
-        /// <inheritdoc />
-        public override long Peek() => throw new InsufficientStackSize();
-
-        /// <inheritdoc />
-        public override Stack Pop() => throw new InsufficientStackSize();
-    }
 }

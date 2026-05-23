@@ -3,33 +3,51 @@ using PietDotNet.Logging;
 
 namespace PietDotNet;
 
-public static class CommandExtensions
+public sealed class Commands
 {
-    private delegate State Executable(State state, InOut io);
+    public delegate State Executable(State state, InOut io);
 
-    public static State TryExecute(this Command cmd, State state, InOut io, Logger logger)
+    private readonly Executable[] Executables;
+
+    public Commands()
     {
-        try
+        var all = new Dictionary<Command, Executable>
         {
-            var executed = cmd.Execute(state, io);
-            logger.Command(executed, cmd);
-            return executed;
-        }
-        catch (Terminated)
-        {
-            throw;
-        }
-        catch (Exception exception)
-        {
-            logger.Command(state, cmd, exception);
-            return state;
-        }
+            [Command.None] /*......*/ = None,
+            [Command.Push] /*......*/ = Push,
+            [Command.Pop] /*.......*/ = Pop,
+            [Command.Add] /*.......*/ = Add,
+            [Command.Subtract] /*..*/ = Subtract,
+            [Command.Multiply] /*..*/ = Multiply,
+            [Command.Divide] /*....*/ = Divide,
+            [Command.Modulo] /*....*/ = Modulo,
+            [Command.Not] /*.......*/ = Not,
+            [Command.Greater] /*...*/ = Greater,
+            [Command.Rotate] /*....*/ = Rotate,
+            [Command.Switch] /*....*/ = Switch,
+            [Command.Duplicate] /*.*/ = Duplicate,
+            [Command.Roll] /*......*/ = Roll,
+            [Command.InInt] /*.....*/ = InInt,
+            [Command.InChr] /*.....*/ = InChr,
+            [Command.OutInt] /*....*/ = OutInt,
+            [Command.OutChr] /*....*/ = OutChr,
+        };
+
+        Executables = new Executable[all.Keys.Max(k => k.GetHashCode()) + 1];
+        for (var i = 0; i < Executables.Length; i++)
+            Executables[i] = Unkown;
+
+        foreach (var (key, exe) in all)
+            Executables[key.GetHashCode()] = exe;
     }
 
-    public static State Execute(this Command cmd, State state, InOut io)
-        => commands.TryGetValue(cmd, out var command)
-        ? command(state, io)
-        : throw new UnkownCommand();
+    public Executable TryGetValue(Command cmd)
+    {
+        var key = cmd.GetHashCode();
+        return key >= 0 && key < Executables.Length
+            ? Executables[key]
+            : Unkown;
+    }
 
     internal static State None(State state, InOut io) => state;
 
@@ -81,14 +99,14 @@ public static class CommandExtensions
     /// <summary>Pops the top value off the stack and rotates the DP clockwise that many steps (anticlockwise if negative).</summary>
     internal static State Rotate(State state, InOut io) => state.With
     (
-        state.Pointer.Rotate(state.Stack.First()),
+        state.Pointer.Rotate(state.Stack.Peek()),
         state.Stack.Pop()
     );
 
     /// <summary>Pops the top value off the stack and toggles the CC that many times (the absolute value of that many times if negative).</summary>
     internal static State Switch(State state, InOut io) => state.With
     (
-        state.Pointer.Switch(state.Stack.First()),
+        state.Pointer.Switch(state.Stack.Peek()),
         state.Stack.Pop()
     );
 
@@ -144,25 +162,5 @@ public static class CommandExtensions
         return state.With(state.Stack.Pop());
     }
 
-    private static readonly Dictionary<Command, Executable> commands = new()
-    {
-        [Command.None] /*......*/ = None,
-        [Command.Push] /*......*/ = Push,
-        [Command.Pop] /*.......*/ = Pop,
-        [Command.Add] /*.......*/ = Add,
-        [Command.Subtract] /*..*/ = Subtract,
-        [Command.Multiply] /*..*/ = Multiply,
-        [Command.Divide] /*....*/ = Divide,
-        [Command.Modulo] /*....*/ = Modulo,
-        [Command.Not] /*.......*/ = Not,
-        [Command.Greater] /*...*/ = Greater,
-        [Command.Rotate] /*....*/ = Rotate,
-        [Command.Switch] /*....*/ = Switch,
-        [Command.Duplicate] /*.*/ = Duplicate,
-        [Command.Roll] /*......*/ = Roll,
-        [Command.InInt] /*.....*/ = InInt,
-        [Command.InChr] /*.....*/ = InChr,
-        [Command.OutInt] /*....*/ = OutInt,
-        [Command.OutChr] /*....*/ = OutChr,
-    };
+    internal static State Unkown(State state, InOut io) => throw new UnkownCommand();
 }

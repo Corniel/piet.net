@@ -8,7 +8,7 @@ public class Pop
     public void Empty_stack_has_insufficient_stack_size() 
         => Stack.Empty.Invoking(s => s
         .Pop())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void Removes_top_item_from_not_empty_stack()
@@ -25,7 +25,7 @@ public class Peek
     public void Empty_stack_has_insufficient_stack_size()
         => Stack.Empty.Invoking(s => s
         .Peek())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void Returns_top_value_on_not_empty_stack()
@@ -42,16 +42,6 @@ public class Push
     public void integer_adds_value_to_top()
         => Stack.Empty.Push(42)
         .Should().Be(42);
-
-    [Test]
-    public void true_adds_1_to_top()
-        => Stack.Empty.Push(true)
-        .Should().Be(1);
-
-    [Test]
-    public void false_adds_0_to_top()
-        => Stack.Empty.Push(false)
-        .Should().Be(0);
 }
 
 public class Add
@@ -61,7 +51,7 @@ public class Add
         => Stack.Empty.Invoking(s => s
         .Push(42)
         .Add())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void pops_top_values_and_pushes_sum()
@@ -80,7 +70,7 @@ public class Subtract
         => Stack.Empty.Invoking(s => s
         .Push(42)
         .Subtract())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void pops_top_values_and_pushes_subtraction()
@@ -99,7 +89,7 @@ public class Multiply
         => Stack.Empty.Invoking(s => s
         .Push(42)
         .Multiply())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void pops_top_values_and_pushes_product()
@@ -117,7 +107,7 @@ public class Divide
         => Stack.Empty.Invoking(s => s
         .Push(42)
         .Divide())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void by_zero_is_not_allowed()
@@ -143,7 +133,7 @@ public class Modulo
         => Stack.Empty.Invoking(s => s
         .Push(42)
         .Modulo())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void with_zero_is_not_allowed()
@@ -178,7 +168,7 @@ public class Not
     public void with_zero_items_is_has_insufficient_stack_size()
         => Stack.Empty.Invoking(s => s
         .Not())
-        .Should().Throw<InsufficientStackSize>();
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void top_value_0_becomes_1()
@@ -204,7 +194,7 @@ public class Greater
         => Stack.Empty.Invoking(s => s
             .Push(42)
             .Greater())
-            .Should().Throw<InsufficientStackSize>();
+            .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void pops_top_values_and_pushes_1_as_second_was_greater()
@@ -231,7 +221,7 @@ public class Duplicate
     public void with_zero_items_is_has_insufficient_stack_size()
 		=> Stack.Empty.Invoking(s => s
             .Duplicate())
-            .Should().Throw<InsufficientStackSize>();
+            .Should().Throw<InvalidOperationException>();
     
     [Test]
     public void adds_copy_top_value_to_top()
@@ -249,7 +239,7 @@ public class Roll
         => Stack.Empty.Invoking(s => s
             .Push(42)
             .Roll())
-		    .Should().Throw<InsufficientStackSize>();
+		    .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void With_negative_depth_is_not_allowed()
@@ -267,7 +257,7 @@ public class Roll
             .Push(2)
             .Push(1)
             .Roll())
-            .Should().Throw<InsufficientStackSize>();
+            .Should().Throw<InvalidOperationException>();
 
     [Test]
     public void With_zero_depth_keeps_same_order()

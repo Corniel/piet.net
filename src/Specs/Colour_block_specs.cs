@@ -5,7 +5,7 @@ public class Value
     [Test]
     public void Equals_the_number_of_codels_of_the_block()
     {
-        var program = Runner.Load("fibonacci_numbers.gif");
+        var program = Programs.FibonacciNumbers;
         object block = program.SelectBlock(new Codel(8, 9));
         block.Should().BeEquivalentTo(new
         {
@@ -50,7 +50,7 @@ public class Edge
     public void From_1x1_form(DirectionPointer dp, CodelChooser cc)
     {
         var codel = new Codel(9, 0);
-        var program = Runner.Load("fibonacci_numbers.gif");
+        var program = Programs.FibonacciNumbers;
         var block = program.SelectBlock(codel);
         var pointer = Pointer.Initial.Rotate((int)dp).Switch((int)cc);
         

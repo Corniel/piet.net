@@ -10,7 +10,7 @@ public sealed class InvalidInput : ArgumentException
     public InvalidInput() : base("Invalid input.") { }
 }
 
-public sealed class NegativeDepth : ArgumentOutOfRangeException
+public sealed class NegativeDepth : InvalidOperationException
 {
     public NegativeDepth() : base("Depth can not be negative.") { }
 }
