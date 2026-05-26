@@ -4,13 +4,13 @@ using Piet.Programs;
 namespace Benchmarks;
 
 [MemoryDiagnoser]
-public class PietPrograms
+public class Interpretated
 {
-    private readonly RunnerContext dayOfWeek = Streams.DayOfWeek.Ctx(2017, 06, 11);
-    private readonly RunnerContext fizzBuzz = Streams.FizzBuzz.Ctx(30 * 15 * 83);
-    private readonly RunnerContext gnomeSort = Streams.GnomeSort.Ctx(4, 17, 69, 0, 42);
-    private readonly RunnerContext pi = Streams.Pi.Ctx();
-    private readonly RunnerContext powerFunction = Streams.PowerFunction.Ctx();
+    private readonly InterpreterContext dayOfWeek = Streams.DayOfWeek.Ctx(2017, 06, 11);
+    private readonly InterpreterContext fizzBuzz = Streams.FizzBuzz.Ctx(30 * 15 * 83);
+    private readonly InterpreterContext gnomeSort = Streams.GnomeSort.Ctx(4, 17, 69, 0, 42);
+    private readonly InterpreterContext pi = Streams.Pi.Ctx();
+    private readonly InterpreterContext powerFunction = Streams.PowerFunction.Ctx(17, 3);
 
     [Benchmark]
     public IReadOnlyList<object> DayOfWeek()

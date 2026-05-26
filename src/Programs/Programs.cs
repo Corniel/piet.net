@@ -11,7 +11,7 @@ public static class Streams
 
     public static readonly Stream EuclidsAlgorithm = Load("euclids_algorithm.png");
 
-    public static readonly Stream FibonacciNumbers = Load("fibonacci_numbers.gif");
+    public static readonly Stream Fibonacci = Load("fibonacci_numbers.gif");
 
     public static readonly Stream FizzBuzz = Load("fizz_buzz.png");
 
@@ -30,6 +30,8 @@ public static class Streams
     public static readonly Stream Pi = Load("pi_052.png");
 
     public static readonly Stream Pong = Load("pong.png");
+
+    public static readonly Stream IsPrime = Load("prime_tester.png");
 
     public static readonly Stream PowerFunction = Load("power_function.png");
 

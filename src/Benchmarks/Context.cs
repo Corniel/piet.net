@@ -1,20 +1,19 @@
 using Piet.Interpreting.Logging;
 using Piet.Runtime.IO;
-using Piet.Syntax;
 
 namespace Benchmarks;
 
 [Mutable]
-public sealed record RunnerContext : InOut
+public abstract record Context<TContext> : InOut
+    where TContext: Context<TContext>
 {
-    public RunnerContext Reset()
+    public TContext Reset()
     {
         chars = 0;
         ints = 0;
         Output.Clear();
-        return this;
+        return (TContext)this;
     }
-    public required Program Program { get; init; }
 
     public Logger Logger { get; init; } = new NullLogger();
 

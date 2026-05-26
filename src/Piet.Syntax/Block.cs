@@ -17,7 +17,7 @@ public sealed class Block(Colour colour, ImmutableArray<Codel> codels)
 
     public Orientations<Neighbour> Neighbours { get; } = new();
 
-    public bool HasColour => Colour.NotBlackOrWhite;
+    public bool HasColour => Colour.HasColour;
     public bool IsBlack => Colour.IsBlack;
     public bool IsWhite => Colour.IsWhite;
 

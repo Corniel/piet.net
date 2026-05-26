@@ -38,7 +38,7 @@ public static class CC_DPExtenions
         /// <summary>The Direction Pointer (DP) component.</summary>
         public int DP => pt.Int & 3;
 
-        public CC_DP Switch(long value)
+        public CC_DP Switch(long value = 1)
         {
             var mod = (int)(value & 1) << 2;
             var next = pt.Int ^ mod;

@@ -64,8 +64,8 @@ public readonly record struct Command : IEquatable<Command>
 
     private static readonly Dictionary<Command, string> Names = new()
     {
-        [None] /*......*/ = "NONE",
-        [Push] /*......*/ = "PUSH",
+        [None] /*......*/ = "NON",
+        [Push] /*......*/ = "PSH",
         [Pop] /*.......*/ = "POP",
         [Add] /*.......*/ = "ADD",
         [Subtract] /*..*/ = "SUB",
@@ -73,7 +73,7 @@ public readonly record struct Command : IEquatable<Command>
         [Divide] /*....*/ = "DIV",
         [Modulo] /*....*/ = "MOD",
         [Not] /*.......*/ = "NOT",
-        [Greater] /*...*/ = "GT",
+        [Greater] /*...*/ = "GT_",
         [Rotate] /*....*/ = "ROT",
         [Switch] /*....*/ = "SWI",
         [Duplicate] /*.*/ = "DUP",

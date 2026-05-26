@@ -1,8 +1,8 @@
 using Piet.Programs;
 
-namespace Program_specs;
+namespace Specs.Interperter_specs;
 
-public class Run
+public class Runs
 {
     [Test]
     public void Alphabet_prints_a_till_z()
@@ -11,13 +11,13 @@ public class Run
     
     [Test]
     public void Euclids_Algorithm_calculates_greatest_comon_divisor()
-        => Runner.RunWithInput(Streams.EuclidsAlgorithm.Program(), 42, 35)
+        => Runner.Run(Streams.EuclidsAlgorithm.Program(), 42, 35)
         .Should().HaveOutput(7);
 
     [TestCase("2017-06-11", DayOfWeek.Sunday)]
     [TestCase("2017-06-12", DayOfWeek.Monday)]
     public void Day_of_week(DateTime date, DayOfWeek dayOfWeek)
-        => Runner.RunWithInput(Streams.DayOfWeek.Program(), date.Year, date.Month, date.Day)
+        => Runner.Run(Streams.DayOfWeek.Program(), date.Year, date.Month, date.Day)
         .Should().HaveOutput((long)dayOfWeek);
 
     [TestCase(11, "11\n")]
@@ -25,12 +25,12 @@ public class Run
     [TestCase(20, "Buzz\n")]
     [TestCase(30, "FizzBuzz\n")]
     public void FizzBuzz(int input, string output)
-        => Runner.RunWithInput(Streams.FizzBuzz.Program(), input)
+        => Runner.Run(Streams.FizzBuzz.Program(), input)
         .Should().HaveOutput(output);
     
     [Test]
     public void Gnome_sort()
-        => Runner.RunWithInput(Streams.GnomeSort.Program(), 4, 17, 69, 0, 42)
+        => Runner.Run(Streams.GnomeSort.Program(), 4, 17, 69, 0, 42)
         .Should().HaveOutput("""
             Pietsort: a sorting program written in piet
             Copyright 2010 Joshua Schulter
@@ -88,7 +88,7 @@ public class Run
 
     [Test]
     public void Power_function_returns_power_of_input()
-        => Runner.RunWithInput(Streams.PowerFunction.Program(), 17, 3)
+        => Runner.Run(Streams.PowerFunction.Program(), 17, 3)
         .Should().HaveOutput(4913);
 
     [Test]
