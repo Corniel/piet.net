@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../PietDotNet/Piet.Net.csproj" />
+    <ProjectReference Include="../Piet.Syntax/Piet.Syntax.csproj" />
   </ItemGroup>
 
 </Project>

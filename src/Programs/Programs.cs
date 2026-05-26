@@ -1,47 +1,47 @@
-using PietDotNet.Drawing;
-using System;
+using Piet.Syntax;
 using System.IO;
 
-namespace PietDotNet;
+namespace Piet.Programs;
 
-public static class Programs
+public static class Streams
 {
-    public static readonly Program Alphabet = Load("alphabet.png").Value;
+    public static readonly Stream Alphabet = Load("alphabet.png");
 
-    public static readonly Program DayOfWeek = Load("day_of_week.png").Value;
+    public static readonly Stream DayOfWeek = Load("day_of_week.png");
 
-    public static readonly Program EuclidsAlgorithm = Load("euclids_algorithm.png").Value;
+    public static readonly Stream EuclidsAlgorithm = Load("euclids_algorithm.png");
 
-    public static readonly Program FibonacciNumbers = Load("fibonacci_numbers.gif").Value;
+    public static readonly Stream FibonacciNumbers = Load("fibonacci_numbers.gif");
 
-    public static readonly Program FizzBuzz = Load("fizz_buzz.png").Value;
+    public static readonly Stream FizzBuzz = Load("fizz_buzz.png");
 
-    public static readonly Program GnomeSort = Load("gnome_sort.png").Value;
+    public static readonly Stream GnomeSort = Load("gnome_sort.png");
 
-    public static readonly Program Hello_World = Load("hello_world.png").Value;
+    public static readonly Stream Hello_World = Load("hello_world.png");
 
-    public static readonly Program Hello_World_artistic = Load("hello_world_artistic.gif").Value;
+    public static readonly Stream Hello_World_artistic = Load("hello_world_artistic.gif");
 
-    public static readonly Program Hello_World_big = Load("hello_world_big.gif", 4).Value;
+    public static readonly Stream Hello_World_big = Load("hello_world_big.gif");
 
-    public static readonly Program Hello_World_globe = Load("hello_world_globe.png").Value;
+    public static readonly Stream Hello_World_globe = Load("hello_world_globe.png");
 
-    public static Program MultiCodelProgram(int codelSize) => Load("multi_codel_program.gif", codelSize).Value;
+    public static Stream MultiCodelProgram => Load("multi_codel_program.gif");
 
-    public static readonly Program Pi = Load("pi_052.png").Value;
+    public static readonly Stream Pi = Load("pi_052.png");
 
-    public static readonly Program Pong = Load("pong.png").Value;
+    public static readonly Stream Pong = Load("pong.png");
 
-    public static readonly Program PowerFunction = Load("power_function.png").Value;
+    public static readonly Stream PowerFunction = Load("power_function.png");
 
-    public static readonly Program Tetris = Load("tetris.png").Value;
+    public static readonly Stream Tetris = Load("tetris.png");
 
-    internal static Lazy<Program> Load(string path, int codelsize = 1) => new(() =>
-    {
-        using var stream = typeof(Programs).Assembly
+    internal static Stream Load(string path)
+        => typeof(Streams).Assembly
             .GetManifestResourceStream("Programs.Programs." + path)
             ?? throw new FileNotFoundException(path);
 
-        return Bitmapping.Load(stream, codelsize);
-    });
+    extension(Stream stream)
+    {
+        public Program Program(int codelSize = 1) => Syntax.Program.Load(stream, codelSize);
+    }
 }

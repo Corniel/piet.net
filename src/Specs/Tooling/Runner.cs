@@ -1,5 +1,5 @@
-using PietDotNet.Drawing;
-using System.IO;
+using Piet.Interpreting;
+using Piet.Syntax;
 
 namespace Specs.Tooling;
 
@@ -7,7 +7,9 @@ internal static class Runner
 {
     internal static RunResult RunWithInput(Program program, params object[] input)
     {
+        var logger = new UnitTestLogger();
         var io = new TestIO();
+
         foreach (var value in input)
         {
             if (value is char ch) io.InChrs.Enqueue(ch);
@@ -15,24 +17,19 @@ internal static class Runner
             else if (value is long l) io.InInts.Enqueue(l);
             else throw new ArgumentException($"{value} is invalid input");
         }
-        return Run(program, io: io);
-    }
 
-    internal static RunResult Run(Program program, int maxRuns = int.MaxValue, TestIO? io = null)
-    {
-        var logger = new UnitTestLogger();
-        io ??= new TestIO();
-        program.Run(io, logger, maxRuns);
+        var context = new Context
+        {
+            State = Piet.Runtime.State.New(io),
+            MaxRuns = short.MaxValue,
+            Logger = logger,
+        };
+
+        program.Run(context);
 
         return new RunResult(io, logger);
     }
 
-    internal static Program Load(string path, int codelsize = 1)
-    {
-        using var stream = typeof(Runner).Assembly
-            .GetManifestResourceStream("Specs.Programs." + path)
-            ?? throw new FileNotFoundException(path);
-
-        return Bitmapping.Load(stream, codelsize);
-    }
+    internal static RunResult Run(Program program)
+        => RunWithInput(program);
 }

@@ -9,7 +9,13 @@ internal static class Shoulds
 	[OverloadResolutionPriority(int.MaxValue)]
 	public static StackAssertions Should(this Stack stack) => new(stack);
 
-	[Pure]
+    [Pure]
 	[OverloadResolutionPriority(int.MaxValue)]
 	public static RunAssertions Should(this RunResult result) => new(result);
+
+    public static StateAssertions Should(this Piet.Runtime.State state) => new(new StateInfo
+    {
+        PT = state.PT,
+        Stack = [.. state.Stack],
+    });
 }

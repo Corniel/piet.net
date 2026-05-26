@@ -10,6 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="../Piet.Interpreting/Piet.Interpreting.csproj" />
+    <ProjectReference Include="../Piet.Runtime/Piet.Runtime.csproj" />
+    <ProjectReference Include="../Piet.Syntax/Piet.Syntax.csproj" />
     <ProjectReference Include="../PietDotNet/Piet.Net.csproj" />
     <ProjectReference Include="../Programs/Programs.csproj" />
   </ItemGroup>

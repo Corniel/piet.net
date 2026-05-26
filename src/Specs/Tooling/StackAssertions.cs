@@ -1,5 +1,3 @@
-using Stack = PietDotNet.Stack;
-
 namespace Specs.Tooling;
 
 internal sealed class StackAssertions(Stack subject)

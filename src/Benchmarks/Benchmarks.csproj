@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
+    <IsTestCode>true</IsTestCode>
   </PropertyGroup>
 
   <ItemGroup>
@@ -9,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../PietDotNet/Piet.Net.csproj" />
+    <ProjectReference Include="../Piet.Interpreting/Piet.Interpreting.csproj" />
     <ProjectReference Include="../Programs/Programs.csproj" />
   </ItemGroup>
 

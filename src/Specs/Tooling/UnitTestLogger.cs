@@ -1,8 +1,10 @@
-using PietDotNet.Logging;
+using Piet.Interpreting.Logging;
 
 namespace Specs.Tooling;
 
-public class UnitTestLogger(LogLevel minLevel = LogLevel.Info) : List<LogRecord>, Logger
+public class UnitTestLogger(LogLevel minLevel = LogLevel.Info)
+    : List<LogRecord>
+    , Logger
 {
     public LogLevel MinLevel { get; } = minLevel;
 

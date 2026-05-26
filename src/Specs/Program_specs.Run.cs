@@ -1,21 +1,23 @@
+using Piet.Programs;
+
 namespace Program_specs;
 
 public class Run
 {
     [Test]
     public void Alphabet_prints_a_till_z()
-        => Runner.Run(Programs.Alphabet)
+        => Runner.Run(Streams.Alphabet.Program())
         .Should().HaveOutput("abcdefghijklmnopqrstuvwxyz");
     
     [Test]
     public void Euclids_Algorithm_calculates_greatest_comon_divisor()
-        => Runner.RunWithInput(Programs.EuclidsAlgorithm, 42, 35)
+        => Runner.RunWithInput(Streams.EuclidsAlgorithm.Program(), 42, 35)
         .Should().HaveOutput(7);
 
     [TestCase("2017-06-11", DayOfWeek.Sunday)]
     [TestCase("2017-06-12", DayOfWeek.Monday)]
     public void Day_of_week(DateTime date, DayOfWeek dayOfWeek)
-        => Runner.RunWithInput(Programs.DayOfWeek, date.Year, date.Month, date.Day)
+        => Runner.RunWithInput(Streams.DayOfWeek.Program(), date.Year, date.Month, date.Day)
         .Should().HaveOutput((long)dayOfWeek);
 
     [TestCase(11, "11\n")]
@@ -23,12 +25,12 @@ public class Run
     [TestCase(20, "Buzz\n")]
     [TestCase(30, "FizzBuzz\n")]
     public void FizzBuzz(int input, string output)
-        => Runner.RunWithInput(Programs.FizzBuzz, input)
+        => Runner.RunWithInput(Streams.FizzBuzz.Program(), input)
         .Should().HaveOutput(output);
     
     [Test]
     public void Gnome_sort()
-        => Runner.RunWithInput(Programs.GnomeSort, 4, 17, 69, 0, 42)
+        => Runner.RunWithInput(Streams.GnomeSort.Program(), 4, 17, 69, 0, 42)
         .Should().HaveOutput("""
             Pietsort: a sorting program written in piet
             Copyright 2010 Joshua Schulter
@@ -46,51 +48,51 @@ public class Run
 
     [Test]
     public void Hello_world_prints_Hello_World()
-        => Runner.Run(Programs.Hello_World).Should()
+        => Runner.Run(Streams.Hello_World.Program()).Should()
         .HaveOutput("Hello world!");
     
     [Test]
     public void Hello_world_artistic_prints_Hello_World()
-        => Runner.Run(Programs.Hello_World_artistic)
+        => Runner.Run(Streams.Hello_World_artistic.Program())
         .Should().HaveOutput("Hello, world!\n");
 
     [Test]
     public void Hello_world_big_prints_Hello_World()
-        => Runner.Run(Programs.Hello_World_big)
+        => Runner.Run(Streams.Hello_World_big.Program(4))
         .Should().HaveOutput("hello world!\n");
 
     [Test]
     public void Hello_world_globe_prints_Hello_World()
-        => Runner.Run(Programs.Hello_World_globe)
+        => Runner.Run(Streams.Hello_World_globe.Program())
         .Should().HaveOutput("Hello, world!\n");
 
     [Test]
     public void Multi_codel_program_with_codel_1_prints_Hello_world()
-        => Runner.Run(Programs.MultiCodelProgram(1))
+        => Runner.Run(Streams.MultiCodelProgram.Program(1))
         .Should().HaveOutput("Hello world!\n");
 
     [Test]
     public void Multi_codel_program_with_codel_2_prints_Hello_world()
-        => Runner.Run(Programs.MultiCodelProgram(2))
+        => Runner.Run(Streams.MultiCodelProgram.Program(2))
         .Should().HaveOutput("Piet\n");
 
     [Test]
     public void Pi052_calculates_pi_as_3_1405()
-        => Runner.Run(Programs.Pi)
+        => Runner.Run(Streams.Pi.Program())
         .Should().HaveOutput(3_1405);
 
     [Test]
     public void Pong_prints_PONG()
-        => Runner.Run(Programs.Pong)
+        => Runner.Run(Streams.Pong.Program())
         .Should().HaveOutput("PONG\n");
 
     [Test]
     public void Power_function_returns_power_of_input()
-        => Runner.RunWithInput(Programs.PowerFunction, 17, 3)
+        => Runner.RunWithInput(Streams.PowerFunction.Program(), 17, 3)
         .Should().HaveOutput(4913);
 
     [Test]
     public void Tetris_prints_Tetris()
-        => Runner.Run(Programs.Tetris)
+        => Runner.Run(Streams.Tetris.Program())
         .Should().HaveOutput("Tetris");
 }

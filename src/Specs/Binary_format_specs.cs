@@ -1,4 +1,5 @@
-using PietDotNet.IO;
+using Piet.Binary;
+using Piet.Programs;
 using System.Globalization;
 using System.IO;
 
@@ -55,7 +56,7 @@ public class Storage
     [Test]
     public void Save_and_reload_of_program_has_no_data_loss()
     {
-        var program = Programs.Tetris;
+        var program = Streams.Tetris.Program();
 
         using var stream = new MemoryStream();
         program.Save(stream);
@@ -64,7 +65,7 @@ public class Storage
 
         stream.Position = 0;
 
-        var reloaded = Binary.Load(stream);
+        var reloaded = BinaryFormat.Load(stream);
 
         ((object)reloaded).Should().BeEquivalentTo(new
         {

@@ -1,20 +1,30 @@
-using System.Linq;
+using Piet.Interpreting;
+using Piet.Programs;
+using Piet.Runtime;
+using System.IO;
 
 namespace Benchmarks;
 
 public static class Runner
 {
-    public static IReadOnlyList<object> Run(PietDotNet.Program program, params ImmutableArray<long> ints)
+    public static IReadOnlyList<object> Run(RunnerContext ctx)
     {
-        var context = new RunnerContext() { Ints = ints };
-        return Run(program, context);
-
+        ctx.Reset();
+        ctx.Program.Run(new Context
+        {
+            Logger = ctx.Logger,
+            State = State.New(ctx),
+            MaxRuns = int.MaxValue,
+        });
+        return ctx.Output;
     }
-    public static IReadOnlyList<object> Run(PietDotNet.Program program, RunnerContext? context)
+
+    extension(Stream stream)
     {
-        context ??= new();
-        context.Output.Clear();
-        program.Run(context, context.Logger, context.MaxRuns);
-        return context.Output;
+        public RunnerContext Ctx(params int[] ints) => new()
+        {
+            Program = stream.Program(),
+            Ints = [.. ints],
+        };
     }
 }

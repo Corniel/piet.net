@@ -3,12 +3,11 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <AssemblyName>piet</AssemblyName>
-    <RootNamespace>PietDotNet</RootNamespace>
+    <RootNamespace>Piet.CommandLine</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
-    <PackageReference Include="System.Drawing.Common" />
+    <ProjectReference Include="../Piet.Interpreting/Piet.Interpreting.csproj" />
   </ItemGroup>
 
 </Project>
