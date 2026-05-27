@@ -24,14 +24,6 @@ internal static class LoggerExtensions
                 logger.LogInfo($"{ctx.Debug()} {cmd}() // [{string.Join(", ", ctx.State.Stack)}]");
         }
 
-        public void Command(Context ctx, Command cmd, Exception exception)
-        {
-            if (logger.MinLevel >= LogLevel.Error)
-                logger.LogError($"{ctx.Debug()} {cmd}() ERROR: {exception.Message}");
-        }
-
-        private void LogError(string message) => logger.Log(LogLevel.Error, message);
-
         private void LogInfo(string message) => logger.Log(LogLevel.Info, message);
     }
 

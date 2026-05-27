@@ -25,7 +25,7 @@ public ref struct State(Stack stack, InOut io)
     {
         get
         {
-            Stack = Stack.Pop();
+            Stack = Stack.Pop(out _);
             return this;
         }
     }
@@ -97,8 +97,11 @@ public ref struct State(Stack stack, InOut io)
     {
         get
         {
-            PT = PT.Rotate(Stack.Peek());
-            Stack = Stack.Pop();
+            Stack = Stack.Pop(out var pop);
+            if (pop is { } rot)
+            {
+                PT = PT.Rotate(rot);
+            }
             return this;
         }
     }
@@ -107,8 +110,11 @@ public ref struct State(Stack stack, InOut io)
     {
         get
         {
-            PT = PT.Switch(Stack.Peek());
-            Stack = Stack.Pop();
+            Stack = Stack.Pop(out var pop);
+            if (pop is { } swi)
+            {
+                PT = PT.Switch(swi);
+            }
             return this;
         }
     }
@@ -153,8 +159,12 @@ public ref struct State(Stack stack, InOut io)
     {
         get
         {
-            IO.Out(Stack.Peek());
-            Stack = Stack.Pop();
+            Stack = Stack.Pop(out var pop);
+            if (pop is { } i)
+            {
+                IO.Out(i);
+                
+            }
             return this;
         }
     }
@@ -163,8 +173,11 @@ public ref struct State(Stack stack, InOut io)
     {
         get
         {
-            IO.Out((char)Stack.Peek());
-            Stack = Stack.Pop();
+            Stack = Stack.Pop(out var pop);
+            if (pop is { } i)
+            {
+                IO.Out((char)i);
+            }
             return this;
         }
     }

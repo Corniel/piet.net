@@ -48,16 +48,8 @@ public static class Interpreter
             context.Block = next.Block;
 
             context.Logger.Command(context, cmd);
-
-            try
-            {
-                state = cmd.Execute(state, curr.Value);
-            }
-            catch (Exception x)
-            {
-                context.Logger.Log(LogLevel.Warn, x.Message);
-            }
-
+            state = cmd.Execute(state, curr.Value);
+            
             context.State = state;
             return true;
         }

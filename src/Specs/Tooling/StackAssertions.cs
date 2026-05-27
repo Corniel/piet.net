@@ -4,6 +4,8 @@ internal sealed class StackAssertions(Stack subject)
 {
 	public Stack Subject { get; } = subject;
 
+    public void BeEmpty() => Be();
+
 	public void Be(params long[] stack)
 		=> AssertionChain.GetOrCreate()
 		   .ForCondition(Enumerable.SequenceEqual(Subject, stack))

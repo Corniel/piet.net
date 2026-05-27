@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 namespace Piet.Runtime;
 
 public partial struct Stack
@@ -7,7 +9,7 @@ public partial struct Stack
     /// </summary>
     public Stack Add()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
         Buffer[Index - 1] += Buffer[Index];
         return new(Index - 1, Buffer);
@@ -19,7 +21,7 @@ public partial struct Stack
     /// </summary>
     public Stack Subtract()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
         Buffer[Index - 1] -= Buffer[Index];
         return new(Index - 1, Buffer);
@@ -30,7 +32,7 @@ public partial struct Stack
     /// </summary>
     public Stack Multiply()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
         Buffer[Index - 1] *= Buffer[Index];
         return new(Index - 1, Buffer);
@@ -46,9 +48,13 @@ public partial struct Stack
     /// </remarks>
     public Stack Divide()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
-        Buffer[Index - 1] /= Buffer[Index];
+        var divisor = Buffer[Index];
+        
+        if (divisor is 0) return Ignore();
+
+        Buffer[Index - 1] /= divisor;
         return new(Index - 1, Buffer);
     }
 
@@ -62,9 +68,13 @@ public partial struct Stack
     /// </remarks>
     public Stack Modulo()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
-        Buffer[Index - 1] = Buffer[Index - 1].Modulo(Buffer[Index]);
+        var modulo = Buffer[Index];
+
+        if (modulo is 0) return Ignore();
+
+        Buffer[Index - 1] = Buffer[Index - 1].Modulo(modulo);
         return new(Index - 1, Buffer);
     }
 
@@ -74,7 +84,7 @@ public partial struct Stack
     /// </summary>
     public Stack Greater()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
         var f = Buffer[Index];
         var s = Buffer[Index - 1];
@@ -87,7 +97,7 @@ public partial struct Stack
     /// </summary>
     public Stack Not()
     {
-        if (Index is -1) throw new InsufficientStackSize();
+        if (Index is -1) return Ignore();
 
         Buffer[Index] = Buffer[Index] is 0 ? 1 : 0;
         return this;
@@ -95,7 +105,9 @@ public partial struct Stack
 
     /// <summary> Pushes a copy of the top value on the Stack on to the Stack.</summary>
     public Stack Duplicate()
-        => Push(Peek());
+        => Index is -1
+        ? Ignore()
+        : Push(Buffer[Index]);
 
     /// <summary>Pops the top two values off the Stack and "rolls" the
     /// remaining Stack entries to a depth equal to the second value popped,
@@ -112,16 +124,16 @@ public partial struct Stack
     /// </remarks>
     public Stack Roll()
     {
-        if (Index < 1) throw new InsufficientStackSize();
+        if (Index < 1) return Ignore();
 
         var index = Index - 2;
         var roll = Buffer[Index];
         var depth = (int)Buffer[Index - 1];
-        var step = depth is 0 ? 0 : (int)roll.Modulo(depth);
 
-        if (depth < 0) throw new NegativeDepth();
-        if (depth > index + 1) throw new InsufficientStackSize();
-        if (depth is 0 || step is 0) return new(Index - 2, Buffer);
+        if (depth < 0 || depth > index + 1) return Ignore();
+
+        var step = depth is 0 ? 0 : (int)roll.Modulo(depth);
+        if (step is 0) return new(Index - 2, Buffer);
 
         var offset = index - depth + 1;
 
@@ -136,4 +148,16 @@ public partial struct Stack
 
         return new(index, Buffer);
     }
+
+    /// <summary>Ignore command.</summary>
+    /// <remarks>
+    /// <![CDATA[
+    /// From the specification: 
+    /// > Any operations which cannot be performed (such as popping values when
+    /// > not enough are on the stack) are simply ignored, and processing
+    /// > continues with the next command.
+    /// ]]>
+    /// </remarks>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private Stack Ignore() => this;
 }

@@ -26,14 +26,19 @@ public readonly partial struct Stack : IEnumerable<long>
     private readonly int Index;
 
     /// <summary>Removes the top item from the Stack.</summary>
-    public Stack Pop() => IsEmpty
-        ? throw new InsufficientStackSize()
-        : new(Index - 1, Buffer);
-
-    /// <summary>Returns the top integer from the Stack without removing it.</summary>
-    public long Peek() => IsEmpty
-        ? throw new InsufficientStackSize()
-        : Buffer[Index];
+    public Stack Pop(out long? value)
+    {
+        if(IsEmpty)
+        {
+            value = null;
+            return this;
+        }
+        else
+        {
+            value = Buffer[Index];
+            return new(Index - 1, Buffer);
+        }    
+    }
 
     /// <summary>Pushes an integer to the top of the Stack.</summary>
     public Stack Push(long integer)
