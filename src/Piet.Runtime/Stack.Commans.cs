@@ -116,28 +116,24 @@ public partial struct Stack
 
         var index = Index - 2;
         var roll = Buffer[Index];
-        var depth = Buffer[Index - 1];
+        var depth = (int)Buffer[Index - 1];
+        var step = depth is 0 ? 0 : (int)roll.Modulo(depth);
 
         if (depth < 0) throw new NegativeDepth();
-        if (depth == 0 || roll.Modulo(depth) == 0) return new(Index - 2, Buffer);
         if (depth > index + 1) throw new InsufficientStackSize();
+        if (depth is 0 || step is 0) return new(Index - 2, Buffer);
 
         var offset = index - depth + 1;
 
-        if (temp.Length < depth)
-#pragma warning disable S2696 // Static field is used as global buffer
-            temp = new long[depth];
-#pragma warning restore S2696
+        // Example with STEP 2
+        // [offset], A, B, C, D, E // initial
+        // [offset], E, D, C, B, A // reverse depth
+        // [offset], D, E, C, B, A // reverse step
+        // [offset], D, E, A, B, C // reverse remainder of depth
+        Array.Reverse(Buffer, offset, depth);
+        Array.Reverse(Buffer, offset, step);
+        Array.Reverse(Buffer, offset + step,  depth - step);
 
-        Array.Copy(Buffer, offset, temp, 0, depth);
-
-        for (int i = 0; i < depth; i++)
-        {
-            Buffer[offset + i] = temp[(i - roll).Modulo(depth)];
-        }
         return new(index, Buffer);
     }
-
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    private static long[] temp = [];
 }

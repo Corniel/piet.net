@@ -5,7 +5,7 @@ namespace Specs.Runtime.Stack_command_specs;
 public class Pop
 {
     [Test]
-    public void Empty_stack_has_insufficient_stack_size() 
+    public void Empty_stack_has_insufficient_stack_size()
         => Stack.Empty.Invoking(s => s
         .Pop())
         .Should().Throw<InvalidOperationException>();
@@ -179,7 +179,7 @@ public class Not
         .Should().Be(1);
 
     [Test]
-    public void top_value_not_zero_becomes_0([Range(1, 10)]int value)
+    public void top_value_not_zero_becomes_0([Range(1, 10)] int value)
         => Stack
             .Empty
             .Push(value)
@@ -219,10 +219,10 @@ public class Duplicate
 {
     [Test]
     public void with_zero_items_is_has_insufficient_stack_size()
-		=> Stack.Empty.Invoking(s => s
+        => Stack.Empty.Invoking(s => s
             .Duplicate())
             .Should().Throw<InvalidOperationException>();
-    
+
     [Test]
     public void adds_copy_top_value_to_top()
         => Stack
@@ -235,85 +235,76 @@ public class Duplicate
 public class Roll
 {
     [Test]
-    public void with_one_item_has_insufficient_stack_size()
-        => Stack.Empty.Invoking(s => s
-            .Push(42)
-            .Roll())
-		    .Should().Throw<InvalidOperationException>();
+    public void with_one_item_has_insufficient_stack_size() => Stack.Empty.Invoking(empty =>
+        empty
+        .Push(42)
+        .Roll())
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
-    public void With_negative_depth_is_not_allowed()
-		=> Stack.Empty.Invoking(s => s
-            .Push(42)
-			.Push(-1)
-			.Push(1)
-			.Roll())
-			.Should().Throw<NegativeDepth>();
+    public void With_negative_depth_is_not_allowed() => Stack.Empty.Invoking(empty =>
+        empty
+        .Push(42)
+        .Push(-1)
+        .Push(1)
+        .Roll())
+        .Should().Throw<NegativeDepth>();
 
     [Test]
-    public void With_depth_greater_then_stack_size_is_not_allowed()
-		=> Stack.Empty.Invoking(s => s
-            .Push(42)
-            .Push(2)
-            .Push(1)
-            .Roll())
-            .Should().Throw<InvalidOperationException>();
+    public void With_depth_greater_then_stack_size_is_not_allowed() => Stack.Empty.Invoking(empty =>
+        empty
+        .Push(42)
+        .Push(2)
+        .Push(1)
+        .Roll())
+        .Should().Throw<InvalidOperationException>();
 
     [Test]
-    public void With_zero_depth_keeps_same_order()
-        => Stack.Empty
-            .Push(42)
-            .Push(17)
-            .Push(0)
-            .Push(1)
-            .Roll()
-            .Should().Be(17, 42);
+    public void With_zero_depth_keeps_same_order() => Stack
+        .Empty
+        .Push(42)
+        .Push(17)
+        .Push(0)
+        .Push(1)
+        .Roll()
+        .Should().Be(17, 42);
 
     [Test]
-    public void With_zero_rolls_keeps_same_order()
-        => Stack.Empty
-            .Push(42)
-            .Push(17)
-            .Push(2)
-            .Push(0)
-            .Roll()
-            .Should().Be(17, 42);
+    public void With_zero_rolls_keeps_same_order() => Stack
+        .Empty
+        .Push(42)
+        .Push(17)
+        .Push(2)
+        .Push(0)
+        .Roll()
+        .Should().Be(17, 42);
 
     [Test]
-    public void With_positive_rolls_moves_items_within_depth_range_up()
-        => Stack
-            .Empty
-            .Push(666)
-            .Push(69)
-            .Push(17)
-            .Push(42)
-            .Push(3)
-            .Push(1)
-            .Roll()
-            .Should().Be(17, 69, 42, 666);
+    public void With_all_rolls_moves_items() => Stack
+        .Empty
+        .Push(69)
+        .Push(17)
+        .Push(42)
+        .Push(3)
+        .Push(1)
+        .Roll()
+        .Should().Be(17, 69, 42);
 
-    [Test]
-    public void With_all_rolls_moves_items()
-       => Stack
-           .Empty
-           .Push(69)
-           .Push(17)
-           .Push(42)
-           .Push(3)
-           .Push(1)
-           .Roll()
-           .Should().Be(17, 69, 42);
-
-    [Test]
-    public void With_negative_rolls_moves_items_within_depth_range_down()
-        => Stack
-            .Empty
-            .Push(666)
-            .Push(69)
-            .Push(17)
-            .Push(42)
-            .Push(3)
-            .Push(-1)
-            .Roll()
-            .Should().Be(69, 42, 17, 666);
+    [TestCase(+1, 14, 13, 12, 11, 15, 2017)]
+    [TestCase(+2, 13, 12, 11, 15, 14, 2017)]
+    [TestCase(+3, 12, 11, 15, 14, 13, 2017)]
+    [TestCase(+4, 11, 15, 14, 13, 12, 2017)]
+    [TestCase(-1, 11, 15, 14, 13, 12, 2017)]
+    public void Rolls_selection(int roll, params long[] stack) => Stack
+        .Empty
+        .Push(2017)
+        .Push(11)
+        .Push(12)
+        .Push(13)
+        .Push(14)
+        .Push(15)
+        .Push(5)
+        .Push(roll)
+        .Roll()
+        .Should().Be(stack);
 }
