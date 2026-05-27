@@ -1,6 +1,6 @@
 namespace Piet.Syntax.Compilation;
 
-public sealed class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Block next) : Code
+public class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Block next) : Code
 {
     private const string state = CompilationResult.state;
 
@@ -10,9 +10,9 @@ public sealed class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Blo
     public int Value { get; } = value;
     public Block Next { get; } = next;
 
-    public void WriteTo(CSharpWriter writer)
+    public virtual void WriteTo(CSharpWriter writer)
     {
-        writer.Indent().Write($"case {Key}: {state} = {state}");
+        writer.Write($"{state} = {state}");
         
         if (PT.HasValue)
             writer.Write($".{PT}");
@@ -23,6 +23,13 @@ public sealed class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Blo
         if (Command.Equals(Command.Push))
             writer.Write($"({Value})");
 
-        writer.Line($"; goto {BlockMethod.Name(Next)};");
+        if (Next == Block.Black)
+        {
+            writer.Write($"; return;");
+        }
+        else
+        {
+            writer.Write($"; goto {BlockMethod.Name(Next)};");
+        }
     }
 }

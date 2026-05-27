@@ -6,7 +6,7 @@ namespace Specs.Tooling;
 
 internal static class Runner
 {
-    internal static RunResult Run(Func<State, bool> program, params object[] input)
+    internal static RunResult Run(Action<State> program, params object[] input)
     {
         var logger = new UnitTestLogger();
         var io = new TestIO();

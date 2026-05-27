@@ -27,10 +27,7 @@ public sealed class CompilationResult(string name, string @namespace) : Code
 
         using (writer.Indent().CodeBlock())
         {
-            writer
-                .Indent().Line($"private const bool Exit = true;")
-                .Line()
-                .Indent().Line($"public static bool Execute(State {state})");
+            writer.Indent().Line($"public static void Execute(State {state})");
 
             using (writer.Indent().CodeBlock())
             {

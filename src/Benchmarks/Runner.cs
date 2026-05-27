@@ -27,7 +27,7 @@ public static class Runner
         return ctx.Output;
     }
 
-    public static ExecutableContext Ctx(Func<State, bool> program, params int[] ints) => new()
+    public static ExecutableContext Ctx(Action<State> program, params int[] ints) => new()
     {
         Program = program,
         Ints = [.. ints],

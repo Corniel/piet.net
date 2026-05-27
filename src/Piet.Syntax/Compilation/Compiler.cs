@@ -7,6 +7,27 @@ public static class Compiler
         public CompilationResult Compile(string name, string @namespace)
         {
             var compilation = new CompilationResult(name, @namespace);
+            program.Walk(compilation);
+
+            while (compilation.Methods.Values.FirstOrDefault(m => m.ExitOnly)?.Block is { } exitOnly)
+            {
+                foreach(var method in compilation.Methods.Values)
+                {
+                    if (method.Block == exitOnly) continue;
+
+                    foreach (var exp in method.Active.Where(e => e.Next == exitOnly))
+                    {
+                        method.Expressions[exp.Key] = new(exp.Key, exp.PT, exp.Command, exp.Value, Block.Black);
+                    }
+                }
+                compilation.Methods.Remove(exitOnly);
+            }
+
+            return compilation;
+        }
+    
+        private void Walk(CompilationResult compilation)
+        {
             var start = program[Codel.EntryPoint];
             compilation.Methods[start] = new BlockMethod(start);
 
@@ -14,7 +35,7 @@ public static class Compiler
             var loop = new HashSet<Path>();
 
             var q = new Queue<Path>();
-            
+
             q.Enqueue(new Path(start, CC_DP.LR));
             done.Add(new Path(start, CC_DP.LR));
 
@@ -22,8 +43,6 @@ public static class Compiler
             {
                 Enqueue(path);
             }
-
-            return compilation;
 
             void Enqueue(Path path)
             {
@@ -40,13 +59,18 @@ public static class Compiler
                     next = curr.Neighbours[next.PT];
 
                     // Loop detected
-                    if(!loop.Add(new(next.Block, next.PT)))
+                    if (!loop.Add(new(next.Block, next.PT)))
                     {
+                        method.Expressions[pt] = new ExitExpression(pt);
                         return;
                     }
                 }
 
-                if (!curr.HasColour || !next.Block.HasColour) return;
+                if (!curr.HasColour || !next.Block.HasColour)
+                {
+                    method.Expressions[pt] = new ExitExpression(pt);
+                    return;
+                }
 
                 var expression = new Expression(
                     pt,
@@ -62,7 +86,7 @@ public static class Compiler
                 foreach (var todo in Pts(expression.Command, next.PT)
                     .Select(x => new Path(next.Block, x))
                     .Where(done.Add))
-                        q.Enqueue(todo);
+                    q.Enqueue(todo);
             }
 
             IEnumerable<CC_DP> Pts(Command cmd, CC_DP pt) => cmd switch
@@ -71,7 +95,6 @@ public static class Compiler
                 _ when cmd.Equals(Command.Rotate) => [pt, pt.Rotate(1), pt.Rotate(2), pt.Rotate(3)],
                 _ => [pt],
             };
-
         }
     }
 
