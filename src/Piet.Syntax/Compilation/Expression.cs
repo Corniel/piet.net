@@ -15,7 +15,7 @@ public class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Block next
         writer.Write($"{state} = {state}");
         
         if (PT.HasValue)
-            writer.Write($".{PT}");
+            writer.Write($"[{PT}]");
 
         if (!Command.Equals(Command.None))
             writer.Write($".{Command.Name}");

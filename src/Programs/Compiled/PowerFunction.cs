@@ -12,8 +12,8 @@ public static class PowerFunction
         B000_000: switch (state.PT) // Size = 5, Colour = light green
         {
             case LR: state = state.INi; goto B003_001;
-            case LL: state = state.LR.INi; goto B003_001;
-            case RL: state = state.LR.INi; goto B003_001;
+            case LL: state = state[LR].INi; goto B003_001;
+            case RL: state = state[LR].INi; goto B003_001;
         }
 
         B003_001: switch (state.PT) // Size = 1, Colour = dark red
@@ -82,11 +82,11 @@ public static class PowerFunction
             case LR: state = state.PSH(2); goto B013_001;
             case LD: state = state.POP; goto B012_002;
             case LL: state = state.SWI; goto B010_001;
-            case LT: state = state.RR.PSH(2); goto B013_001;
+            case LT: state = state[RR].PSH(2); goto B013_001;
             case RR: state = state.PSH(2); goto B013_001;
-            case RD: state = state.LR.GT_; goto B009_001;
+            case RD: state = state[LR].GT_; goto B009_001;
             case RL: state = state.SWI; goto B010_001;
-            case RT: state = state.LR.PSH(2); goto B013_001;
+            case RT: state = state[LR].PSH(2); goto B013_001;
         }
 
         B013_001: switch (state.PT) // Size = 1, Colour = dark magenta
@@ -96,7 +96,7 @@ public static class PowerFunction
             case RL: state = state.POP; goto B011_001;
         }
 
-        B012_002: state = state.POP; goto B012_003; // PT = , Size = 1, Colour = light magenta
+        B012_002: state = state.POP; goto B012_003; // PT = LD, Size = 1, Colour = light magenta
 
         B014_001: switch (state.PT) // Size = 1, Colour = light magenta
         {
@@ -105,7 +105,7 @@ public static class PowerFunction
             case RL: state = state.POP; goto B013_001;
         }
 
-        B012_003: state = state.PSH(1); goto B012_004; // PT = , Size = 1, Colour = dark magenta
+        B012_003: state = state.PSH(1); goto B012_004; // PT = LD, Size = 1, Colour = dark magenta
 
         B015_001: switch (state.PT) // Size = 1, Colour = cyan
         {
@@ -114,12 +114,12 @@ public static class PowerFunction
             case RL: state = state.NOT; goto B014_001;
         }
 
-        B012_004: state = state.OUTi; return; // PT = , Size = 1, Colour = light magenta
+        B012_004: state = state.OUTi; return; // PT = LD, Size = 1, Colour = light magenta
 
         B016_001: switch (state.PT) // Size = 3, Colour = yellow
         {
             case LR: state = state.PSH(3); goto B017_001;
-            case LL: state = state.LR.PSH(1); goto B006_001;
+            case LL: state = state[LR].PSH(1); goto B006_001;
             case RR: state = state.PSH(1); goto B006_001;
             case RL: state = state.DIV; goto B015_001;
         }
@@ -138,7 +138,7 @@ public static class PowerFunction
             case RL: state = state.POP; goto B017_001;
         }
 
-        B019_001: state = state.DUP; goto B022_001; // PT = , Size = 1, Colour = magenta
+        B019_001: state = state.DUP; goto B022_001; // PT = LR, Size = 1, Colour = magenta
 
         B022_001: switch (state.PT) // Size = 1, Colour = cyan
         {
@@ -169,14 +169,14 @@ public static class PowerFunction
             case LR: state = state.PSH(3); goto B028_001;
             case LD: state = state.PSH(1); goto B025_002;
             case LL: state = state.SWI; goto B024_001;
-            case LT: state = state.LR.PSH(3); goto B028_001;
-            case RR: state = state.LR.PSH(3); goto B028_001;
+            case LT: state = state[LR].PSH(3); goto B028_001;
+            case RR: state = state[LR].PSH(3); goto B028_001;
             case RD: state = state.PSH(1); goto B025_002;
             case RL: state = state.SWI; goto B024_001;
-            case RT: state = state.LR.PSH(3); goto B028_001;
+            case RT: state = state[LR].PSH(3); goto B028_001;
         }
 
-        B028_001: state = state.PSH(2); goto B029_001; // PT = , Size = 2, Colour = cyan
+        B028_001: state = state.PSH(2); goto B029_001; // PT = LR, Size = 2, Colour = cyan
 
         B025_002: switch (state.PT) // Size = 1, Colour = cyan
         {
@@ -184,7 +184,7 @@ public static class PowerFunction
             case RD: state = state.SUB; goto B025_003;
         }
 
-        B029_001: state = state.ROL; goto B030_001; // PT = , Size = 1, Colour = dark cyan
+        B029_001: state = state.ROL; goto B030_001; // PT = LR, Size = 1, Colour = dark cyan
 
         B025_003: switch (state.PT) // Size = 3, Colour = dark blue
         {
@@ -192,7 +192,7 @@ public static class PowerFunction
             case RD: state = state.PSH(3); goto B025_006;
         }
 
-        B030_001: state = state.RD.POP; goto B030_002; // PT = RD, Size = 1, Colour = light yellow
+        B030_001: state = state[RD].POP; goto B030_002; // PT = LR, Size = 1, Colour = light yellow
 
         B025_006: switch (state.PT) // Size = 2, Colour = light blue
         {
@@ -200,7 +200,7 @@ public static class PowerFunction
             case RD: state = state.PSH(2); goto B025_008;
         }
 
-        B030_002: state = state.POP; goto B029_004; // PT = , Size = 1, Colour = dark yellow
+        B030_002: state = state.POP; goto B029_004; // PT = RD, Size = 1, Colour = dark yellow
 
         B025_008: switch (state.PT) // Size = 1, Colour = blue
         {
@@ -214,32 +214,32 @@ public static class PowerFunction
             case RL: state = state.NOT; goto B018_001;
         }
 
-        B029_004: state = state.OUTi; return; // PT = , Size = 12, Colour = yellow
+        B029_004: state = state.OUTi; return; // PT = RD, Size = 12, Colour = yellow
 
         B025_009: switch (state.PT) // Size = 1, Colour = dark green
         {
-            case LD: state = state.RL.DUP; goto B024_009;
-            case RD: state = state.LL.DUP; goto B024_009;
+            case LD: state = state[RL].DUP; goto B024_009;
+            case RD: state = state[LL].DUP; goto B024_009;
         }
 
         B024_009: switch (state.PT) // Size = 4, Colour = dark red
         {
-            case LL: state = state.RL.PSH(4); goto B023_009;
+            case LL: state = state[RL].PSH(4); goto B023_009;
             case RL: state = state.PSH(4); goto B023_009;
         }
 
-        B023_009: state = state.PSH(3); goto B022_009; // PT = , Size = 3, Colour = light red
+        B023_009: state = state.PSH(3); goto B022_009; // PT = RL, Size = 3, Colour = light red
 
-        B022_009: state = state.LT.ROL; goto B022_008; // PT = LT, Size = 1, Colour = red
+        B022_009: state = state[LT].ROL; goto B022_008; // PT = RL, Size = 1, Colour = red
 
-        B022_008: state = state.MUL; goto B022_006; // PT = , Size = 1, Colour = dark blue
+        B022_008: state = state.MUL; goto B022_006; // PT = LT, Size = 1, Colour = dark blue
 
-        B022_006: state = state.PSH(3); goto B022_005; // PT = , Size = 3, Colour = magenta
+        B022_006: state = state.PSH(3); goto B022_005; // PT = LT, Size = 3, Colour = magenta
 
-        B022_005: state = state.PSH(2); goto B022_004; // PT = , Size = 2, Colour = dark magenta
+        B022_005: state = state.PSH(2); goto B022_004; // PT = LT, Size = 2, Colour = dark magenta
 
-        B022_004: state = state.ROL; goto B021_003; // PT = , Size = 1, Colour = light magenta
+        B022_004: state = state.ROL; goto B021_003; // PT = LT, Size = 1, Colour = light magenta
 
-        B021_003: state = state.RR.DUP; goto B022_001; // PT = RR, Size = 2, Colour = cyan
+        B021_003: state = state[RR].DUP; goto B022_001; // PT = LT, Size = 2, Colour = cyan
     }
 }

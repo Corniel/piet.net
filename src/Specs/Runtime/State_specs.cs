@@ -81,35 +81,10 @@ public class Commands
         .GT_
         .Should().Be(new() { Stack = [0] });
 
-    [Test]
-    public void LR_is_left_right()
-        => StateInfo.New().LR.Should().Be(new() { PT = CC_DP.LR });
-
-    [Test]
-    public void LD_is_left_down()
-        => StateInfo.New().LD.Should().Be(new() { PT = CC_DP.LD });
-
-    [Test]
-    public void LL_is_left_left()
-        => StateInfo.New().LL.Should().Be(new() { PT = CC_DP.LL });
-
-    [Test]
-    public void LT_is_left_top()
-        => StateInfo.New().LT.Should().Be(new() { PT = CC_DP.LT });
-
-    [Test]
-    public void RR_is_left_right()
-        => StateInfo.New().RR.Should().Be(new() { PT = CC_DP.RR });
-
-    [Test]
-    public void RD_is_left_down()
-        => StateInfo.New().RD.Should().Be(new() { PT = CC_DP.RD });
-
-    [Test]
-    public void RL_is_left_left()
-        => StateInfo.New().RL.Should().Be(new() { PT = CC_DP.RL });
-
-    [Test]
-    public void RT_is_left_top()
-        => StateInfo.New().RT.Should().Be(new() { PT = CC_DP.RT });
+    [TestCase(CC_DP.LR)]
+    [TestCase(CC_DP.LD)]
+    [TestCase(CC_DP.RR)]
+    [TestCase(CC_DP.RT)]
+    public void PT(CC_DP pt)
+        => StateInfo.New()[pt].Should().Be(new() { PT = pt });
 }

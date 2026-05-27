@@ -31,7 +31,7 @@ public sealed class BlockMethod(Block block) : Code
             .Indent()
             .Write($"{Name(Block)}: ")
             .Write(e)
-            .Line($" // PT = {e.PT}, Size = {Block.Value}, Colour = {Block.Colour.Name}");
+            .Line($" // PT = {e.Key}, Size = {Block.Value}, Colour = {Block.Colour.Name}");
     }
 
     private void Instructions(CSharpWriter writer)

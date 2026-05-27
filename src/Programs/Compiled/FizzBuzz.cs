@@ -12,8 +12,8 @@ public static class FizzBuzz
         B000_000: switch (state.PT) // Size = 1, Colour = dark red
         {
             case LR: state = state.INi; goto B001_000;
-            case LL: state = state.LR.INi; goto B001_000;
-            case RL: state = state.RR.INi; goto B001_000;
+            case LL: state = state[LR].INi; goto B001_000;
+            case RL: state = state[RR].INi; goto B001_000;
         }
 
         B001_000: switch (state.PT) // Size = 1, Colour = blue
@@ -61,11 +61,11 @@ public static class FizzBuzz
             case LR: state = state.PSH(1); goto B026_000;
             case LD: state = state.PSH(3); goto B008_007;
             case LL: state = state.SWI; goto B007_000;
-            case LT: state = state.RR.PSH(1); goto B026_000;
+            case LT: state = state[RR].PSH(1); goto B026_000;
             case RR: state = state.PSH(1); goto B026_000;
             case RD: state = state.GT_; goto B006_007;
             case RL: state = state.SWI; goto B007_000;
-            case RT: state = state.LR.PSH(1); goto B026_000;
+            case RT: state = state[LR].PSH(1); goto B026_000;
         }
 
         B026_000: switch (state.PT) // Size = 1, Colour = yellow
@@ -74,7 +74,7 @@ public static class FizzBuzz
             case RR: state = state.PSH(2); goto B057_000;
         }
 
-        B008_007: state = state.ROT; goto B006_008; // PT = , Size = 1, Colour = light cyan
+        B008_007: state = state.ROT; goto B006_008; // PT = LD, Size = 1, Colour = light cyan
 
         B057_000: switch (state.PT) // Size = 1, Colour = dark blue
         {
@@ -108,13 +108,13 @@ public static class FizzBuzz
             case RD: state = state.POP; goto B007_027;
         }
 
-        B005_022: state = state.POP; goto B004_022; // PT = , Size = 1, Colour = dark red
+        B005_022: state = state.POP; goto B004_022; // PT = LL, Size = 1, Colour = dark red
 
         B006_006: switch (state.PT) // Size = 3, Colour = dark cyan
         {
-            case LR: state = state.RD.GT_; goto B006_007;
+            case LR: state = state[RD].GT_; goto B006_007;
             case LD: state = state.PSH(3); goto B008_007;
-            case LL: state = state.LR.PSH(1); goto B026_000;
+            case LL: state = state[LR].PSH(1); goto B026_000;
             case LT: return;
         }
 
@@ -132,11 +132,11 @@ public static class FizzBuzz
             case RD: state = state.PSH(1); goto B007_028;
         }
 
-        B004_022: state = state.PSH(1); return; // PT = , Size = 1, Colour = red
+        B004_022: state = state.PSH(1); return; // PT = LL, Size = 1, Colour = red
 
-        B006_007: state = state.POP; goto B006_008; // PT = , Size = 1, Colour = dark red
+        B006_007: state = state.POP; goto B006_008; // PT = RD, Size = 1, Colour = dark red
 
-        B018_020: state = state.PSH(105); goto B029_015; // PT = , Size = 1, Colour = magenta
+        B018_020: state = state.PSH(105); goto B029_015; // PT = LR, Size = 1, Colour = magenta
 
         B060_000: switch (state.PT) // Size = 1, Colour = red
         {
@@ -150,7 +150,7 @@ public static class FizzBuzz
             case RD: state = state.POP; goto B007_029;
         }
 
-        B029_015: state = state.OUTc; goto B030_015; // PT = , Size = 1, Colour = dark red
+        B029_015: state = state.OUTc; goto B030_015; // PT = LR, Size = 1, Colour = dark red
 
         B069_000: switch (state.PT) // Size = 1, Colour = yellow
         {
@@ -164,7 +164,7 @@ public static class FizzBuzz
             case RD: state = state.PSH(1); goto B007_030;
         }
 
-        B030_015: state = state.PSH(122); goto B033_032; // PT = , Size = 1, Colour = magenta
+        B030_015: state = state.PSH(122); goto B033_032; // PT = LR, Size = 1, Colour = magenta
 
         B072_000: switch (state.PT) // Size = 1, Colour = cyan
         {
@@ -180,7 +180,7 @@ public static class FizzBuzz
             case RD: state = state.POP; goto B007_031;
         }
 
-        B033_032: state = state.OUTc; goto B051_031; // PT = , Size = 76, Colour = dark red
+        B033_032: state = state.OUTc; goto B051_031; // PT = LR, Size = 76, Colour = dark red
 
         B073_000: switch (state.PT) // Size = 1, Colour = light magenta
         {
@@ -196,18 +196,18 @@ public static class FizzBuzz
             case RD: state = state.PSH(1); goto B007_032;
         }
 
-        B051_031: state = state.PSH(3); goto B054_031; // PT = , Size = 1, Colour = magenta
+        B051_031: state = state.PSH(3); goto B054_031; // PT = LR, Size = 1, Colour = magenta
 
         B074_000: switch (state.PT) // Size = 1, Colour = green
         {
             case LR: state = state.PSH(1); goto B077_000;
             case LD: state = state.PSH(3); goto B076_007;
             case LL: state = state.SWI; goto B073_000;
-            case LT: state = state.RR.PSH(1); goto B077_000;
+            case LT: state = state[RR].PSH(1); goto B077_000;
             case RR: state = state.PSH(1); goto B077_000;
             case RD: state = state.GT_; goto B074_007;
             case RL: state = state.SWI; goto B073_000;
-            case RT: state = state.LR.PSH(1); goto B077_000;
+            case RT: state = state[LR].PSH(1); goto B077_000;
         }
 
         B007_032: switch (state.PT) // Size = 1, Colour = dark red
@@ -216,7 +216,7 @@ public static class FizzBuzz
             case RD: state = state.POP; goto B007_033;
         }
 
-        B054_031: state = state.ROT; goto B053_015; // PT = , Size = 1, Colour = light cyan
+        B054_031: state = state.ROT; goto B053_015; // PT = LR, Size = 1, Colour = light cyan
 
         B077_000: switch (state.PT) // Size = 1, Colour = yellow
         {
@@ -224,7 +224,7 @@ public static class FizzBuzz
             case RR: state = state.MUL; goto B143_000;
         }
 
-        B076_007: state = state.ROT; goto B076_008; // PT = , Size = 1, Colour = light blue
+        B076_007: state = state.ROT; goto B076_008; // PT = LD, Size = 1, Colour = light blue
 
         B007_033: switch (state.PT) // Size = 1, Colour = red
         {
@@ -236,15 +236,15 @@ public static class FizzBuzz
         {
             case LR: state = state.PSH(122); goto B054_015;
             case LD: state = state.PSH(122); return;
-            case LL: state = state.RT.PSH(122); goto B053_014;
+            case LL: state = state[RT].PSH(122); goto B053_014;
             case LT: state = state.PSH(122); goto B053_014;
             case RD: state = state.PSH(122); return;
         }
 
         B074_007: switch (state.PT) // Size = 101, Colour = dark yellow
         {
-            case LL: state = state.RT.GT_; return;
-            case RD: state = state.RT.GT_; return;
+            case LL: state = state[RT].GT_; return;
+            case RD: state = state[RT].GT_; return;
         }
 
         B143_000: switch (state.PT) // Size = 1, Colour = green
@@ -257,13 +257,13 @@ public static class FizzBuzz
 
         B076_008: switch (state.PT) // Size = 66, Colour = yellow
         {
-            case LR: state = state.RR.PSH(66); goto B094_015;
+            case LR: state = state[RR].PSH(66); goto B094_015;
             case LD: state = state.PSH(66); goto B092_018;
             case LL: state = state.PSH(66); goto B074_007;
-            case LT: state = state.RR.PSH(66); goto B094_015;
+            case LT: state = state[RR].PSH(66); goto B094_015;
         }
 
-        B054_015: state = state.LL.POP; goto B053_015; // PT = LL, Size = 19, Colour = dark red
+        B054_015: state = state[LL].POP; goto B053_015; // PT = LR, Size = 19, Colour = dark red
 
         B053_014: switch (state.PT) // Size = 1, Colour = dark red
         {
@@ -281,11 +281,11 @@ public static class FizzBuzz
 
         B092_018: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            case LD: state = state.RL.POP; goto B091_018;
-            case RR: state = state.RL.POP; goto B091_018;
+            case LD: state = state[RL].POP; goto B091_018;
+            case RR: state = state[RL].POP; goto B091_018;
         }
 
-        B094_015: state = state.OUTc; goto B095_015; // PT = , Size = 1, Colour = dark yellow
+        B094_015: state = state.OUTc; goto B095_015; // PT = RR, Size = 1, Colour = dark yellow
 
         B071_000: switch (state.PT) // Size = 1, Colour = light yellow
         {
@@ -313,7 +313,7 @@ public static class FizzBuzz
             case RL: state = state.PSH(1); goto B090_018;
         }
 
-        B095_015: state = state.PSH(117); goto B119_015; // PT = , Size = 1, Colour = red
+        B095_015: state = state.PSH(117); goto B119_015; // PT = RR, Size = 1, Colour = red
 
         B064_000: switch (state.PT) // Size = 5, Colour = light yellow
         {
@@ -339,7 +339,7 @@ public static class FizzBuzz
             case RL: state = state.POP; goto B089_018;
         }
 
-        B119_015: state = state.OUTc; goto B120_015; // PT = , Size = 1, Colour = dark yellow
+        B119_015: state = state.OUTc; goto B120_015; // PT = RR, Size = 1, Colour = dark yellow
 
         B053_007: switch (state.PT) // Size = 1, Colour = yellow
         {
@@ -352,11 +352,11 @@ public static class FizzBuzz
             case LR: state = state.OUTi; goto B165_000;
             case LD: state = state.PSH(10); goto B163_008;
             case LL: state = state.SWI; goto B163_000;
-            case LT: state = state.RR.OUTi; goto B165_000;
+            case LT: state = state[RR].OUTi; goto B165_000;
             case RR: state = state.OUTi; goto B165_000;
             case RD: state = state.PSH(10); goto B163_008;
             case RL: state = state.SWI; goto B163_000;
-            case RT: state = state.LR.OUTi; goto B165_000;
+            case RT: state = state[LR].OUTi; goto B165_000;
         }
 
         B089_018: switch (state.PT) // Size = 1, Colour = yellow
@@ -365,7 +365,7 @@ public static class FizzBuzz
             case RL: state = state.PSH(1); goto B088_018;
         }
 
-        B120_015: state = state.PSH(122); goto B122_032; // PT = , Size = 1, Colour = red
+        B120_015: state = state.PSH(122); goto B122_032; // PT = RR, Size = 1, Colour = red
 
         B053_004: switch (state.PT) // Size = 1, Colour = green
         {
@@ -399,7 +399,7 @@ public static class FizzBuzz
             case RL: state = state.POP; goto B087_018;
         }
 
-        B122_032: state = state.LR.OUTc; goto B140_031; // PT = LR, Size = 76, Colour = dark yellow
+        B122_032: state = state[LR].OUTc; goto B140_031; // PT = RR, Size = 76, Colour = dark yellow
 
         B053_001: switch (state.PT) // Size = 1, Colour = light cyan
         {
@@ -423,7 +423,7 @@ public static class FizzBuzz
             case RL: state = state.PSH(1); goto B086_018;
         }
 
-        B140_031: state = state.PSH(3); goto B143_031; // PT = , Size = 1, Colour = red
+        B140_031: state = state.PSH(3); goto B143_031; // PT = LR, Size = 1, Colour = red
 
         B055_000: switch (state.PT) // Size = 2, Colour = blue
         {
@@ -436,23 +436,23 @@ public static class FizzBuzz
             case LR: state = state.PSH(2); goto B057_000;
             case LD: state = state.SWI; goto B053_001;
             case LL: state = state.POP; goto B025_000;
-            case LT: state = state.RR.PSH(2); goto B057_000;
+            case LT: state = state[RR].PSH(2); goto B057_000;
             case RR: state = state.PSH(2); goto B057_000;
             case RD: state = state.SWI; goto B053_001;
             case RL: state = state.POP; goto B025_000;
-            case RT: state = state.LR.PSH(2); goto B057_000;
+            case RT: state = state[LR].PSH(2); goto B057_000;
         }
 
         B167_000: switch (state.PT) // Size = 1, Colour = red
         {
-            case LR: state = state.LL.SWI; goto B166_000;
+            case LR: state = state[LL].SWI; goto B166_000;
             case LD: state = state.PSH(10); goto B163_008;
             case LL: state = state.SWI; goto B166_000;
-            case LT: state = state.RL.SWI; goto B166_000;
-            case RR: state = state.RL.SWI; goto B166_000;
+            case LT: state = state[RL].SWI; goto B166_000;
+            case RR: state = state[RL].SWI; goto B166_000;
             case RD: state = state.PSH(10); goto B163_008;
             case RL: state = state.SWI; goto B166_000;
-            case RT: state = state.LL.SWI; goto B166_000;
+            case RT: state = state[LL].SWI; goto B166_000;
         }
 
         B150_000: switch (state.PT) // Size = 1, Colour = light yellow
@@ -461,9 +461,9 @@ public static class FizzBuzz
             case RL: state = state.OUTi; goto B143_000;
         }
 
-        B086_018: state = state.RR.POP; goto B087_018; // PT = RR, Size = 1, Colour = dark yellow
+        B086_018: state = state[RR].POP; goto B087_018; // PT = RL, Size = 1, Colour = dark yellow
 
-        B143_031: state = state.ROT; goto B142_015; // PT = , Size = 1, Colour = light blue
+        B143_031: state = state.ROT; goto B142_015; // PT = LR, Size = 1, Colour = light blue
 
         B025_000: switch (state.PT) // Size = 1, Colour = light yellow
         {
@@ -475,7 +475,7 @@ public static class FizzBuzz
         {
             case LR: state = state.PSH(122); goto B143_015;
             case LD: state = state.PSH(122); return;
-            case LL: state = state.RT.PSH(122); goto B142_014;
+            case LL: state = state[RT].PSH(122); goto B142_014;
             case LT: state = state.PSH(122); goto B142_014;
         }
 
@@ -491,7 +491,7 @@ public static class FizzBuzz
             case RL: state = state.POP; goto B076_000;
         }
 
-        B143_015: state = state.LL.POP; goto B142_015; // PT = LL, Size = 19, Colour = dark yellow
+        B143_015: state = state[LL].POP; goto B142_015; // PT = LR, Size = 19, Colour = dark yellow
 
         B142_014: switch (state.PT) // Size = 1, Colour = dark yellow
         {
@@ -543,8 +543,8 @@ public static class FizzBuzz
 
         B142_004: switch (state.PT) // Size = 1, Colour = green
         {
-            case LT: state = state.RR.MUL; goto B143_000;
-            case RT: state = state.LR.MUL; goto B143_000;
+            case LT: state = state[RR].MUL; goto B143_000;
+            case RT: state = state[LR].MUL; goto B143_000;
         }
     }
 }

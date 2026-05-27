@@ -13,6 +13,15 @@ public ref struct State(Stack stack, InOut io)
 
     public InOut IO { get; } = io;
 
+    public State this[CC_DP pt]
+    {
+        get
+        {
+            PT = pt;
+            return this;
+        }
+    }
+
     public readonly State NON => this;
 
     public State PSH(long value)
@@ -181,15 +190,6 @@ public ref struct State(Stack stack, InOut io)
             return this;
         }
     }
-
-    public State LR { get { PT = CC_DP.LR; return this; } }
-    public State LD { get { PT = CC_DP.LD; return this; } }
-    public State LL { get { PT = CC_DP.LL; return this; } }
-    public State LT { get { PT = CC_DP.LT; return this; } }
-    public State RR { get { PT = CC_DP.RR; return this; } }
-    public State RD { get { PT = CC_DP.RD; return this; } }
-    public State RL { get { PT = CC_DP.RL; return this; } }
-    public State RT { get { PT = CC_DP.RT; return this; } }
 
     public static State New(InOut? io = null, Stack? stack = null)
         => new(stack ?? Stack.Empty, io ?? InOut.Console);
