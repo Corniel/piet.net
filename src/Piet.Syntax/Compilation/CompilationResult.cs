@@ -16,6 +16,8 @@ public sealed class CompilationResult(string name, string @namespace) : Code
     public void WriteTo(CSharpWriter writer)
     {
         writer
+            .Line("#pragma warning disable")
+            .Line()
             .Line("using Piet.Runtime;")
             .Line("using static Piet.Runtime.CC_DP;")
             .Line()
@@ -28,9 +30,7 @@ public sealed class CompilationResult(string name, string @namespace) : Code
             writer
                 .Indent().Line($"private const bool Exit = true;")
                 .Line()
-                .Indent().Line($"public static bool Execute(State {state}) => {state}.B000_000;")
-                .Line()
-                .Indent().Line($"extension(State {state})");
+                .Indent().Line($"public static bool Execute(State {state})");
 
             using (writer.Indent().CodeBlock())
             {

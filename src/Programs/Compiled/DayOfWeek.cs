@@ -1,3 +1,5 @@
+#pragma warning disable
+
 using Piet.Runtime;
 using static Piet.Runtime.CC_DP;
 
@@ -7,725 +9,723 @@ public static class DayOfWeek
 {
     private const bool Exit = true;
 
-    public static bool Execute(State state) => state.B000_000;
-
-    extension(State state)
+    public static bool Execute(State state)
     {
-        private bool B000_000 => state.PT switch
+        B000_000: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LR => state.INi.B001_000,
-            _ => Exit,
-        };
+            case LR: state = state.INi; goto B001_000;
+            default: return Exit;
+        }
 
-        private bool B001_000 => state.PT switch
+        B001_000: switch (state.PT) // Size = 1, Colour = red
         {
-            LR => state.PSH(10).B005_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(10); goto B005_000;
+            default: return Exit;
+        }
 
-        private bool B005_000 => state.PT switch
+        B005_000: switch (state.PT) // Size = 1, Colour = light green
         {
-            LR => state.PSH(10).B009_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(10); goto B009_000;
+            default: return Exit;
+        }
 
-        private bool B009_000 => state.PT switch
+        B009_000: switch (state.PT) // Size = 1, Colour = light green
         {
-            LR => state.PSH(10).B013_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(10); goto B013_000;
+            default: return Exit;
+        }
 
-        private bool B013_000 => state.PT switch
+        B013_000: switch (state.PT) // Size = 1, Colour = light green
         {
-            LR => state.PSH(2).B016_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(2); goto B016_000;
+            default: return Exit;
+        }
 
-        private bool B016_000 => state.PT switch
+        B016_000: switch (state.PT) // Size = 3, Colour = light green
         {
-            LR => state.MUL.B017_000,
-            _ => Exit,
-        };
+            case LR: state = state.MUL; goto B017_000;
+            default: return Exit;
+        }
 
-        private bool B017_000 => state.PT switch
+        B017_000: switch (state.PT) // Size = 3, Colour = dark cyan
         {
-            LR => state.MUL.B018_000,
-            _ => Exit,
-        };
+            case LR: state = state.MUL; goto B018_000;
+            default: return Exit;
+        }
 
-        private bool B018_000 => state.PT switch
+        B018_000: switch (state.PT) // Size = 3, Colour = blue
         {
-            LR => state.MUL.B019_000,
-            _ => Exit,
-        };
+            case LR: state = state.MUL; goto B019_000;
+            default: return Exit;
+        }
 
-        private bool B019_000 => state.PT switch
+        B019_000: switch (state.PT) // Size = 3, Colour = light magenta
         {
-            LR => state.SUB.B020_000,
-            _ => Exit,
-        };
+            case LR: state = state.SUB; goto B020_000;
+            default: return Exit;
+        }
 
-        private bool B020_000 => state.PT switch
+        B020_000: switch (state.PT) // Size = 3, Colour = red
         {
-            LR => state.DUP.B021_000,
-            _ => Exit,
-        };
+            case LR: state = state.DUP; goto B021_000;
+            default: return Exit;
+        }
 
-        private bool B021_000 => state.PT switch
+        B021_000: switch (state.PT) // Size = 3, Colour = blue
         {
-            LR => state.DUP.B022_000,
-            _ => Exit,
-        };
+            case LR: state = state.DUP; goto B022_000;
+            default: return Exit;
+        }
 
-        private bool B022_000 => state.PT switch
+        B022_000: switch (state.PT) // Size = 3, Colour = green
         {
-            LR => state.PSH(3).B025_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(3); goto B025_000;
+            default: return Exit;
+        }
 
-        private bool B025_000 => state.PT switch
+        B025_000: switch (state.PT) // Size = 3, Colour = light green
         {
-            LR => state.ADD.B026_000,
-            _ => Exit,
-        };
+            case LR: state = state.ADD; goto B026_000;
+            default: return Exit;
+        }
 
-        private bool B026_000 => state.PT switch
+        B026_000: switch (state.PT) // Size = 3, Colour = light cyan
         {
-            LR => state.PSH(4).B029_000,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(4); goto B029_000;
+            default: return Exit;
+        }
 
-        private bool B029_000 => state.PT switch
+        B029_000: switch (state.PT) // Size = 1, Colour = light green
         {
-            LR => state.DIV.B030_000,
-            _ => Exit,
-        };
+            case LR: state = state.DIV; goto B030_000;
+            default: return Exit;
+        }
 
-        private bool B030_000 => state.PT switch
+        B030_000: switch (state.PT) // Size = 1, Colour = light blue
         {
-            LR => state.RD.PSH(2).B030_004,
-            _ => Exit,
-        };
+            case LR: state = state.RD.PSH(2); goto B030_004;
+            default: return Exit;
+        }
 
-        private bool B030_004 => state.PT switch
+        B030_004: switch (state.PT) // Size = 1, Colour = light green
         {
-            RD => state.PSH(1).B030_007,
-            _ => Exit,
-        };
+            case RD: state = state.PSH(1); goto B030_007;
+            default: return Exit;
+        }
 
-        private bool B030_007 => state.PT switch
+        B030_007: switch (state.PT) // Size = 1, Colour = light green
         {
-            RD => state.ROL.B030_008,
-            _ => Exit,
-        };
+            case RD: state = state.ROL; goto B030_008;
+            default: return Exit;
+        }
 
-        private bool B030_008 => state.PT switch
+        B030_008: switch (state.PT) // Size = 1, Colour = red
         {
-            RD => state.LD.PSH(4).B030_011,
-            _ => Exit,
-        };
+            case RD: state = state.LD.PSH(4); goto B030_011;
+            default: return Exit;
+        }
 
-        private bool B030_011 => state.PT switch
+        B030_011: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.MOD.B030_012,
-            _ => Exit,
-        };
+            case LD: state = state.MOD; goto B030_012;
+            default: return Exit;
+        }
 
-        private bool B030_012 => state.PT switch
+        B030_012: switch (state.PT) // Size = 1, Colour = blue
         {
-            LD => state.NOT.B030_013,
-            _ => Exit,
-        };
+            case LD: state = state.NOT; goto B030_013;
+            default: return Exit;
+        }
 
-        private bool B030_013 => state.PT switch
+        B030_013: switch (state.PT) // Size = 1, Colour = light red
         {
-            LD => state.INi.B030_016,
-            _ => Exit,
-        };
+            case LD: state = state.INi; goto B030_016;
+            default: return Exit;
+        }
 
-        private bool B030_016 => state.PT switch
+        B030_016: switch (state.PT) // Size = 1, Colour = red
         {
-            LD => state.DUP.B030_017,
-            _ => Exit,
-        };
+            case LD: state = state.DUP; goto B030_017;
+            default: return Exit;
+        }
 
-        private bool B030_017 => state.PT switch
+        B030_017: switch (state.PT) // Size = 1, Colour = blue
         {
-            LD => state.PSH(2).B030_020,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(2); goto B030_020;
+            default: return Exit;
+        }
 
-        private bool B030_020 => state.PT switch
+        B030_020: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.GT_.B030_021,
-            _ => Exit,
-        };
+            case LD: state = state.GT_; goto B030_021;
+            default: return Exit;
+        }
 
-        private bool B030_021 => state.PT switch
+        B030_021: switch (state.PT) // Size = 1, Colour = light magenta
         {
-            LD => state.PSH(2).B030_024,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(2); goto B030_024;
+            default: return Exit;
+        }
 
-        private bool B030_024 => state.PT switch
+        B030_024: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.PSH(1).B030_027,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(1); goto B030_027;
+            default: return Exit;
+        }
 
-        private bool B030_027 => state.PT switch
+        B030_027: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.ROL.B030_028,
-            _ => Exit,
-        };
+            case LD: state = state.ROL; goto B030_028;
+            default: return Exit;
+        }
 
-        private bool B030_028 => state.PT switch
+        B030_028: switch (state.PT) // Size = 1, Colour = red
         {
-            LD => state.DUP.B030_029,
-            _ => Exit,
-        };
+            case LD: state = state.DUP; goto B030_029;
+            default: return Exit;
+        }
 
-        private bool B030_029 => state.PT switch
+        B030_029: switch (state.PT) // Size = 3, Colour = blue
         {
-            LD => state.LL.PSH(6).B025_030,
-            _ => Exit,
-        };
+            case LD: state = state.LL.PSH(6); goto B025_030;
+            default: return Exit;
+        }
 
-        private bool B025_030 => state.PT switch
+        B025_030: switch (state.PT) // Size = 2, Colour = light green
         {
-            LL => state.GT_.B024_029,
-            RR => state.POP.B026_030,
-            _ => Exit,
-        };
+            case LL: state = state.GT_; goto B024_029;
+            case RR: state = state.POP; goto B026_030;
+            default: return Exit;
+        }
 
-        private bool B024_029 => state.PT switch
+        B024_029: switch (state.PT) // Size = 3, Colour = light magenta
         {
-            LR => state.RR.GT_.B025_030,
-            LL => state.ROT.B023_029,
-            RR => state.GT_.B025_030,
-            _ => Exit,
-        };
+            case LR: state = state.RR.GT_; goto B025_030;
+            case LL: state = state.ROT; goto B023_029;
+            case RR: state = state.GT_; goto B025_030;
+            default: return Exit;
+        }
 
-        private bool B023_029 => state.PT switch
+        B023_029: switch (state.PT) // Size = 3, Colour = green
         {
-            LR => state.SWI.B024_029,
-            LD => state.RL.PSH(7).B018_030,
-            LL => state.PSH(7).B018_030,
-            LT => state.RL.PSH(6).B021_025,
-            _ => Exit,
-        };
+            case LR: state = state.SWI; goto B024_029;
+            case LD: state = state.RL.PSH(7); goto B018_030;
+            case LL: state = state.PSH(7); goto B018_030;
+            case LT: state = state.RL.PSH(6); goto B021_025;
+            default: return Exit;
+        }
 
-        private bool B018_030 => state.PT switch
+        B018_030: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LL => state.PSH(9).B013_029,
-            RL => state.PSH(9).B013_029,
-            _ => Exit,
-        };
+            case LL: state = state.PSH(9); goto B013_029;
+            case RL: state = state.PSH(9); goto B013_029;
+            default: return Exit;
+        }
 
-        private bool B021_025 => state.PT switch
+        B021_025: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            RL => state.SUB.B020_025,
-            _ => Exit,
-        };
+            case RL: state = state.SUB; goto B020_025;
+            default: return Exit;
+        }
 
-        private bool B013_029 => state.PT switch
+        B013_029: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LL => state.MUL.B012_029,
-            RL => state.MUL.B012_029,
-            _ => Exit,
-        };
+            case LL: state = state.MUL; goto B012_029;
+            case RL: state = state.MUL; goto B012_029;
+            default: return Exit;
+        }
 
-        private bool B020_025 => state.PT switch
+        B020_025: switch (state.PT) // Size = 3, Colour = light green
         {
-            RL => state.PSH(8).B015_025,
-            _ => Exit,
-        };
+            case RL: state = state.PSH(8); goto B015_025;
+            default: return Exit;
+        }
 
-        private bool B012_029 => state.PT switch
+        B012_029: switch (state.PT) // Size = 3, Colour = green
         {
-            LL => state.PSH(9).B007_029,
-            RL => state.PSH(9).B007_029,
-            _ => Exit,
-        };
+            case LL: state = state.PSH(9); goto B007_029;
+            case RL: state = state.PSH(9); goto B007_029;
+            default: return Exit;
+        }
 
-        private bool B015_025 => state.PT switch
+        B015_025: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            RL => state.PSH(9).B010_025,
-            _ => Exit,
-        };
+            case RL: state = state.PSH(9); goto B010_025;
+            default: return Exit;
+        }
 
-        private bool B026_030 => state.PT switch
+        B026_030: switch (state.PT) // Size = 6, Colour = dark green
         {
-            RR => state.LL.PSH(6).B025_030,
-            _ => Exit,
-        };
+            case RR: state = state.LL.PSH(6); goto B025_030;
+            default: return Exit;
+        }
 
-        private bool B007_029 => state.PT switch
+        B007_029: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LL => state.MUL.B006_029,
-            RL => state.MUL.B006_029,
-            _ => Exit,
-        };
+            case LL: state = state.MUL; goto B006_029;
+            case RL: state = state.MUL; goto B006_029;
+            default: return Exit;
+        }
 
-        private bool B010_025 => state.PT switch
+        B010_025: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            RL => state.MUL.B009_025,
-            _ => Exit,
-        };
+            case RL: state = state.MUL; goto B009_025;
+            default: return Exit;
+        }
 
-        private bool B006_029 => state.PT switch
+        B006_029: switch (state.PT) // Size = 3, Colour = green
         {
-            LL => state.PSH(4).B002_030,
-            RL => state.PSH(4).B002_030,
-            _ => Exit,
-        };
+            case LL: state = state.PSH(4); goto B002_030;
+            case RL: state = state.PSH(4); goto B002_030;
+            default: return Exit;
+        }
 
-        private bool B009_025 => state.PT switch
+        B009_025: switch (state.PT) // Size = 3, Colour = green
         {
-            RL => state.LT.PSH(8).B005_024,
-            _ => Exit,
-        };
+            case RL: state = state.LT.PSH(8); goto B005_024;
+            default: return Exit;
+        }
 
-        private bool B002_030 => state.PT switch
+        B002_030: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LL => state.ADD.B001_030,
-            RL => state.ADD.B001_030,
-            _ => Exit,
-        };
+            case LL: state = state.ADD; goto B001_030;
+            case RL: state = state.ADD; goto B001_030;
+            default: return Exit;
+        }
 
-        private bool B005_024 => state.PT switch
+        B005_024: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LT => state.ADD.B005_023,
-            _ => Exit,
-        };
+            case LT: state = state.ADD; goto B005_023;
+            default: return Exit;
+        }
 
-        private bool B001_030 => state.PT switch
+        B001_030: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LL => state.RT.PSH(9).B001_024,
-            RL => state.LT.PSH(9).B001_024,
-            _ => Exit,
-        };
+            case LL: state = state.RT.PSH(9); goto B001_024;
+            case RL: state = state.LT.PSH(9); goto B001_024;
+            default: return Exit;
+        }
 
-        private bool B005_023 => state.PT switch
+        B005_023: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LT => state.PSH(9).B005_018,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(9); goto B005_018;
+            default: return Exit;
+        }
 
-        private bool B001_024 => state.PT switch
+        B001_024: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.MUL.B001_023,
-            RT => state.MUL.B001_023,
-            _ => Exit,
-        };
+            case LT: state = state.MUL; goto B001_023;
+            case RT: state = state.MUL; goto B001_023;
+            default: return Exit;
+        }
 
-        private bool B005_018 => state.PT switch
+        B005_018: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.MUL.B005_017,
-            _ => Exit,
-        };
+            case LT: state = state.MUL; goto B005_017;
+            default: return Exit;
+        }
 
-        private bool B001_023 => state.PT switch
+        B001_023: switch (state.PT) // Size = 3, Colour = green
         {
-            LT => state.PSH(9).B001_018,
-            RT => state.PSH(9).B001_018,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(9); goto B001_018;
+            case RT: state = state.PSH(9); goto B001_018;
+            default: return Exit;
+        }
 
-        private bool B005_017 => state.PT switch
+        B005_017: switch (state.PT) // Size = 3, Colour = green
         {
-            LT => state.PSH(7).B005_012,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(7); goto B005_012;
+            default: return Exit;
+        }
 
-        private bool B001_018 => state.PT switch
+        B001_018: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.MUL.B001_017,
-            RT => state.MUL.B001_017,
-            _ => Exit,
-        };
+            case LT: state = state.MUL; goto B001_017;
+            case RT: state = state.MUL; goto B001_017;
+            default: return Exit;
+        }
 
-        private bool B005_012 => state.PT switch
+        B005_012: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LT => state.ADD.B005_011,
-            _ => Exit,
-        };
+            case LT: state = state.ADD; goto B005_011;
+            default: return Exit;
+        }
 
-        private bool B001_017 => state.PT switch
+        B001_017: switch (state.PT) // Size = 3, Colour = green
         {
-            LT => state.PSH(7).B002_012,
-            RT => state.PSH(7).B002_012,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(7); goto B002_012;
+            case RT: state = state.PSH(7); goto B002_012;
+            default: return Exit;
+        }
 
-        private bool B005_011 => state.PT switch
+        B005_011: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LT => state.RR.PSH(9).B010_010,
-            _ => Exit,
-        };
+            case LT: state = state.RR.PSH(9); goto B010_010;
+            default: return Exit;
+        }
 
-        private bool B002_012 => state.PT switch
+        B002_012: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LT => state.ADD.B002_011,
-            RT => state.ADD.B002_011,
-            _ => Exit,
-        };
+            case LT: state = state.ADD; goto B002_011;
+            case RT: state = state.ADD; goto B002_011;
+            default: return Exit;
+        }
 
-        private bool B010_010 => state.PT switch
+        B010_010: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            RR => state.MUL.B011_010,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B011_010;
+            default: return Exit;
+        }
 
-        private bool B002_011 => state.PT switch
+        B002_011: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LT => state.PSH(9).B001_006,
-            RT => state.PSH(9).B001_006,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(9); goto B001_006;
+            case RT: state = state.PSH(9); goto B001_006;
+            default: return Exit;
+        }
 
-        private bool B011_010 => state.PT switch
+        B011_010: switch (state.PT) // Size = 3, Colour = green
         {
-            RR => state.LD.PSH(6).B009_016,
-            _ => Exit,
-        };
+            case RR: state = state.LD.PSH(6); goto B009_016;
+            default: return Exit;
+        }
 
-        private bool B001_006 => state.PT switch
+        B001_006: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.RR.MUL.B004_006,
-            RL => state.RR.MUL.B004_006,
-            RT => state.LR.MUL.B004_006,
-            _ => Exit,
-        };
+            case LT: state = state.RR.MUL; goto B004_006;
+            case RL: state = state.RR.MUL; goto B004_006;
+            case RT: state = state.LR.MUL; goto B004_006;
+            default: return Exit;
+        }
 
-        private bool B009_016 => state.PT switch
+        B009_016: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LD => state.ADD.B009_017,
-            _ => Exit,
-        };
+            case LD: state = state.ADD; goto B009_017;
+            default: return Exit;
+        }
 
-        private bool B004_006 => state.PT switch
+        B004_006: switch (state.PT) // Size = 1, Colour = green
         {
-            LR => state.PSH(8).B009_006,
-            RR => state.PSH(8).B009_006,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(8); goto B009_006;
+            case RR: state = state.PSH(8); goto B009_006;
+            default: return Exit;
+        }
 
-        private bool B009_017 => state.PT switch
+        B009_017: switch (state.PT) // Size = 3, Colour = dark green
         {
-            LD => state.PSH(9).B011_022,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(9); goto B011_022;
+            default: return Exit;
+        }
 
-        private bool B009_006 => state.PT switch
+        B009_006: switch (state.PT) // Size = 2, Colour = dark yellow
         {
-            LR => state.ADD.B010_006,
-            RR => state.ADD.B010_006,
-            RL => state.POP.B006_006,
-            _ => Exit,
-        };
+            case LR: state = state.ADD; goto B010_006;
+            case RR: state = state.ADD; goto B010_006;
+            case RL: state = state.POP; goto B006_006;
+            default: return Exit;
+        }
 
-        private bool B011_022 => state.PT switch
+        B011_022: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LD => state.MUL.B010_023,
-            _ => Exit,
-        };
+            case LD: state = state.MUL; goto B010_023;
+            default: return Exit;
+        }
 
-        private bool B010_006 => state.PT switch
+        B010_006: switch (state.PT) // Size = 2, Colour = dark green
         {
-            LR => state.PSH(2).B014_006,
-            RR => state.PSH(2).B014_006,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(2); goto B014_006;
+            case RR: state = state.PSH(2); goto B014_006;
+            default: return Exit;
+        }
 
-        private bool B010_023 => state.PT switch
+        B010_023: switch (state.PT) // Size = 3, Colour = green
         {
-            LD => state.LT.PSH(6).B013_020,
-            _ => Exit,
-        };
+            case LD: state = state.LT.PSH(6); goto B013_020;
+            default: return Exit;
+        }
 
-        private bool B014_006 => state.PT switch
+        B014_006: switch (state.PT) // Size = 2, Colour = dark yellow
         {
-            LR => state.PSH(1).B017_006,
-            RR => state.RL.POP.B013_006,
-            _ => Exit,
-        };
+            case LR: state = state.PSH(1); goto B017_006;
+            case RR: state = state.RL.POP; goto B013_006;
+            default: return Exit;
+        }
 
-        private bool B013_020 => state.PT switch
+        B013_020: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.ADD.B013_019,
-            _ => Exit,
-        };
+            case LT: state = state.ADD; goto B013_019;
+            default: return Exit;
+        }
 
-        private bool B017_006 => state.PT switch
+        B017_006: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LR => state.ROL.B018_006,
-            _ => Exit,
-        };
+            case LR: state = state.ROL; goto B018_006;
+            default: return Exit;
+        }
 
-        private bool B013_019 => state.PT switch
+        B013_019: switch (state.PT) // Size = 3, Colour = dark green
         {
-            LT => state.PSH(9).B013_014,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(9); goto B013_014;
+            default: return Exit;
+        }
 
-        private bool B013_006 => state.PT switch
+        B013_006: switch (state.PT) // Size = 2, Colour = yellow
         {
-            RL => state.INc.B009_006,
-            _ => Exit,
-        };
+            case RL: state = state.INc; goto B009_006;
+            default: return Exit;
+        }
 
-        private bool B018_006 => state.PT switch
+        B018_006: switch (state.PT) // Size = 1, Colour = light magenta
         {
-            LR => state.RD.DUP.B018_007,
-            LT => state.LD.DUP.B018_007,
-            _ => Exit,
-        };
+            case LR: state = state.RD.DUP; goto B018_007;
+            case LT: state = state.LD.DUP; goto B018_007;
+            default: return Exit;
+        }
 
-        private bool B013_014 => state.PT switch
+        B013_014: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.MUL.B013_013,
-            _ => Exit,
-        };
+            case LT: state = state.MUL; goto B013_013;
+            default: return Exit;
+        }
 
-        private bool B018_007 => state.PT switch
+        B018_007: switch (state.PT) // Size = 3, Colour = light cyan
         {
-            LD => state.PSH(1).B020_010,
-            RD => state.LD.PSH(1).B020_010,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(1); goto B020_010;
+            case RD: state = state.LD.PSH(1); goto B020_010;
+            default: return Exit;
+        }
 
-        private bool B013_013 => state.PT switch
+        B013_013: switch (state.PT) // Size = 3, Colour = green
         {
-            LT => state.PSH(3).B013_010,
-            _ => Exit,
-        };
+            case LT: state = state.PSH(3); goto B013_010;
+            default: return Exit;
+        }
 
-        private bool B006_006 => state.PT switch
+        B006_006: switch (state.PT) // Size = 8, Colour = yellow
         {
-            RL => state.OUTi.B001_006,
-            _ => Exit,
-        };
+            case RL: state = state.OUTi; goto B001_006;
+            default: return Exit;
+        }
 
-        private bool B020_010 => state.PT switch
+        B020_010: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.GT_.B020_011,
-            LT => state.POP.B020_009,
-            RT => state.POP.B020_009,
-            _ => Exit,
-        };
+            case LD: state = state.GT_; goto B020_011;
+            case LT: state = state.POP; goto B020_009;
+            case RT: state = state.POP; goto B020_009;
+            default: return Exit;
+        }
 
-        private bool B013_010 => state.PT switch
+        B013_010: switch (state.PT) // Size = 3, Colour = dark yellow
         {
-            LT => state.ADD.B013_009,
-            _ => Exit,
-        };
+            case LT: state = state.ADD; goto B013_009;
+            default: return Exit;
+        }
 
-        private bool B020_011 => state.PT switch
+        B020_011: switch (state.PT) // Size = 1, Colour = light magenta
         {
-            LD => state.NOT.B020_012,
-            LT => state.GT_.B020_010,
-            RT => state.GT_.B020_010,
-            _ => Exit,
-        };
+            case LD: state = state.NOT; goto B020_012;
+            case LT: state = state.GT_; goto B020_010;
+            case RT: state = state.GT_; goto B020_010;
+            default: return Exit;
+        }
 
-        private bool B013_009 => state.PT switch
+        B013_009: switch (state.PT) // Size = 3, Colour = dark green
         {
-            LT => state.RR.PSH(2).B014_006,
-            _ => Exit,
-        };
+            case LT: state = state.RR.PSH(2); goto B014_006;
+            default: return Exit;
+        }
 
-        private bool B020_012 => state.PT switch
+        B020_012: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            LD => state.ROT.B020_013,
-            LT => state.ROL.B020_011,
-            RT => state.ROL.B020_011,
-            _ => Exit,
-        };
+            case LD: state = state.ROT; goto B020_013;
+            case LT: state = state.ROL; goto B020_011;
+            case RT: state = state.ROL; goto B020_011;
+            default: return Exit;
+        }
 
-        private bool B020_013 => state.PT switch
+        B020_013: switch (state.PT) // Size = 1, Colour = light blue
         {
-            LR => state.RD.PSH(1).B020_016,
-            LD => state.PSH(1).B020_016,
-            LL => state.POP.B019_013,
-            LT => state.SWI.B020_012,
-            _ => Exit,
-        };
+            case LR: state = state.RD.PSH(1); goto B020_016;
+            case LD: state = state.PSH(1); goto B020_016;
+            case LL: state = state.POP; goto B019_013;
+            case LT: state = state.SWI; goto B020_012;
+            default: return Exit;
+        }
 
-        private bool B020_016 => state.PT switch
+        B020_016: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.SUB.B020_017,
-            RD => state.SUB.B020_017,
-            _ => Exit,
-        };
+            case LD: state = state.SUB; goto B020_017;
+            case RD: state = state.SUB; goto B020_017;
+            default: return Exit;
+        }
 
-        private bool B019_013 => state.PT switch
+        B019_013: switch (state.PT) // Size = 1, Colour = dark blue
         {
-            LL => state.RD.PSH(10).B017_016,
-            _ => Exit,
-        };
+            case LL: state = state.RD.PSH(10); goto B017_016;
+            default: return Exit;
+        }
 
-        private bool B020_017 => state.PT switch
+        B020_017: switch (state.PT) // Size = 2, Colour = cyan
         {
-            LD => state.PSH(2).B020_021,
-            RD => state.LD.PSH(2).B020_021,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(2); goto B020_021;
+            case RD: state = state.LD.PSH(2); goto B020_021;
+            default: return Exit;
+        }
 
-        private bool B017_016 => state.PT switch
+        B017_016: switch (state.PT) // Size = 1, Colour = light green
         {
-            RD => state.MOD.B017_017,
-            _ => Exit,
-        };
+            case RD: state = state.MOD; goto B017_017;
+            default: return Exit;
+        }
 
-        private bool B020_021 => state.PT switch
+        B020_021: switch (state.PT) // Size = 4, Colour = light green
         {
-            LD => state.RT.PSH(1).B023_018,
-            _ => Exit,
-        };
+            case LD: state = state.RT.PSH(1); goto B023_018;
+            default: return Exit;
+        }
 
-        private bool B017_017 => state.PT switch
+        B017_017: switch (state.PT) // Size = 1, Colour = blue
         {
-            RD => state.LD.PSH(3).B018_020,
-            _ => Exit,
-        };
+            case RD: state = state.LD.PSH(3); goto B018_020;
+            default: return Exit;
+        }
 
-        private bool B023_018 => state.PT switch
+        B023_018: switch (state.PT) // Size = 2, Colour = light green
         {
-            RT => state.LR.ROL.B025_017,
-            _ => Exit,
-        };
+            case RT: state = state.LR.ROL; goto B025_017;
+            default: return Exit;
+        }
 
-        private bool B018_020 => state.PT switch
+        B018_020: switch (state.PT) // Size = 1, Colour = light green
         {
-            LD => state.PSH(1).B017_023,
-            _ => Exit,
-        };
+            case LD: state = state.PSH(1); goto B017_023;
+            default: return Exit;
+        }
 
-        private bool B020_009 => state.PT switch
+        B020_009: switch (state.PT) // Size = 1, Colour = dark green
         {
-            LT => state.DIV.B018_006,
-            RT => state.DIV.B020_004,
-            _ => Exit,
-        };
+            case LT: state = state.DIV; goto B018_006;
+            case RT: state = state.DIV; goto B020_004;
+            default: return Exit;
+        }
 
-        private bool B025_017 => state.PT switch
+        B025_017: switch (state.PT) // Size = 3, Colour = red
         {
-            LR => state.LT.PSH(10).B022_013,
-            _ => Exit,
-        };
+            case LR: state = state.LT.PSH(10); goto B022_013;
+            default: return Exit;
+        }
 
-        private bool B017_023 => state.PT switch
+        B017_023: switch (state.PT) // Size = 3, Colour = light green
         {
-            LD => state.RR.ROL.B020_023,
-            _ => Exit,
-        };
+            case LD: state = state.RR.ROL; goto B020_023;
+            default: return Exit;
+        }
 
-        private bool B020_004 => state.PT switch
+        B020_004: switch (state.PT) // Size = 3, Colour = light magenta
         {
-            RT => state.RD.DUP.B018_007,
-            _ => Exit,
-        };
+            case RT: state = state.RD.DUP; goto B018_007;
+            default: return Exit;
+        }
 
-        private bool B022_013 => state.PT switch
+        B022_013: switch (state.PT) // Size = 2, Colour = light green
         {
-            LT => state.RT.DIV.B023_012,
-            _ => Exit,
-        };
+            case LT: state = state.RT.DIV; goto B023_012;
+            default: return Exit;
+        }
 
-        private bool B020_023 => state.PT switch
+        B020_023: switch (state.PT) // Size = 1, Colour = red
         {
-            RR => state.MUL.B021_023,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B021_023;
+            default: return Exit;
+        }
 
-        private bool B023_012 => state.PT switch
+        B023_012: switch (state.PT) // Size = 1, Colour = light blue
         {
-            RT => state.PSH(2).B024_009,
-            _ => Exit,
-        };
+            case RT: state = state.PSH(2); goto B024_009;
+            default: return Exit;
+        }
 
-        private bool B021_023 => state.PT switch
+        B021_023: switch (state.PT) // Size = 1, Colour = light yellow
         {
-            RR => state.ADD.B022_023,
-            _ => Exit,
-        };
+            case RR: state = state.ADD; goto B022_023;
+            default: return Exit;
+        }
 
-        private bool B024_009 => state.PT switch
+        B024_009: switch (state.PT) // Size = 1, Colour = light green
         {
-            RT => state.PSH(1).B023_004,
-            _ => Exit,
-        };
+            case RT: state = state.PSH(1); goto B023_004;
+            default: return Exit;
+        }
 
-        private bool B022_023 => state.PT switch
+        B022_023: switch (state.PT) // Size = 1, Colour = light green
         {
-            RR => state.ADD.B023_023,
-            _ => Exit,
-        };
+            case RR: state = state.ADD; goto B023_023;
+            default: return Exit;
+        }
 
-        private bool B023_004 => state.PT switch
+        B023_004: switch (state.PT) // Size = 9, Colour = light green
         {
-            RT => state.LL.ROL.B022_005,
-            _ => Exit,
-        };
+            case RT: state = state.LL.ROL; goto B022_005;
+            default: return Exit;
+        }
 
-        private bool B023_023 => state.PT switch
+        B023_023: switch (state.PT) // Size = 1, Colour = light cyan
         {
-            RR => state.ADD.B024_023,
-            _ => Exit,
-        };
+            case RR: state = state.ADD; goto B024_023;
+            default: return Exit;
+        }
 
-        private bool B022_005 => state.PT switch
+        B022_005: switch (state.PT) // Size = 2, Colour = red
         {
-            LL => state.LD.DUP.B018_007,
-            _ => Exit,
-        };
+            case LL: state = state.LD.DUP; goto B018_007;
+            default: return Exit;
+        }
 
-        private bool B024_023 => state.PT switch
+        B024_023: switch (state.PT) // Size = 1, Colour = light blue
         {
-            RR => state.LT.PSH(5).B025_021,
-            _ => Exit,
-        };
+            case RR: state = state.LT.PSH(5); goto B025_021;
+            default: return Exit;
+        }
 
-        private bool B025_021 => state.PT switch
+        B025_021: switch (state.PT) // Size = 3, Colour = light green
         {
-            LT => state.RT.ADD.B027_020,
-            _ => Exit,
-        };
+            case LT: state = state.RT.ADD; goto B027_020;
+            default: return Exit;
+        }
 
-        private bool B027_020 => state.PT switch
+        B027_020: switch (state.PT) // Size = 1, Colour = light cyan
         {
-            RT => state.INi.B027_019,
-            _ => Exit,
-        };
+            case RT: state = state.INi; goto B027_019;
+            default: return Exit;
+        }
 
-        private bool B027_019 => state.PT switch
+        B027_019: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            RT => state.ADD.B027_018,
-            _ => Exit,
-        };
+            case RT: state = state.ADD; goto B027_018;
+            default: return Exit;
+        }
 
-        private bool B027_018 => state.PT switch
+        B027_018: switch (state.PT) // Size = 1, Colour = dark green
         {
-            RT => state.PSH(7).B027_013,
-            _ => Exit,
-        };
+            case RT: state = state.PSH(7); goto B027_013;
+            default: return Exit;
+        }
 
-        private bool B027_013 => state.PT switch
+        B027_013: switch (state.PT) // Size = 2, Colour = light green
         {
-            RT => state.LT.MOD.B027_012,
-            _ => Exit,
-        };
+            case RT: state = state.LT.MOD; goto B027_012;
+            default: return Exit;
+        }
 
-        private bool B027_012 => state.PT switch
+        B027_012: switch (state.PT) // Size = 1, Colour = blue
         {
-            LT => state.OUTi.B027_011,
-            _ => Exit,
-        };
+            case LT: state = state.OUTi; goto B027_011;
+            default: return Exit;
+        }
 
-        private bool B027_011 => state.PT switch
+        B027_011: switch (state.PT) // Size = 1, Colour = dark cyan
         {
-            _ => Exit,
-        };
+            default: return Exit;
+        }
     }
 }

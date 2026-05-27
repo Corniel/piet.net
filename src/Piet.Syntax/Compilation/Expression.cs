@@ -12,7 +12,7 @@ public sealed class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Blo
 
     public void WriteTo(CSharpWriter writer)
     {
-        writer.Indent().Write($"{Key} => {state}");
+        writer.Indent().Write($"case {Key}: {state} = {state}");
         
         if (PT.HasValue)
             writer.Write($".{PT}");
@@ -23,6 +23,6 @@ public sealed class Expression(CC_DP key, CC_DP? pt, Command cmd, int value, Blo
         if (Command.Equals(Command.Push))
             writer.Write($"({Value})");
 
-        writer.Line($".{BlockMethod.Name(Next)},");
+        writer.Line($"; goto {BlockMethod.Name(Next)};");
     }
 }

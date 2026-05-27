@@ -1,3 +1,5 @@
+#pragma warning disable
+
 using Piet.Runtime;
 using static Piet.Runtime.CC_DP;
 
@@ -7,115 +9,113 @@ public static class Pi
 {
     private const bool Exit = true;
 
-    public static bool Execute(State state) => state.B000_000;
-
-    extension(State state)
+    public static bool Execute(State state)
     {
-        private bool B000_000 => state.PT switch
+        B000_000: switch (state.PT) // Size = 52, Colour = dark red
         {
-            LR => state.RR.PSH(52).B001_051,
-            _ => Exit,
-        };
+            case LR: state = state.RR.PSH(52); goto B001_051;
+            default: return Exit;
+        }
 
-        private bool B001_051 => state.PT switch
+        B001_051: switch (state.PT) // Size = 1, Colour = light red
         {
-            RR => state.DUP.B002_051,
-            _ => Exit,
-        };
+            case RR: state = state.DUP; goto B002_051;
+            default: return Exit;
+        }
 
-        private bool B002_051 => state.PT switch
+        B002_051: switch (state.PT) // Size = 1, Colour = light blue
         {
-            RR => state.MUL.B003_051,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B003_051;
+            default: return Exit;
+        }
 
-        private bool B003_051 => state.PT switch
+        B003_051: switch (state.PT) // Size = 1, Colour = dark magenta
         {
-            RR => state.PSH(8492).B111_058,
-            _ => Exit,
-        };
+            case RR: state = state.PSH(8492); goto B111_058;
+            default: return Exit;
+        }
 
-        private bool B111_058 => state.PT switch
+        B111_058: switch (state.PT) // Size = 1, Colour = dark red
         {
-            RR => state.PSH(10).B117_058,
-            _ => Exit,
-        };
+            case RR: state = state.PSH(10); goto B117_058;
+            default: return Exit;
+        }
 
-        private bool B117_058 => state.PT switch
+        B117_058: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            RR => state.DUP.B118_058,
-            _ => Exit,
-        };
+            case RR: state = state.DUP; goto B118_058;
+            default: return Exit;
+        }
 
-        private bool B118_058 => state.PT switch
+        B118_058: switch (state.PT) // Size = 1, Colour = dark magenta
         {
-            RR => state.MUL.B119_058,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B119_058;
+            default: return Exit;
+        }
 
-        private bool B119_058 => state.PT switch
+        B119_058: switch (state.PT) // Size = 1, Colour = red
         {
-            RR => state.DUP.B120_058,
-            _ => Exit,
-        };
+            case RR: state = state.DUP; goto B120_058;
+            default: return Exit;
+        }
 
-        private bool B120_058 => state.PT switch
+        B120_058: switch (state.PT) // Size = 1, Colour = blue
         {
-            RR => state.MUL.B121_058,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B121_058;
+            default: return Exit;
+        }
 
-        private bool B121_058 => state.PT switch
+        B121_058: switch (state.PT) // Size = 1, Colour = light magenta
         {
-            RR => state.MUL.B122_058,
-            _ => Exit,
-        };
+            case RR: state = state.MUL; goto B122_058;
+            default: return Exit;
+        }
 
-        private bool B122_058 => state.PT switch
+        B122_058: switch (state.PT) // Size = 2, Colour = dark red
         {
-            RR => state.PSH(2).B124_058,
-            _ => Exit,
-        };
+            case RR: state = state.PSH(2); goto B124_058;
+            default: return Exit;
+        }
 
-        private bool B124_058 => state.PT switch
+        B124_058: switch (state.PT) // Size = 1, Colour = light red
         {
-            RR => state.PSH(1).B125_058,
-            _ => Exit,
-        };
+            case RR: state = state.PSH(1); goto B125_058;
+            default: return Exit;
+        }
 
-        private bool B125_058 => state.PT switch
+        B125_058: switch (state.PT) // Size = 1, Colour = red
         {
-            RR => state.ROL.B126_058,
-            _ => Exit,
-        };
+            case RR: state = state.ROL; goto B126_058;
+            default: return Exit;
+        }
 
-        private bool B126_058 => state.PT switch
+        B126_058: switch (state.PT) // Size = 1, Colour = dark blue
         {
-            RR => state.DIV.B127_058,
-            _ => Exit,
-        };
+            case RR: state = state.DIV; goto B127_058;
+            default: return Exit;
+        }
 
-        private bool B127_058 => state.PT switch
+        B127_058: switch (state.PT) // Size = 1, Colour = dark red
         {
-            RR => state.OUTi.B128_058,
-            _ => Exit,
-        };
+            case RR: state = state.OUTi; goto B128_058;
+            default: return Exit;
+        }
 
-        private bool B128_058 => state.PT switch
+        B128_058: switch (state.PT) // Size = 2, Colour = light magenta
         {
-            RR => state.PSH(10).B135_058,
-            _ => Exit,
-        };
+            case RR: state = state.PSH(10); goto B135_058;
+            default: return Exit;
+        }
 
-        private bool B135_058 => state.PT switch
+        B135_058: switch (state.PT) // Size = 1, Colour = dark yellow
         {
-            RR => state.OUTc.B136_057,
-            _ => Exit,
-        };
+            case RR: state = state.OUTc; goto B136_057;
+            default: return Exit;
+        }
 
-        private bool B136_057 => state.PT switch
+        B136_057: switch (state.PT) // Size = 4, Colour = red
         {
-            _ => Exit,
-        };
+            default: return Exit;
+        }
     }
 }

@@ -10,13 +10,13 @@ public sealed class BlockMethod(Block block) : Code
 
     public void WriteTo(CSharpWriter writer)
     {
-        writer.Indent().Line($"private bool {Name(Block)} => {state}.PT switch");
-        using (writer.Indent().CodeBlock("{};"))
+        writer.Indent().Line($"{Name(Block)}: switch ({state}.PT) // Size = {Block.Value}, Colour = {Block.Colour.Name}");
+        using (writer.Indent().CodeBlock())
         {
             foreach (var (_, e) in Expressions.Where(kvp => kvp.Value is not null))
                 writer.Write(e);
 
-            writer.Indent().Line("_ => Exit,");
+            writer.Indent().Line("default: return Exit;");
         }
     }
 
