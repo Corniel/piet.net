@@ -9,7 +9,7 @@ public static class Executer
         [Pure]
         public State Execute(State state, int value) => cmd switch
         {
-            _ when cmd == Command.None /*......*/ => state.NON,
+            _ when cmd == Command.None /*......*/ => state,
             _ when cmd == Command.Push /*......*/ => state.PSH(value),
             _ when cmd == Command.Pop /*.......*/ => state.POP,
             _ when cmd == Command.Add /*.......*/ => state.ADD,

@@ -1,9 +1,10 @@
 using Piet.Runtime.IO;
+using System.Linq;
+using System.Text;
 
 namespace Piet.Runtime;
 
-[DebuggerDisplay("CC-DP = {PT}, Stack = {Stack.Count}, Peek = {Stack.Peek()}")]
-[DebuggerTypeProxy(typeof(Diagnostics.CollectionDebugView))]
+[DebuggerDisplay("{DebuggerDisplay}")]
 public ref struct State(Stack stack, InOut io)
 {
     /// <summary>The (combined) pointer.</summary>
@@ -22,9 +23,6 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
-    /// <summary>Do nothing.</summary>
-    public readonly State NON => this;
-
     /// <see cref="Stack.Push(long)" />
     public State PSH(long value)
     {
@@ -33,6 +31,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Pop(out long?)" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State POP
     {
         get
@@ -43,6 +42,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Add()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State ADD
     {
         get
@@ -53,6 +53,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Subtract()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State SUB
     {
         get
@@ -63,6 +64,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Multiply()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State MUL
     {
         get
@@ -73,6 +75,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Divide()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State DIV
     {
         get
@@ -83,6 +86,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Modulo()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State MOD
     {
         get
@@ -93,6 +97,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Not()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State NOT
     {
         get
@@ -103,6 +108,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Greater()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State GT_
     {
         get
@@ -113,6 +119,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Rotate()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State ROT
     {
         get
@@ -127,6 +134,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Switch()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State SWI
     {
         get
@@ -141,6 +149,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Duplicate()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State DUP
     {
         get
@@ -151,6 +160,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="Stack.Roll()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State ROL
     {
         get
@@ -161,6 +171,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="InOut.InInt()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State INi
     {
         get
@@ -171,6 +182,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="InOut.InChr()" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State INc
     {
         get
@@ -181,6 +193,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="InOut.Out(long)" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State OUTi
     {
         get
@@ -196,6 +209,7 @@ public ref struct State(Stack stack, InOut io)
     }
 
     /// <see cref="InOut.Out(char)" />
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public State OUTc
     {
         get
@@ -211,4 +225,21 @@ public ref struct State(Stack stack, InOut io)
 
     public static State New(InOut? io = null, Stack? stack = null)
         => new(stack ?? Stack.Empty, io ?? InOut.Console);
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    private string DebuggerDisplay
+    {
+        get
+        {
+            var sb = new StringBuilder();
+            sb.Append($"CC-DP = {PT}, ").Append($"Stack[{Stack.Count}] = [");
+
+            if (Stack.Count <= 10)
+                sb.Append(string.Join(", ", Stack));
+            else
+                sb.Append(string.Join(",", Stack.Take(8))).Append(", ...");
+
+            return sb.Append(']').ToString();
+        }
+    }
 }

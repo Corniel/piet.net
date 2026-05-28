@@ -48,7 +48,7 @@ public readonly record struct Command : IEquatable<Command>
     public bool Equals(Command other) => Hue == other.Hue && Lightness == other.Lightness;
 
     /// <inheritdoc />
-    public override int GetHashCode() => (Hue << 2) + Lightness;
+    public override int GetHashCode() => (Hue << 2) | Lightness;
 
     /// <summary>Gets the <see cref="Command"/> based on the delta of the two <see cref="Colour"/>s.</summary>
     internal static Command Delta(Colour current, Colour previous)

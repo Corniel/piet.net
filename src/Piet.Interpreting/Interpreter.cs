@@ -42,15 +42,14 @@ public static class Interpreter
 
             state.PT = next.PT;
 
-            if (!curr.HasColour || !next.Block.HasColour) return false;
+            if (!next.Block.HasColour) return false;
 
             var cmd = next.Block.Colour - curr.Colour;
-            context.Block = next.Block;
 
+            context.Block = next.Block;
+            context.State = cmd.Execute(state, curr.Value);
             context.Logger.Command(context, cmd);
-            state = cmd.Execute(state, curr.Value);
-            
-            context.State = state;
+
             return true;
         }
     }

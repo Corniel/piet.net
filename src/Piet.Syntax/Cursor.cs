@@ -17,5 +17,5 @@ public readonly record struct Cursor(CC_DP PT, Codel Codel) : IEquatable<Cursor>
     public Cursor Switch(long @switch = 1) => new(PT.Switch(@switch), Codel);
 
     /// <inheritdoc />
-    public override string ToString() => $"{Codel}, CC-DP = {PT}";
+    public override string ToString() => $"({Codel.X,3}, {Codel.Y,3}) {PT}";
 }
