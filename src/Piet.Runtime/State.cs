@@ -22,14 +22,17 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <summary>Do nothing.</summary>
     public readonly State NON => this;
 
+    /// <see cref="Stack.Push(long)" />
     public State PSH(long value)
     {
         Stack = Stack.Push(value);
         return this;
     }
 
+    /// <see cref="Stack.Pop(out long?)" />
     public State POP
     {
         get
@@ -39,6 +42,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Add()" />
     public State ADD
     {
         get
@@ -48,6 +52,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Subtract()" />
     public State SUB
     {
         get
@@ -57,6 +62,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Multiply()" />
     public State MUL
     {
         get
@@ -66,6 +72,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Divide()" />
     public State DIV
     {
         get
@@ -75,6 +82,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Modulo()" />
     public State MOD
     {
         get
@@ -84,6 +92,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Not()" />
     public State NOT
     {
         get
@@ -93,6 +102,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Greater()" />
     public State GT_
     {
         get
@@ -102,6 +112,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Rotate()" />
     public State ROT
     {
         get
@@ -115,6 +126,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Switch()" />
     public State SWI
     {
         get
@@ -128,6 +140,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Duplicate()" />
     public State DUP
     {
         get
@@ -137,6 +150,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="Stack.Roll()" />
     public State ROL
     {
         get
@@ -146,6 +160,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="InOut.InInt()" />
     public State INi
     {
         get
@@ -155,6 +170,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="InOut.InChr()" />
     public State INc
     {
         get
@@ -164,6 +180,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="InOut.Out(long)" />
     public State OUTi
     {
         get
@@ -178,6 +195,7 @@ public ref struct State(Stack stack, InOut io)
         }
     }
 
+    /// <see cref="InOut.Out(char)" />
     public State OUTc
     {
         get

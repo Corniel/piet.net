@@ -1,5 +1,3 @@
-using Piet.Runtime;
-
 namespace Specs.Runtime.Stack_command_specs;
 
 public class Pop
@@ -11,8 +9,8 @@ public class Pop
         .Should().BeEmpty();
 
     [Test]
-    public void Removes_top_item_from_not_empty_stack()
-        => Stack.Empty
+    public void Removes_top_item_from_not_empty_stack() => Stack
+        .Empty
         .Push(3)
         .Push(17)
         .Pop(out _)
@@ -22,8 +20,9 @@ public class Pop
 public class Push
 {
     [Test]
-    public void integer_adds_value_to_top()
-        => Stack.Empty.Push(42)
+    public void integer_adds_value_to_top() => Stack
+        .Empty
+        .Push(42)
         .Should().Be(42);
 }
 
@@ -37,12 +36,11 @@ public class Add
         .Should().Be(42);
 
     [Test]
-    public void pops_top_values_and_pushes_sum()
-        => Stack
-            .Empty
-            .Push(17)
-            .Push(25)
-            .Add()
+    public void pops_top_values_and_pushes_sum() => Stack
+        .Empty
+        .Push(17)
+        .Push(25)
+        .Add()
         .Should().Be(17 + 25);
 }
 
@@ -81,6 +79,7 @@ public class Multiply
         .Multiply()
         .Should().Be(17 * 25);
 }
+
 public class Divide
 {
     [Test]
@@ -106,6 +105,7 @@ public class Divide
         .Divide()
         .Should().Be(42 / 14);
 }
+
 public class Modulo
 {
     [Test]
